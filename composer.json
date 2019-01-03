@@ -1,0 +1,16 @@
+{
+  "name": "bluecadet/bc_aicc",
+  "description": "Import Initial Field config from CSV",
+  "type": "custom-drupal-module",
+  "authors": [
+    {
+      "name": "Pete Inge",
+      "role": "Maintainer"
+    }
+  ],
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.0"
+  }
+}
