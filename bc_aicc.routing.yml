@@ -1,0 +1,23 @@
+bc_aicc.test:
+  path: '/admin/config/content/bc-aicc/test'
+  defaults:
+    _controller: '\Drupal\bc_aicc\Controller\Test::viewTest'
+    _title: 'Testing...'
+  requirements:
+    _permission: 'access administration pages'
+
+bc_aicc.import:
+  path: '/admin/config/content/bc-aicc'
+  defaults:
+    _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'
+    _title: 'Bluecadet Auto Import Config'
+  requirements:
+    _permission: 'access administration pages'
+
+bc_aicc.import_content:
+  path: '/admin/config/content/bc-aicc/content'
+  defaults:
+    _form: '\Drupal\bc_aicc\Form\ProcessContentConfig'
+    _title: 'Auto Import Content'
+  requirements:
+    _permission: 'access administration pages'

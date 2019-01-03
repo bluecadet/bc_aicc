@@ -1,0 +1,46 @@
+<?php
+
+use Drupal\file\FileInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_file_validate().
+ */
+function bc_aicc_file_validate(FileInterface $file) {
+  $basename = drupal_basename($file->destination);
+  $basename = bc_aicc_transliterate_filenames_transliteration($basename);
+  $dirname = drupal_dirname($file->destination);
+  $file->destination = file_create_filename($basename, $dirname);
+}
+
+/**
+ * Implements callback for hook_file_validate().
+ */
+function bc_aicc_transliterate_filenames_transliteration($filename) {
+  $filename = \Drupal::transliteration()->transliterate($filename);
+  // Replace whitespace.
+  $filename = str_replace(' ', '_', $filename);
+  // Remove remaining unsafe characters.
+  $filename = preg_replace('![^0-9A-Za-z_.-]!', '', $filename);
+  // Remove multiple consecutive non-alphabetical characters.
+  $filename = preg_replace('/(_)_+|(\.)\.+|(-)-+/', '\\1\\2\\3', $filename);
+  // Force lowercase to prevent issues on case-insensitive file systems.
+  $filename = strtolower($filename);
+
+  // For empty.
+  $name = explode('.', $filename);
+  $name = reset($name);
+  $extension = explode(".", $filename);
+  $extension = end($extension);
+
+  // Is empty.
+  if (!$name) {
+    $filename = md5(rand()) . '.' . $extension;
+  }
+
+  return $filename;
+}
+
+function bc_aicc_form_bc_process_content_alter(&$form, FormStateInterface $form_state, $form_id) {
+  // ksm($form);
+}

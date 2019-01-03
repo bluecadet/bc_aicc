@@ -1,0 +1,1 @@
+Assumes paragraph entities have a "Preview" form mode.

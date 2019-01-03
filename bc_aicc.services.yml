@@ -1,0 +1,9 @@
+services:
+    bc_aicc:import_batch:
+      class: Drupal\bc_aicc\ImportBatch
+    bc_aicc:defaults:
+      class: Drupal\bc_aicc\BCDefaults
+    bc_aicc:import_helper:
+      class: Drupal\bc_aicc\ImportHelper
+    bc_aicc:import_mapper:
+      class: Drupal\bc_aicc\ImportMapper
