@@ -84,6 +84,7 @@ class ImportBatch {
     $context['results']['content_fid'] = $file->id();
     $context['results']['valid_content_file'] = TRUE;
     $context['results']['content_data'] = $data;
+    $context['message'] = "Content Data has been built.";
   }
 
   public function validateTaxonomyData(&$context) {
@@ -99,6 +100,7 @@ class ImportBatch {
     }
 
     $context['results']['validate']['msg'][] = 'CSV Taxonomy File Validated';
+    $context['message'] = "CSV Taxonomy File Validated";
   }
 
   public function validateParagraphsData(&$context) {
@@ -114,6 +116,7 @@ class ImportBatch {
     }
 
     $context['results']['validate']['msg'][] = 'CSV Paragraphs File Validated';
+    $context['message'] = "CSV Paragraphs File Validated";
   }
 
   public function validateContentData(&$context) {
@@ -129,6 +132,7 @@ class ImportBatch {
     }
 
     $context['results']['validate']['msg'][] = 'CSV File Validated';
+    $context['message'] = "CSV File Validated";
   }
 
   public function processTaxonomyData($pass, &$context) {
@@ -177,6 +181,8 @@ class ImportBatch {
     }
 
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
+
+    $context['message'] = "Processing Taxonomy Data: " . $pass;
   }
 
   public function processTaxonomyTerms(&$context) {
@@ -308,6 +314,7 @@ class ImportBatch {
     }
 
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
+    $context['message'] = "Processing Paragraph Data: " . $pass;
   }
 
   public function processContentData($pass, &$context) {
@@ -356,6 +363,7 @@ class ImportBatch {
     }
 
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
+    $context['message'] = "Processing Content Data: " . $pass;
   }
 
   public function cleanUp(&$context) {
@@ -364,6 +372,7 @@ class ImportBatch {
 
     file_delete($context['results']['content_fid']);
     $context['results']['cleanup']['msg'][] = 'Content CSV File marked for deletion.';
+    $context['message'] = "Cleaning up.";
   }
 
 
