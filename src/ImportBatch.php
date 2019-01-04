@@ -131,7 +131,7 @@ class ImportBatch {
     $context['results']['validate']['msg'][] = 'CSV File Validated';
   }
 
-  public function processTaxonomyData(&$context) {
+  public function processTaxonomyData($pass, &$context) {
     ksm("Start processTaxonomyData");
     ksm($context);
 
@@ -159,11 +159,16 @@ class ImportBatch {
         // Process Bundle.
         if (!empty($current_raw_row[0])) {
           $context['sandbox']['current_bundle'] = $current_row['vid'];
-          $this->processVocabularyType($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+
+          if ($pass == 'entity') {
+            $this->processVocabularyType($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
         // Process Field.
         else {
-          $this->processTaxonomyFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          if ($pass == 'field') {
+            $this->processTaxonomyFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
       }
 
@@ -257,7 +262,7 @@ class ImportBatch {
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
   }
 
-  public function processParagrpahsData(&$context) {
+  public function processParagrpahsData($pass, &$context) {
     ksm("Start processParagrpahsData");
     ksm($context);
 
@@ -285,11 +290,16 @@ class ImportBatch {
         // Process Bundle.
         if (!empty($current_raw_row[0])) {
           $context['sandbox']['current_bundle'] = $current_row['id'];
-          $this->processParagraphBundle($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+
+          if ($pass == 'entity') {
+            $this->processParagraphBundle($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
         // Process Field.
         else {
-          $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          if ($pass == 'field') {
+            $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
       }
 
@@ -300,7 +310,7 @@ class ImportBatch {
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
   }
 
-  public function processContentData(&$context) {
+  public function processContentData($pass, &$context) {
     ksm("Start processContentData");
     ksm($context);
 
@@ -328,11 +338,16 @@ class ImportBatch {
         // Process Bundle.
         if (!empty($current_raw_row[0])) {
           $context['sandbox']['current_bundle'] = $current_row['bundle'];
-          $this->processNodeBundle($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+
+          if ($pass == 'entity') {
+            $this->processNodeBundle($current_row, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
         // Process Field.
         else {
-          $this->processContentFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          if ($pass == 'field') {
+            $this->processContentFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
         }
       }
 

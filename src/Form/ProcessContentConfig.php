@@ -99,9 +99,19 @@ class ProcessContentConfig extends FormBase {
     $import_method = $form_state->getValue('import_method', 'nothing');
     $this->importer = new ImportBatch();
 
-    $ops = [
+    $init_ops = [
       [[$this->importer, 'initiateVariables'], [$import_method]],
     ];
+    $build_ops = [];
+    $validate_ops = [];
+    $process_entity_ops = [];
+    $process_fields_ops = [];
+    $process_content_ops = [];
+    $cleanup_ops = [
+      [[$this->importer, 'cleanUp'], []],
+    ];
+
+
 
     $form_file1 = $form_state->getValue('csv_taxonomy_upload', 0);
     if (isset($form_file1[0]) && !empty($form_file1[0])) {
@@ -109,10 +119,11 @@ class ProcessContentConfig extends FormBase {
       $tax_file->setPermanent();
       $tax_file->save();
 
-      $ops[] = [[$this->importer, 'buildTaxonomyData'], [$tax_file]];
-      $ops[] = [[$this->importer, 'validateTaxonomyData'], []];
-      $ops[] = [[$this->importer, 'processTaxonomyData'], []];
-      $ops[] = [[$this->importer, 'processTaxonomyTerms'], []];
+      $build_ops[] = [[$this->importer, 'buildTaxonomyData'], [$tax_file]];
+      $validate_ops[] = [[$this->importer, 'validateTaxonomyData'], []];
+      $process_entity_ops[] = [[$this->importer, 'processTaxonomyData'], ['entity']];
+      $process_fields_ops[] = [[$this->importer, 'processTaxonomyData'], ['field']];
+      $process_content_ops[] = [[$this->importer, 'processTaxonomyTerms'], []];
     }
 
     $form_file2 = $form_state->getValue('csv_paragraphs_upload', 0);
@@ -121,9 +132,10 @@ class ProcessContentConfig extends FormBase {
       $para_file->setPermanent();
       $para_file->save();
 
-      $ops[] = [[$this->importer, 'buildParagraphsData'], [$para_file]];
-      $ops[] = [[$this->importer, 'validateParagraphsData'], []];
-      $ops[] = [[$this->importer, 'processParagrpahsData'], []];
+      $build_ops[] = [[$this->importer, 'buildParagraphsData'], [$para_file]];
+      $validate_ops[] = [[$this->importer, 'validateParagraphsData'], []];
+      $process_entity_ops[] = [[$this->importer, 'processParagrpahsData'], ['entity']];
+      $process_fields_ops[] = [[$this->importer, 'processParagrpahsData'], ['field']];
     }
 
     $form_file3 = $form_state->getValue('csv_content_upload', 0);
@@ -132,29 +144,18 @@ class ProcessContentConfig extends FormBase {
       $content_file->setPermanent();
       $content_file->save();
 
-      $ops[] = [[$this->importer, 'buildContentData'], [$content_file]];
-      $ops[] = [[$this->importer, 'validateContentData'], []];
-      $ops[] = [[$this->importer, 'processContentData'], []];
+      $build_ops[] = [[$this->importer, 'buildContentData'], [$content_file]];
+      $validate_ops[] = [[$this->importer, 'validateContentData'], []];
+      $process_entity_ops[] = [[$this->importer, 'processContentData'], ['entity']];
+      $process_fields_ops[] = [[$this->importer, 'processContentData'], ['field']];
     }
 
-
-
-
-
-
-    $ops[] = [[$this->importer, 'cleanUp'], []];
-
+    $ops = array_merge($init_ops, $build_ops, $validate_ops, $process_entity_ops ,$process_fields_ops ,$process_content_ops, $cleanup_ops);
 
     ksm($ops);
 
     $batch = [
       'title' => t('Importing Content Types...'),
-      // 'operations' => [
-      //   [[$this->importer, 'buildContentData'], [$content_file, $import_method]],
-      //   [[$this->importer, 'validateContentData'], []],
-      //   [[$this->importer, 'processContentData'], []],
-      //   [[$this->importer, 'cleanUp'], []]
-      // ],
       'operations' => $ops,
       'finished' => [$this->importer, 'importFinished'],
     ];
