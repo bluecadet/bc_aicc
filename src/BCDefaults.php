@@ -61,7 +61,7 @@ class BCDefaults {
     'required' => false,
   ];
 
-  public $defaultFieldInstanceSettings = [
+  public $defaultFldInstSetts = [
     'node' => [
       'string' => [],
       'entity_reference_revisions' => [
@@ -240,7 +240,7 @@ class BCDefaults {
   }
 
   public function getFieldInstanceSettings($row, $entity_type) {
-    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFieldInstanceSettings[$entity_type][$row['field_type']]);
+    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
 
     $instance_settings['label'] = $row['name'];
     $instance_settings['description'] = $row['description'];

@@ -193,6 +193,7 @@ class ImportBatch {
       // If there is no valid file... just keep going.
       if (!$context['results']['valid_taxonomy_file']) {
         $context['results']['process']['msg'] = 'Skipping Process. Invalid Taxonomy CSV File.';
+        $context['message'] = "Skipping Process. Invalid Taxonomy CSV File.";
         return;
       }
 
@@ -234,6 +235,7 @@ class ImportBatch {
 
       $context['message'] = "Taxonomy Terms ready to import.";
       $context['finished'] = 0;
+      return;
     }
 
     $c = 0;
@@ -581,7 +583,7 @@ class ImportBatch {
     $para_type = ParagraphsType::load($row['id']);
 
     // If not, add it.
-    if (empty($node_type)) {
+    if (empty($para_type)) {
       $para_type = ParagraphsType::create( [
         'label' => $row['label'],
         'id' => $row['id'],
