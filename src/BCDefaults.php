@@ -20,6 +20,26 @@ class BCDefaults {
           'max_length' => 255,
         ],
       ],
+      'entity_reference' => [
+        'node' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'node',
+          ],
+        ],
+        'taxonomy_term' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'taxonomy_term',
+          ],
+        ],
+        'media' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'media',
+          ],
+        ],
+      ],
       'entity_reference_revisions' => [
         'cardinality' => -1,
         'settings' => [
@@ -33,6 +53,26 @@ class BCDefaults {
           'max_length' => 255,
         ],
       ],
+      'entity_reference' => [
+        'node' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'node',
+          ],
+        ],
+        'taxonomy_term' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'taxonomy_term',
+          ],
+        ],
+        'media' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'media',
+          ],
+        ],
+      ],
       'entity_reference_revisions' => [
         'cardinality' => -1,
         'settings' => [
@@ -44,6 +84,26 @@ class BCDefaults {
       'string' => [
         'settings' => [
           'max_length' => 255,
+        ],
+      ],
+      'entity_reference' => [
+        'node' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'node',
+          ],
+        ],
+        'taxonomy_term' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'taxonomy_term',
+          ],
+        ],
+        'media' => [
+          'cardinality' => -1,
+          'settings' => [
+            'target_type' => 'media',
+          ],
         ],
       ],
       'entity_reference_revisions' => [
@@ -64,6 +124,43 @@ class BCDefaults {
   public $defaultFldInstSetts = [
     'node' => [
       'string' => [],
+      'entity_reference' => [
+        'node' => [
+          'handler' => 'default:node',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'title',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => FALSE,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'taxonomy_term' => [
+          'handler' => 'default:taxonomy_term',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'name',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'media' => [
+          'handler' => 'default:media',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => '_none',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
       'entity_reference_revisions' => [
         'handler' => 'default:paragraph',
         'handler_settings' => [
@@ -75,6 +172,43 @@ class BCDefaults {
     ],
     'taxonomy_term' => [
       'string' => [],
+      'entity_reference' => [
+        'node' => [
+          'handler' => 'default:node',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'title',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => FALSE,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'taxonomy_term' => [
+          'handler' => 'default:taxonomy_term',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'name',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'media' => [
+          'handler' => 'default:media',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => '_none',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
       'entity_reference_revisions' => [
         'handler' => 'default:paragraph',
         'handler_settings' => [
@@ -86,6 +220,43 @@ class BCDefaults {
     ],
     'paragraph' => [
       'string' => [],
+      'entity_reference' => [
+        'node' => [
+          'handler' => 'default:node',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'title',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'taxonomy_term' => [
+          'handler' => 'default:taxonomy_term',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'name',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+        'media' => [
+          'handler' => 'default:media',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => '_none',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
       'entity_reference_revisions' => [
         'handler' => 'default:paragraph',
         'handler_settings' => [
@@ -107,6 +278,41 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'entity_reference' => [
+        'node' => [
+          'type' => 'entity_reference_autocomplete',
+          'weight' => 0,
+          'settings' => [
+            'match_operator' => 'CONTAINS',
+            'size' => 60,
+            'placeholder' => ' ',
+          ],
+          'third_party_settings' => [],
+        ],
+        'taxonomy_term' => [
+          'type' => 'options_select',
+          'weight' => 0,
+          'settings' => [],
+          'third_party_settings' => [],
+        ],
+        'media' => [
+          'type' => 'inline_entity_form_complex',
+          'weight' => 0,
+          'settings' => [
+            'form_mode' => 'inline_entity_form',
+            'override_labels' => TRUE,
+            'label_singular' => 'Image',
+            'label_plural' => 'Images',
+            'collapsible' => TRUE,
+            'allow_new' => TRUE,
+            'allow_existing' => TRUE,
+            'match_operator' => 'CONTAINS',
+            'collapsed' => FALSE,
+            'allow_duplicate' => FALSE,
+          ],
+          'third_party_settings' => [],
+        ],
+      ],
       'entity_reference_revisions' => [
         'type' => 'entity_reference_paragraphs',
         'weight' => 0,
@@ -115,7 +321,7 @@ class BCDefaults {
           'title_plural' => 'Paragraphs',
           'edit_mode' => 'preview',
           'add_mode' => 'dropdown',
-          'form_display_mode' => 'preview',
+          'form_display_mode' => 'default',
           'default_paragraph_type' => '_none',
         ],
       ],
@@ -129,6 +335,41 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'entity_reference' => [
+        'node' => [
+          'type' => 'entity_reference_autocomplete',
+          'weight' => 0,
+          'settings' => [
+            'match_operator' => 'CONTAINS',
+            'size' => 60,
+            'placeholder' => ' ',
+          ],
+          'third_party_settings' => [],
+        ],
+        'taxonomy_term' => [
+          'type' => 'options_select',
+          'weight' => 0,
+          'settings' => [],
+          'third_party_settings' => [],
+        ],
+        'media' => [
+          'type' => 'inline_entity_form_complex',
+          'weight' => 0,
+          'settings' => [
+            'form_mode' => 'inline_entity_form',
+            'override_labels' => TRUE,
+            'label_singular' => 'Image',
+            'label_plural' => 'Images',
+            'collapsible' => TRUE,
+            'allow_new' => TRUE,
+            'allow_existing' => TRUE,
+            'match_operator' => 'CONTAINS',
+            'collapsed' => FALSE,
+            'allow_duplicate' => FALSE,
+          ],
+          'third_party_settings' => [],
+        ],
+      ],
       'entity_reference_revisions' => [
         'type' => 'entity_reference_paragraphs',
         'weight' => 0,
@@ -137,7 +378,7 @@ class BCDefaults {
           'title_plural' => 'Paragraphs',
           'edit_mode' => 'preview',
           'add_mode' => 'dropdown',
-          'form_display_mode' => 'preview',
+          'form_display_mode' => 'default',
           'default_paragraph_type' => '_none',
         ],
       ],
@@ -151,6 +392,41 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'entity_reference' => [
+        'node' => [
+          'type' => 'entity_reference_autocomplete',
+          'weight' => 0,
+          'settings' => [
+            'match_operator' => 'CONTAINS',
+            'size' => 60,
+            'placeholder' => ' ',
+          ],
+          'third_party_settings' => [],
+        ],
+        'taxonomy_term' => [
+          'type' => 'options_select',
+          'weight' => 0,
+          'settings' => [],
+          'third_party_settings' => [],
+        ],
+        'media' => [
+          'type' => 'inline_entity_form_complex',
+          'weight' => 0,
+          'settings' => [
+            'form_mode' => 'inline_entity_form',
+            'override_labels' => TRUE,
+            'label_singular' => 'Image',
+            'label_plural' => 'Images',
+            'collapsible' => TRUE,
+            'allow_new' => TRUE,
+            'allow_existing' => TRUE,
+            'match_operator' => 'CONTAINS',
+            'collapsed' => FALSE,
+            'allow_duplicate' => FALSE,
+          ],
+          'third_party_settings' => [],
+        ],
+      ],
       'entity_reference_revisions' => [
         'type' => 'entity_reference_paragraphs',
         'weight' => 0,
@@ -159,7 +435,7 @@ class BCDefaults {
           'title_plural' => 'Paragraphs',
           'edit_mode' => 'preview',
           'add_mode' => 'dropdown',
-          'form_display_mode' => 'preview',
+          'form_display_mode' => 'default',
           'default_paragraph_type' => '_none',
         ],
       ],
@@ -174,6 +450,15 @@ class BCDefaults {
         'type' => 'string',
         'settings' => [
           'link_to_entity' => false,
+        ],
+      ],
+      'entity_reference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'entity_reference_entity_view',
+        'settings' => [
+          'view_mode' => 'default',
+          'link' => FALSE,
         ],
       ],
       'entity_reference_revisions' => [

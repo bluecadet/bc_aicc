@@ -28,4 +28,8 @@ Date Recur | N
 
 ## Assumptions
 
-- Assumes paragraph entities have a "Preview" form mode.
+- Assumes paragraph entities have a "Preview" display mode.
+- Assumes media entities have a "Inline Entity Form" form mode.
+- Assumes the following entity browsers
+  - image_media_browser
+  - video_media_browser
