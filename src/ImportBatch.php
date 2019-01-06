@@ -623,6 +623,7 @@ class ImportBatch {
   }
 
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
+    drupal_set_message("Start processFields");
     ksm($row);
     $field_machine_name = $row['machine_name'];
 
@@ -663,6 +664,8 @@ class ImportBatch {
         'field_storage' => $field_storage,
         'bundle' => $bundle,
         'label' => $instance_settings['label'],
+        'description' => $instance_settings['description'],
+        'required' => $instance_settings['required'],
         'settings' => $instance_settings,
       ]);
       $field->save();

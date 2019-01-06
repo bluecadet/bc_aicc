@@ -479,6 +479,15 @@ class BCDefaults {
           'link_to_entity' => false,
         ],
       ],
+      'entity_reference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'entity_reference_entity_view',
+        'settings' => [
+          'view_mode' => 'default',
+          'link' => false,
+        ],
+      ],
       'entity_reference_revisions' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -497,6 +506,15 @@ class BCDefaults {
           'link_to_entity' => false,
         ],
       ],
+      'entity_reference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'entity_reference_entity_view',
+        'settings' => [
+          'view_mode' => 'default',
+          'link' => false,
+        ],
+      ],
       'entity_reference_revisions' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -509,9 +527,15 @@ class BCDefaults {
   ];
 
 
-
-
+  /**
+   * Getter methods
+   */
   public function getFieldStorageSettings($row, $entity_type) {
+
+    if ($row['field_type'] == 'entity_reference') {
+      return $this->getEntityReferenceFieldStorageSettings($row, $entity_type);
+    }
+
     $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']]);
 
     $storage_settings['entity_type'] = $entity_type;
@@ -525,6 +549,11 @@ class BCDefaults {
   }
 
   public function getFieldInstanceSettings($row, $entity_type) {
+
+    if ($row['field_type'] == 'entity_reference') {
+      return $this->getEntityReferenceFieldInstanceSettings($row, $entity_type);
+    }
+
     $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
 
     $instance_settings['label'] = $row['name'];
@@ -571,6 +600,11 @@ class BCDefaults {
   }
 
   public function getFieldFormSettings($row, $weight, $entity_type) {
+
+    if ($row['field_type'] == 'entity_reference') {
+      return $this->getEntityReferenceFieldFormSettings($row, $weight, $entity_type);
+    }
+
     $settings = $this->defaultFieldFormSettings[$entity_type][$row['field_type']];
 
     $settings['weight'] = $weight;
@@ -587,4 +621,53 @@ class BCDefaults {
 
     return $settings;
   }
+
+  /**
+   * Entity Reference getter exceptions.
+   */
+  protected function getEntityReferenceFieldStorageSettings($row, $entity_type) {
+    $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
+
+    $storage_settings['entity_type'] = $entity_type;
+    $storage_settings['type'] = $row['field_type'];
+    $storage_settings['field_name'] = $row['machine_name'];
+    $storage_settings['cardinality'] = $row['cardinality'];
+
+    $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
+
+    return $storage_settings;
+  }
+
+  protected function getEntityReferenceFieldInstanceSettings($row, $entity_type) {
+    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
+
+    $instance_settings['label'] = $row['name'];
+    $instance_settings['description'] = $row['description'];
+    $instance_settings['required'] = $row['required'];
+
+    $instance_settings = array_merge($instance_settings, $row['field_settings']);
+
+    // set target_bundles
+    $weight = 0;
+
+    if (!empty($row['entity_reference'])) {
+      foreach ($row['entity_reference'] as $bundle) {
+        $instance_settings['handler_settings']['target_bundles'][$bundle] = $bundle;
+        $weight++;
+      }
+    }
+
+    return $instance_settings;
+  }
+
+  protected function getEntityReferenceFieldFormSettings($row, $weight, $entity_type) {
+
+    $settings = $this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']];
+
+    $settings['weight'] = $weight;
+    $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
+
+    return $settings;
+  }
+
 }
