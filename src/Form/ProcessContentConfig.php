@@ -132,10 +132,10 @@ class ProcessContentConfig extends FormBase {
       $para_file->save();
 
       $build_ops[] = [[$this->importer, 'buildParagraphsData'], [$para_file]];
-      // $validate_ops[] = [[$this->importer, 'validateParagraphsData'], []];
-      // $process_entity_ops[] = [[$this->importer, 'processParagrpahsData'], ['entity']];
-      // $process_fields_ops[] = [[$this->importer, 'processParagrpahsData'], ['field']];
-      // $process_fg_ops[] = [[$this->importer, 'processParagrpahsData'], ['field_groups']];
+      $validate_ops[] = [[$this->importer, 'validateParagraphsData'], []];
+      $process_entity_ops[] = [[$this->importer, 'processParagraphsData'], ['entity']];
+      $process_fields_ops[] = [[$this->importer, 'processParagraphsData'], ['field']];
+      $process_fg_ops[] = [[$this->importer, 'processParagraphsData'], ['field_groups']];
     }
 
     $form_file3 = $form_state->getValue('csv_content_upload', 0);

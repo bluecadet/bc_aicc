@@ -54,7 +54,7 @@ class ImportBatch {
    *
    */
   public function buildTaxonomyData($file, &$context) {
-    ksm("Start buildTaxonomyData");
+    drupal_set_message("Start buildTaxonomyData");
     ksm($context, $file);
 
     $data = $this->buildTaxonomyDataFromFile($file);
@@ -71,7 +71,7 @@ class ImportBatch {
    *
    */
   public function buildParagraphsData($file, &$context) {
-    ksm("Start buildParagraphsData");
+    drupal_set_message("Start buildParagraphsData");
     ksm($context, $file);
 
     $data = $this->buildParagraphsDataFromFile($file);
@@ -88,7 +88,7 @@ class ImportBatch {
    *
    */
   public function buildContentData($file, &$context) {
-    // ksm("Start buildData");
+    // drupal_set_message("Start buildData");
     // ksm($context, $file, $import_method);.
     $data = $this->buildContentDataFromFile($file);
 
@@ -102,7 +102,7 @@ class ImportBatch {
    *
    */
   public function validateTaxonomyData(&$context) {
-    ksm("Start validateData");
+    drupal_set_message("Start validateData");
     ksm($context);
 
     // Validate csv file.
@@ -121,7 +121,7 @@ class ImportBatch {
    *
    */
   public function validateParagraphsData(&$context) {
-    ksm("Start validateParagraphsData");
+    drupal_set_message("Start validateParagraphsData");
     ksm($context);
 
     // Validate csv file.
@@ -159,7 +159,7 @@ class ImportBatch {
    *
    */
   public function processTaxonomyData($pass, &$context) {
-    ksm("Start processTaxonomyData");
+    drupal_set_message("Start processTaxonomyData");
     ksm($context);
 
     if (empty($context['sandbox'])) {
@@ -212,7 +212,7 @@ class ImportBatch {
    *
    */
   public function processTaxonomyTerms(&$context) {
-    ksm("Start processTaxonomyTerms");
+    drupal_set_message("Start processTaxonomyTerms");
     ksm($context);
 
     if (empty($context['sandbox'])) {
@@ -299,8 +299,8 @@ class ImportBatch {
   /**
    *
    */
-  public function processParagrpahsData($pass, &$context) {
-    ksm("Start processParagrpahsData");
+  public function processParagraphsData($pass, &$context) {
+    drupal_set_message("Start processParagraphsData");
     ksm($context);
 
     if (empty($context['sandbox'])) {
@@ -336,6 +336,18 @@ class ImportBatch {
         elseif ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
+        }
+        // Process Field Group Wrappers
+        elseif ($current_raw_row[0] == 'FGW_START') {
+          if ($pass == 'field_groups') {
+            $this->processParagraphFieldGroupWrappers($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
+          }
+        }
+        // Process Field Groups
+        elseif ($current_raw_row[0] == 'FG_START') {
+          if ($pass == 'field_groups') {
+            $this->processParagraphFieldGroups($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
         }
       }
@@ -404,7 +416,7 @@ class ImportBatch {
    *
    */
   public function cleanUp(&$context) {
-    ksm("Start removeFile");
+    drupal_set_message("Start removeFile");
     ksm($context);
 
     file_delete($context['results']['content_fid']);
@@ -416,7 +428,7 @@ class ImportBatch {
    *
    */
   public function importFinished($success, $results, $operations) {
-    ksm("Start importFinished");
+    drupal_set_message("Start importFinished");
     ksm($success, $results, $operations);
 
     if ($success) {
@@ -473,6 +485,13 @@ class ImportBatch {
       drupal_set_message(t('Finished with an error.'));
     }
   }
+
+
+
+
+
+
+
 
   /**
    *
@@ -710,6 +729,70 @@ class ImportBatch {
     }
   }
 
+  protected function processParagraphFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
+    drupal_set_message("processParagraphFieldGroupWrappers");
+    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, 'paragraph');
+    ksm($fg_settings);
+
+    $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
+  }
+
+  protected function processParagraphFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
+    drupal_set_message("processParagraphFieldGroups");
+    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, 'paragraph');
+    ksm($fg_settings);
+
+    $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
+  }
+
+  protected function processFieldGroup($fg_settings, $entity, $weight, &$messages) {
+
+    // Check if field_group exists.
+    $field_group = field_group_load_field_group($fg_settings['group_name'], $entity, $fg_settings['bundle'], 'form', 'default');
+    ksm($field_group);
+
+    if (empty($field_group)) {
+      // Create new group.
+      $new_group = (object)array(
+        'group_name' => $fg_settings['group_name'],
+        'entity_type' => $entity,
+        'bundle' => $fg_settings['bundle'],
+        'mode' => 'default',
+        'context' => 'form',
+        'children' => $fg_settings['children'],
+        'parent_name' => $fg_settings['parent_name'],
+        'weight' => $weight,
+        'format_type' => $fg_settings['format_type'],
+        'label' => $fg_settings['label'],
+        'format_settings' => $fg_settings['format_settings'],
+      );
+      ksm('new_group', $new_group);
+      field_group_group_save($new_group);
+
+      $messages[] = t("Field group: %name created.", ['%name' => $fg_settings['label']]);
+    }
+    else {
+      switch ($import_method) {
+        case 'nothing':
+          $messages[] = t("Field group: %name already exists. Doing nothing.", ['%name' => $fg_settings['label']]);
+          break;
+
+        case 'update':
+          $messages[] = t("Field group: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $fg_settings['label']]);
+          break;
+
+        case 'wipe':
+          $messages[] = t("Field group: %name already exists.", ['%name' => $fg_settings['label']]);
+          break;
+      }
+    }
+  }
+
+
+
+
+
+
   /**
    *
    */
@@ -900,7 +983,6 @@ class ImportBatch {
         $keys[] = $new_data[$row_key]['machine_name'];
         $this->helper->setDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
         array_pop($keys);
-
         // $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
       }
 

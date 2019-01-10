@@ -721,4 +721,48 @@ class BCDefaults {
     return $settings;
   }
 
+  /**
+   *
+   */
+  public function getFieldGroupWrapperSettings($row, $bundle, $entity_type) {
+    $settings = $this->defaultFieldGroupWrapperSettings[$entity_type];
+
+    $settings['group_name'] = $row['group_name'];
+    $settings['entity_type'] = $row['entity_type'];
+    $settings['bundle'] = $row['bundle'];
+    $settings['mode'] = $row['mode'];
+    $settings['context'] = $row['context'];
+    $settings['parent_name'] = $row['parent_name'];
+    $settings['weight'] = $row['weight'];
+    $settings['format_type'] = $row['format_type'];
+    $settings['label'] = $row['label'];
+
+    $settings['format_settings'] = array_merge($settings['format_settings'], $row['format_settings']);
+    $settings['children'] = array_merge($settings['children'], $row['children']);
+
+    return $settings;
+  }
+
+  /**
+   *
+   */
+  public function getFieldGroupSettings($row, $bundle, $entity_type) {
+    $settings = $this->defaultFieldGroupSettings[$entity_type];
+
+    $settings['group_name'] = $row['group_name'];
+    $settings['entity_type'] = $row['entity_type'];
+    $settings['bundle'] = $row['bundle'];
+    $settings['mode'] = $row['mode'];
+    $settings['context'] = $row['context'];
+    $settings['parent_name'] = $row['parent_name'];
+    $settings['weight'] = $row['weight'];
+    $settings['format_type'] = $row['format_type'];
+    $settings['label'] = $row['label'];
+
+    $settings['format_settings'] = array_merge($settings['format_settings'], $row['format_settings']);
+    $settings['children'] = array_merge($settings['children'], $row['children']);
+
+    return $settings;
+  }
+
 }
