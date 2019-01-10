@@ -763,7 +763,7 @@ class ImportBatch {
     if ($raw_data[$row_key][0] == 'FGW_START') {
       $keys[] = $new_data[$row_key]['group_name'];
 
-      $this->setDepthValue($fg_structure, $keys, [
+      $this->helper->setDepthValue($fg_structure, $keys, [
         'row' => $row_key,
         'bundle' => $current_bundle,
         'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
@@ -777,7 +777,7 @@ class ImportBatch {
     else if ($raw_data[$row_key][0] == 'FG_START') {
       $keys[] = $new_data[$row_key]['group_name'];
 
-      $this->setDepthValue($fg_structure, $keys, [
+      $this->helper->setDepthValue($fg_structure, $keys, [
         'row' => $row_key,
         'bundle' => $current_bundle,
         'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
@@ -791,8 +791,8 @@ class ImportBatch {
     else if ($raw_data[$row_key][0] == 'FGW_END') {
       // ksm($keys);
 
-      // if ($this->getDepthValue($fg_structure, $keys) == null) {
-      //   $this->addDepthValue($fg_structure, $keys, []);
+      // if ($this->helper->getDepthValue($fg_structure, $keys) == null) {
+      //   $this->helper->addDepthValue($fg_structure, $keys, []);
       // }
 
       array_pop($keys);
@@ -801,8 +801,8 @@ class ImportBatch {
     }
     else if ($raw_data[$row_key][0] == 'FG_END') {
       // ksm($keys);
-      // if ($this->getDepthValue($fg_structure, $keys) == null) {
-      //   $this->addDepthValue($fg_structure, $keys, []);
+      // if ($this->helper->getDepthValue($fg_structure, $keys) == null) {
+      //   $this->helper->addDepthValue($fg_structure, $keys, []);
       // }
 
       array_pop($keys);
@@ -816,7 +816,7 @@ class ImportBatch {
     else if ($raw_data[$row_key][0] == 'FIELD') {
 
       if (!empty($keys)) {
-        $this->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
+        $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
       }
 
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
@@ -825,32 +825,6 @@ class ImportBatch {
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
 
-  }
-
-  protected function getDepthValue(array $array, array $keys) {
-    $current = &$array;
-    foreach ($keys as $key) {
-      $current = &$current[$key];
-    }
-    return $current;
-  }
-
-  protected function setDepthValue(array &$array, array $keys, $value) {
-    $current = &$array;
-    foreach ($keys as $key) {
-      $current = &$current[$key];
-    }
-
-    $current = $value;
-  }
-
-  protected function addDepthValue(array &$array, array $keys, $value) {
-    $current = &$array;
-    foreach ($keys as $key) {
-      $current = &$current[$key];
-    }
-
-    $current[] = $value;
   }
 
 

@@ -47,4 +47,32 @@ class ImportHelper {
     return explode("|", $val);
   }
 
+
+
+  public function getDepthValue(array $array, array $keys) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+    return $current;
+  }
+
+  public function setDepthValue(array &$array, array $keys, $value) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+
+    $current = $value;
+  }
+
+  public function addDepthValue(array &$array, array $keys, $value) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+
+    $current[] = $value;
+  }
+
 }
