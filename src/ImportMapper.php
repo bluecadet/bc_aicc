@@ -172,4 +172,35 @@ class ImportMapper {
 
     return $new_row;
   }
+
+  public function setKeysAndProcessParagraphFieldGroupWrapper($row) {
+    $keys = [
+      'label',
+      'group_name',
+      'format_type',
+      'format_settings',
+    ];
+
+    $new_row = array_combine($keys, array_slice($row, 4, 4));
+
+    $new_row['format_settings'] = $this->helper->explodeSettingsField($new_row['format_settings']);
+
+    return $new_row;
+  }
+
+  public function setKeysAndProcessParagraphFieldGroup($row) {
+
+    $keys = [
+      'label',
+      'group_name',
+      'format_type',
+      'format_settings',
+    ];
+
+    $new_row = array_combine($keys, array_slice($row, 4, 4));
+
+    $new_row['format_settings'] = $this->helper->explodeSettingsField($new_row['format_settings']);
+
+    return $new_row;
+  }
 }

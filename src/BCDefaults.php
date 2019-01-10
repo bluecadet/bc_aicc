@@ -526,6 +526,44 @@ class BCDefaults {
     ],
   ];
 
+  public $defaultFieldGroupWrapperSettings = [
+    'node' => [
+    ],
+    'taxonomy_term' => [
+    ],
+    'paragraph' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tabs',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ]
+    ],
+  ];
+
+  public $defaultFieldGroupSettings = [
+    'node' => [
+    ],
+    'taxonomy_term' => [
+    ],
+    'paragraph' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tab',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ]
+    ],
+  ];
+
 
   /**
    * Getter methods

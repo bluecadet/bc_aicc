@@ -106,6 +106,7 @@ class ProcessContentConfig extends FormBase {
     $validate_ops = [];
     $process_entity_ops = [];
     $process_fields_ops = [];
+    $process_field_groups_ops = [];
     $process_content_ops = [];
     $cleanup_ops = [
       [[$this->importer, 'cleanUp'], []],
@@ -122,6 +123,7 @@ class ProcessContentConfig extends FormBase {
       $build_ops[] = [[$this->importer, 'buildTaxonomyData'], [$tax_file]];
       $validate_ops[] = [[$this->importer, 'validateTaxonomyData'], []];
       $process_entity_ops[] = [[$this->importer, 'processTaxonomyData'], ['entity']];
+      $process_entity_ops[] = [[$this->importer, 'processTaxonomyData'], ['field_groups']];
       $process_fields_ops[] = [[$this->importer, 'processTaxonomyData'], ['field']];
       $process_content_ops[] = [[$this->importer, 'processTaxonomyTerms'], []];
     }
@@ -133,9 +135,10 @@ class ProcessContentConfig extends FormBase {
       $para_file->save();
 
       $build_ops[] = [[$this->importer, 'buildParagraphsData'], [$para_file]];
-      $validate_ops[] = [[$this->importer, 'validateParagraphsData'], []];
-      $process_entity_ops[] = [[$this->importer, 'processParagrpahsData'], ['entity']];
-      $process_fields_ops[] = [[$this->importer, 'processParagrpahsData'], ['field']];
+      // $validate_ops[] = [[$this->importer, 'validateParagraphsData'], []];
+      // $process_entity_ops[] = [[$this->importer, 'processParagrpahsData'], ['entity']];
+      // $process_entity_ops[] = [[$this->importer, 'processParagrpahsData'], ['field_groups']];
+      // $process_fields_ops[] = [[$this->importer, 'processParagrpahsData'], ['field']];
     }
 
     $form_file3 = $form_state->getValue('csv_content_upload', 0);
@@ -147,10 +150,11 @@ class ProcessContentConfig extends FormBase {
       $build_ops[] = [[$this->importer, 'buildContentData'], [$content_file]];
       $validate_ops[] = [[$this->importer, 'validateContentData'], []];
       $process_entity_ops[] = [[$this->importer, 'processContentData'], ['entity']];
+      $process_entity_ops[] = [[$this->importer, 'processContentData'], ['field_groups']];
       $process_fields_ops[] = [[$this->importer, 'processContentData'], ['field']];
     }
 
-    $ops = array_merge($init_ops, $build_ops, $validate_ops, $process_entity_ops ,$process_fields_ops ,$process_content_ops, $cleanup_ops);
+    $ops = array_merge($init_ops, $build_ops, $validate_ops, $process_entity_ops, $process_fields_ops ,$process_content_ops, $cleanup_ops);
 
     ksm($ops);
 

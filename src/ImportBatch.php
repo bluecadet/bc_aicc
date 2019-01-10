@@ -446,54 +446,6 @@ class ImportBatch {
 
 
 
-  protected function setTaxonomyKeysAndProcess($data) {
-    $new_data = [];
-
-    foreach ($data as $row) {
-      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
-        $row = $this->mapper->setKeysAndProcessTaxonomyType($row);
-      }
-      else if ($row[0] == 'FIELD') {
-        $row = $this->mapper->setKeysAndProcessTaxonomyField($row);
-      }
-      $new_data[] = $row;
-    }
-
-    return $new_data;
-  }
-
-  protected function setParagraphKeysAndProcess($data) {
-    $new_data = [];
-
-    foreach ($data as $row) {
-      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
-        $row = $this->mapper->setKeysAndProcessParagraphBundle($row);
-      }
-      else if ($row[0] == 'FIELD') {
-        $row = $this->mapper->setKeysAndProcessParagraphField($row);
-      }
-      $new_data[] = $row;
-    }
-
-    return $new_data;
-  }
-
-  protected function setContentKeysAndProcess($data) {
-    $new_data = [];
-
-    foreach ($data as $row) {
-      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
-        $row = $this->mapper->setKeysAndProcessNodeBundle($row);
-      }
-      else if ($row[0] == 'FIELD') {
-        $row = $this->mapper->setKeysAndProcessNodeField($row);
-      }
-      $new_data[] = $row;
-    }
-
-    return $new_data;
-  }
-
   protected function processVocabularyType($row, $import_method, &$messages) {
 
     $v = Vocabulary::load($row['vid']);
@@ -749,6 +701,174 @@ class ImportBatch {
         'fields' => $fields,
       ],
     ];
+  }
+
+
+
+
+  protected function setTaxonomyKeysAndProcess($data) {
+    $new_data = [];
+
+    foreach ($data as $row) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
+        $row = $this->mapper->setKeysAndProcessTaxonomyType($row);
+      }
+      else if ($row[0] == 'FIELD') {
+        $row = $this->mapper->setKeysAndProcessTaxonomyField($row);
+      }
+      $new_data[] = $row;
+    }
+
+    return $new_data;
+  }
+
+  protected function setParagraphKeysAndProcess($data) {
+    $new_data = [];
+
+    foreach ($data as $k => $row) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
+        $new_row = $this->mapper->setKeysAndProcessParagraphBundle($row);
+      }
+      else if ($row[0] == 'FIELD') {
+        $new_row = $this->mapper->setKeysAndProcessParagraphField($row);
+      }
+      else if ($row[0] == 'FGW_START') {
+        $new_row = $this->mapper->setKeysAndProcessParagraphFieldGroupWrapper($row);
+      }
+      else if ($row[0] == 'FG_START') {
+        $new_row = $this->mapper->setKeysAndProcessParagraphFieldGroup($row);
+      }
+      $new_data[] = $new_row;
+    }
+
+    // Process Field Group Structure.
+    drupal_set_message("Process Field Group Structure.");
+    ksm($new_data);
+
+    $fg_structure = [];
+
+    $this->fieldGroupStructure(0, $data, $new_data, $fg_structure);
+
+    ksm($fg_structure);
+
+    return $new_data;
+  }
+
+
+  protected function fieldGroupStructure($row_key, $raw_data, $new_data, &$fg_structure, $keys = []) {
+    drupal_set_message("[" . $row_key  . "] " . $raw_data[$row_key][0]);
+
+    static $current_bundle = '';
+
+    if ($raw_data[$row_key][0] == 'FGW_START') {
+      $keys[] = $new_data[$row_key]['group_name'];
+
+      $this->setDepthValue($fg_structure, $keys, [
+        'row' => $row_key,
+        'bundle' => $current_bundle,
+        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'children' => [],
+      ]);
+
+      $keys[] = 'children';
+
+      $this->fieldGroupStructure(($row_key+1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if ($raw_data[$row_key][0] == 'FG_START') {
+      $keys[] = $new_data[$row_key]['group_name'];
+
+      $this->setDepthValue($fg_structure, $keys, [
+        'row' => $row_key,
+        'bundle' => $current_bundle,
+        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'children' => [],
+      ]);
+
+      $keys[] = 'children';
+
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if ($raw_data[$row_key][0] == 'FGW_END') {
+      // ksm($keys);
+
+      // if ($this->getDepthValue($fg_structure, $keys) == null) {
+      //   $this->addDepthValue($fg_structure, $keys, []);
+      // }
+
+      array_pop($keys);
+      array_pop($keys);
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if ($raw_data[$row_key][0] == 'FG_END') {
+      // ksm($keys);
+      // if ($this->getDepthValue($fg_structure, $keys) == null) {
+      //   $this->addDepthValue($fg_structure, $keys, []);
+      // }
+
+      array_pop($keys);
+      array_pop($keys);
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if ($raw_data[$row_key][0] == 'BUNDLE') {
+      $current_bundle = $new_data[$row_key]['id'];
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if ($raw_data[$row_key][0] == 'FIELD') {
+
+      if (!empty($keys)) {
+        $this->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
+      }
+
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    else if (isset($raw_data[($row_key + 1)])) {
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+
+  }
+
+  protected function getDepthValue(array $array, array $keys) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+    return $current;
+  }
+
+  protected function setDepthValue(array &$array, array $keys, $value) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+
+    $current = $value;
+  }
+
+  protected function addDepthValue(array &$array, array $keys, $value) {
+    $current = &$array;
+    foreach ($keys as $key) {
+      $current = &$current[$key];
+    }
+
+    $current[] = $value;
+  }
+
+
+
+  protected function setContentKeysAndProcess($data) {
+    $new_data = [];
+
+    foreach ($data as $row) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
+        $row = $this->mapper->setKeysAndProcessNodeBundle($row);
+      }
+      else if ($row[0] == 'FIELD') {
+        $row = $this->mapper->setKeysAndProcessNodeField($row);
+      }
+      $new_data[] = $row;
+    }
+
+    return $new_data;
   }
 
 }
