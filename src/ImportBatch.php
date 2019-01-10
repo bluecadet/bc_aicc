@@ -818,73 +818,13 @@ class ImportBatch {
 
     $fg_structure = [];
 
-    $this->fieldGroupStructure(0, $data, $new_data, $fg_structure);
-
+    $this->buildFieldGroupStructure(0, $data, $new_data, $fg_structure);
     ksm($fg_structure);
 
+    $this->setFieldGroupData($fg_structure, $new_data);
+    ksm($new_data);
+
     return $new_data;
-  }
-
-  /**
-   *
-   */
-  protected function fieldGroupStructure($row_key, $raw_data, $new_data, &$fg_structure, $keys = []) {
-    // drupal_set_message("[" . $row_key  . "] " . $raw_data[$row_key][0]);.
-    static $current_bundle = '';
-
-    if ($raw_data[$row_key][0] == 'FGW_START') {
-      $keys[] = $new_data[$row_key]['group_name'];
-
-      $this->helper->setDepthValue($fg_structure, $keys, [
-        'row' => $row_key,
-        'bundle' => $current_bundle,
-        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
-        'children' => [],
-      ]);
-
-      $keys[] = 'children';
-
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif ($raw_data[$row_key][0] == 'FG_START') {
-      $keys[] = $new_data[$row_key]['group_name'];
-
-      $this->helper->setDepthValue($fg_structure, $keys, [
-        'row' => $row_key,
-        'bundle' => $current_bundle,
-        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
-        'children' => [],
-      ]);
-
-      $keys[] = 'children';
-
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif ($raw_data[$row_key][0] == 'FGW_END') {
-      array_pop($keys);
-      array_pop($keys);
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif ($raw_data[$row_key][0] == 'FG_END') {
-      array_pop($keys);
-      array_pop($keys);
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif ($raw_data[$row_key][0] == 'BUNDLE') {
-      $current_bundle = $new_data[$row_key]['id'];
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif ($raw_data[$row_key][0] == 'FIELD') {
-
-      if (!empty($keys)) {
-        $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
-      }
-
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
-    elseif (isset($raw_data[($row_key + 1)])) {
-      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
-    }
   }
 
   /**
@@ -904,6 +844,84 @@ class ImportBatch {
     }
 
     return $new_data;
+  }
+
+  /**
+   *
+   */
+  protected function buildFieldGroupStructure($row_key, $raw_data, $new_data, &$fg_structure, $keys = []) {
+    static $current_bundle = '';
+
+    if ($raw_data[$row_key][0] == 'FGW_START') {
+      $keys[] = $new_data[$row_key]['group_name'];
+
+      $this->helper->setDepthValue($fg_structure, $keys, [
+        'row' => $row_key,
+        'bundle' => $current_bundle,
+        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'children' => [],
+      ]);
+
+      $keys[] = 'children';
+
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif ($raw_data[$row_key][0] == 'FG_START') {
+      $keys[] = $new_data[$row_key]['group_name'];
+
+      $this->helper->setDepthValue($fg_structure, $keys, [
+        'row' => $row_key,
+        'bundle' => $current_bundle,
+        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'children' => [],
+      ]);
+
+      $keys[] = 'children';
+
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif ($raw_data[$row_key][0] == 'FGW_END') {
+      array_pop($keys);
+      array_pop($keys);
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif ($raw_data[$row_key][0] == 'FG_END') {
+      array_pop($keys);
+      array_pop($keys);
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif ($raw_data[$row_key][0] == 'BUNDLE') {
+      $current_bundle = $new_data[$row_key]['id'];
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif ($raw_data[$row_key][0] == 'FIELD') {
+
+      if (!empty($keys)) {
+        $keys[] = $new_data[$row_key]['machine_name'];
+        $this->helper->setDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
+        array_pop($keys);
+
+        // $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
+      }
+
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+    elseif (isset($raw_data[($row_key + 1)])) {
+      $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
+    }
+  }
+
+  protected function setFieldGroupData($fg_structure, &$new_data) {
+
+    foreach ($fg_structure as $paragraph_id => $p_data) {
+      $new_data[$p_data['row']]['parent_name'] = $p_data['parent_name'];
+      $new_data[$p_data['row']]['bundle'] = $p_data['bundle'];
+      $new_data[$p_data['row']]['children'] = array_keys($p_data['children']);
+
+      if (isset($p_data['children']) && !empty($p_data['children'])) {
+        $this->setFieldGroupData($p_data['children'], $new_data);
+      }
+    }
   }
 
 }
