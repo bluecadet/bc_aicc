@@ -161,7 +161,7 @@ class ImportBatch {
         $current_row = $context['results']['taxonomy_data']['processed_data'][$i];
 
         // Process Bundle.
-        if (!empty($current_raw_row[0])) {
+        if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
           $context['sandbox']['current_bundle'] = $current_row['vid'];
 
           if ($pass == 'entity') {
@@ -169,7 +169,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else {
+        else if ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processTaxonomyFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -296,7 +296,7 @@ class ImportBatch {
         $current_row = $context['results']['paragraphs_data']['processed_data'][$i];
 
         // Process Bundle.
-        if (!empty($current_raw_row[0])) {
+        if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
           $context['sandbox']['current_bundle'] = $current_row['id'];
 
           if ($pass == 'entity') {
@@ -304,7 +304,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else {
+        else if ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -345,7 +345,7 @@ class ImportBatch {
         $current_row = $context['results']['content_data']['processed_data'][$i];
 
         // Process Bundle.
-        if (!empty($current_raw_row[0])) {
+        if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
           $context['sandbox']['current_bundle'] = $current_row['bundle'];
 
           if ($pass == 'entity') {
@@ -353,7 +353,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else {
+        else if ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processContentFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -450,10 +450,10 @@ class ImportBatch {
     $new_data = [];
 
     foreach ($data as $row) {
-      if (!empty($row[0])) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $row = $this->mapper->setKeysAndProcessTaxonomyType($row);
       }
-      else {
+      else if ($row[0] == 'FIELD') {
         $row = $this->mapper->setKeysAndProcessTaxonomyField($row);
       }
       $new_data[] = $row;
@@ -466,10 +466,10 @@ class ImportBatch {
     $new_data = [];
 
     foreach ($data as $row) {
-      if (!empty($row[0])) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $row = $this->mapper->setKeysAndProcessParagraphBundle($row);
       }
-      else {
+      else if ($row[0] == 'FIELD') {
         $row = $this->mapper->setKeysAndProcessParagraphField($row);
       }
       $new_data[] = $row;
@@ -482,10 +482,10 @@ class ImportBatch {
     $new_data = [];
 
     foreach ($data as $row) {
-      if (!empty($row[0])) {
+      if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $row = $this->mapper->setKeysAndProcessNodeBundle($row);
       }
-      else {
+      else if ($row[0] == 'FIELD') {
         $row = $this->mapper->setKeysAndProcessNodeField($row);
       }
       $new_data[] = $row;

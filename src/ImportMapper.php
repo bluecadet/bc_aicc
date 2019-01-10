@@ -20,7 +20,7 @@ class ImportMapper {
       'terms',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 0, 4));
+    $new_row = array_combine($keys, array_slice($row, 1, 4));
     $new_row['terms'] = $this->helper->splitTermsValue($new_row['terms']);
 
     return $new_row;
@@ -33,7 +33,7 @@ class ImportMapper {
       'description',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 0, 3));
+    $new_row = array_combine($keys, array_slice($row, 1, 3));
 
     return $new_row;
   }
@@ -56,9 +56,10 @@ class ImportMapper {
       'sticky',
       'available_menus',
       'parent',
+      'pathauto',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 0, 13));
+    $new_row = array_combine($keys, array_slice($row, 1, 14));
 
     $new_row['preview_mode'] = $this->helper->getBoolValue($new_row['preview_mode']);
     $new_row['new_revision'] = $this->helper->getBoolValue($new_row['new_revision']);
@@ -78,8 +79,8 @@ class ImportMapper {
       'name',
       'machine_name',
       'field_type',
-      'cardinality',
       'field_storage_settings',
+      'cardinality',
       'entity_reference',
       'description',
       'required',
@@ -112,8 +113,8 @@ class ImportMapper {
       'name',
       'machine_name',
       'field_type',
-      'cardinality',
       'field_storage_settings',
+      'cardinality',
       'entity_reference',
       'description',
       'required',
@@ -125,7 +126,7 @@ class ImportMapper {
       'display_type_settings',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 4, 14));
+    $new_row = array_combine($keys, array_slice($row, 5, 14));
 
     $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
 
@@ -146,8 +147,8 @@ class ImportMapper {
       'name',
       'machine_name',
       'field_type',
-      'cardinality',
       'field_storage_settings',
+      'cardinality',
       'entity_reference',
       'description',
       'required',
@@ -159,7 +160,7 @@ class ImportMapper {
       'display_type_settings',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 3, 14));
+    $new_row = array_combine($keys, array_slice($row, 4, 14));
 
     $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
 
