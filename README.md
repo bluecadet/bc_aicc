@@ -6,24 +6,24 @@
 
 ## Field type coverage
 
-Field Type | Status
---- | ---
-Text {string} | Y
-Entity Reference Revision |
-&nbsp;Paragraph | Y
-Entity Reference
-&nbsp;Node | N
-&nbsp;Taxonomy Term | N
-&nbsp;Media | N
-Text (formatted) | N
-Text (formatted, long) | N
-Link | N
-Date | N
-Bool | N
-Number (decimal) | N
-Number (float) | N
-Number (int) | N
-Date Recur | N
+| Field Type | Status |
+| --- | --- |
+| Text {string} | Y |
+| Entity Reference Revision | |
+| &nbsp;Paragraph | Y |
+| Entity Reference | |
+| &nbsp;Node | N |
+| &nbsp;Taxonomy Term | N |
+| &nbsp;Media | N |
+| Text (formatted) | N |
+| Text (formatted, long) | N |
+| Link | N |
+| Date | N |
+| Bool | N |
+| Number (decimal) | N |
+| Number (float) | N |
+| Number (int) | N |
+| Date Recur | N |
 
 
 ## Assumptions
