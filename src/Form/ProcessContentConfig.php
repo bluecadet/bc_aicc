@@ -6,11 +6,10 @@ use Drupal\bc_aicc\ImportBatch;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
-use Drupal\field\Entity\FieldConfig;
-use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\node\Entity\NodeType;
 
-
+/**
+ *
+ */
 class ProcessContentConfig extends FormBase {
 
   public $importer;
@@ -27,7 +26,7 @@ class ProcessContentConfig extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['message'] = [
-      '#markup' => 'IMPORT IT ALL!!!'
+      '#markup' => 'IMPORT IT ALL!!!',
     ];
 
     $form['csv_taxonomy_upload'] = [
@@ -112,8 +111,6 @@ class ProcessContentConfig extends FormBase {
       [[$this->importer, 'cleanUp'], []],
     ];
 
-
-
     $form_file1 = $form_state->getValue('csv_taxonomy_upload', 0);
     if (isset($form_file1[0]) && !empty($form_file1[0])) {
       $tax_file = File::load($form_file1[0]);
@@ -166,4 +163,5 @@ class ProcessContentConfig extends FormBase {
 
     batch_set($batch);
   }
+
 }

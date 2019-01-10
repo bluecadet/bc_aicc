@@ -2,16 +2,25 @@
 
 namespace Drupal\bc_aicc;
 
+/**
+ *
+ */
 class ImportMapper {
 
   private $helper;
   private $defaults;
 
-  function __construct() {
+  /**
+   *
+   */
+  public function __construct() {
     $this->helper = \Drupal::service('bc_aicc:import_helper');
     $this->defaults = \Drupal::service('bc_aicc:defaults');
   }
 
+  /**
+   *
+   */
   public function setKeysAndProcessTaxonomyType($row) {
     $keys = [
       'name',
@@ -26,6 +35,9 @@ class ImportMapper {
     return $new_row;
   }
 
+  /**
+   *
+   */
   public function setKeysAndProcessParagraphBundle($row) {
     $keys = [
       'label',
@@ -39,7 +51,7 @@ class ImportMapper {
   }
 
   /**
-   * Map Node Bundles
+   * Map Node Bundles.
    */
   public function setKeysAndProcessNodeBundle($row) {
     $keys = [
@@ -72,7 +84,7 @@ class ImportMapper {
   }
 
   /**
-   * Map Node Field data
+   * Map Node Field data.
    */
   public function setKeysAndProcessNodeField($row) {
     $keys = [
@@ -106,7 +118,7 @@ class ImportMapper {
   }
 
   /**
-   * Map Node Field data
+   * Map Node Field data.
    */
   public function setKeysAndProcessTaxonomyField($row) {
     $keys = [
@@ -140,7 +152,7 @@ class ImportMapper {
   }
 
   /**
-   * Map Node Field data
+   * Map Node Field data.
    */
   public function setKeysAndProcessParagraphField($row) {
     $keys = [
@@ -173,6 +185,9 @@ class ImportMapper {
     return $new_row;
   }
 
+  /**
+   *
+   */
   public function setKeysAndProcessParagraphFieldGroupWrapper($row) {
     $keys = [
       'label',
@@ -188,6 +203,9 @@ class ImportMapper {
     return $new_row;
   }
 
+  /**
+   *
+   */
   public function setKeysAndProcessParagraphFieldGroup($row) {
 
     $keys = [
@@ -203,4 +221,5 @@ class ImportMapper {
 
     return $new_row;
   }
+
 }

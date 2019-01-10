@@ -2,31 +2,34 @@
 
 namespace Drupal\bc_aicc;
 
-use Drupal\bc_aicc\BCDefaults;
-use Drupal\bc_aicc\ImportHelper;
-use Drupal\bc_aicc\ImportMapper;
-use Drupal\file\Entity\File;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
-use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 
-
+/**
+ *
+ */
 class ImportBatch {
 
   private $helper;
   private $defaults;
   private $mapper;
 
-  function __construct() {
+  /**
+   *
+   */
+  public function __construct() {
     $this->helper = \Drupal::service('bc_aicc:import_helper');
     $this->defaults = \Drupal::service('bc_aicc:defaults');
     $this->mapper = \Drupal::service('bc_aicc:import_mapper');
   }
 
+  /**
+   *
+   */
   public function initiateVariables($import_method, &$context) {
     $context['results']['taxonomy_fid'] = NULL;
     $context['results']['valid_taxonomy_file'] = TRUE;
@@ -47,6 +50,9 @@ class ImportBatch {
     $context['message'] = "Variables have been set";
   }
 
+  /**
+   *
+   */
   public function buildTaxonomyData($file, &$context) {
     ksm("Start buildTaxonomyData");
     ksm($context, $file);
@@ -61,6 +67,9 @@ class ImportBatch {
     $context['message'] = "Taxonomy Data has been built.";
   }
 
+  /**
+   *
+   */
   public function buildParagraphsData($file, &$context) {
     ksm("Start buildParagraphsData");
     ksm($context, $file);
@@ -75,10 +84,12 @@ class ImportBatch {
     $context['message'] = "Paragraphs Data has been built.";
   }
 
+  /**
+   *
+   */
   public function buildContentData($file, &$context) {
     // ksm("Start buildData");
-    // ksm($context, $file, $import_method);
-
+    // ksm($context, $file, $import_method);.
     $data = $this->buildContentDataFromFile($file);
 
     $context['results']['content_fid'] = $file->id();
@@ -87,6 +98,9 @@ class ImportBatch {
     $context['message'] = "Content Data has been built.";
   }
 
+  /**
+   *
+   */
   public function validateTaxonomyData(&$context) {
     ksm("Start validateData");
     ksm($context);
@@ -103,6 +117,9 @@ class ImportBatch {
     $context['message'] = "CSV Taxonomy File Validated";
   }
 
+  /**
+   *
+   */
   public function validateParagraphsData(&$context) {
     ksm("Start validateParagraphsData");
     ksm($context);
@@ -119,6 +136,9 @@ class ImportBatch {
     $context['message'] = "CSV Paragraphs File Validated";
   }
 
+  /**
+   *
+   */
   public function validateContentData(&$context) {
     ksm("Start validateData");
     ksm($context);
@@ -135,6 +155,9 @@ class ImportBatch {
     $context['message'] = "CSV File Validated";
   }
 
+  /**
+   *
+   */
   public function processTaxonomyData($pass, &$context) {
     ksm("Start processTaxonomyData");
     ksm($context);
@@ -146,7 +169,7 @@ class ImportBatch {
         return;
       }
 
-      // $context['sandbox']['progress'] = 0;
+      // $context['sandbox']['progress'] = 0;.
       $context['sandbox']['current_row'] = 0;
       $context['sandbox']['current_bundle'] = '';
       $context['sandbox']['max'] = $context['results']['taxonomy_data']['stats']['total_rows'];
@@ -169,7 +192,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else if ($current_raw_row[0] == 'FIELD') {
+        elseif ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processTaxonomyFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -185,6 +208,9 @@ class ImportBatch {
     $context['message'] = "Processing Taxonomy Data: " . $pass;
   }
 
+  /**
+   *
+   */
   public function processTaxonomyTerms(&$context) {
     ksm("Start processTaxonomyTerms");
     ksm($context);
@@ -201,7 +227,7 @@ class ImportBatch {
       $context['sandbox']['max'] = 0;
 
       $terms_to_create = [];
-      for ($j=0; $j < count($context['results']['taxonomy_data']['raw_data']); $j++) {
+      for ($j = 0; $j < count($context['results']['taxonomy_data']['raw_data']); $j++) {
         $current_raw_row = $context['results']['taxonomy_data']['raw_data'][$j];
         $current_row = $context['results']['taxonomy_data']['processed_data'][$j];
 
@@ -211,7 +237,7 @@ class ImportBatch {
 
           ksm($current_row['terms']);
 
-          foreach( $current_row['terms'] as $k => $r) {
+          foreach ($current_row['terms'] as $k => $r) {
             if (!empty($r)) {
               $terms_to_create[] = [
                 'name' => $r,
@@ -270,12 +296,15 @@ class ImportBatch {
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
   }
 
+  /**
+   *
+   */
   public function processParagrpahsData($pass, &$context) {
     ksm("Start processParagrpahsData");
     ksm($context);
 
     if (empty($context['sandbox'])) {
-      // $context['sandbox']['progress'] = 0;
+      // $context['sandbox']['progress'] = 0;.
       $context['sandbox']['current_row'] = 0;
       $context['sandbox']['current_bundle'] = '';
       $context['sandbox']['max'] = $context['results']['paragraphs_data']['stats']['total_rows'];
@@ -304,7 +333,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else if ($current_raw_row[0] == 'FIELD') {
+        elseif ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -319,12 +348,15 @@ class ImportBatch {
     $context['message'] = "Processing Paragraph Data: " . $pass;
   }
 
+  /**
+   *
+   */
   public function processContentData($pass, &$context) {
     ksm("Start processContentData");
     ksm($context);
 
     if (empty($context['sandbox'])) {
-      // $context['sandbox']['progress'] = 0;
+      // $context['sandbox']['progress'] = 0;.
       $context['sandbox']['current_row'] = 0;
       $context['sandbox']['current_bundle'] = '';
       $context['sandbox']['max'] = $context['results']['content_data']['stats']['total_rows'];
@@ -353,7 +385,7 @@ class ImportBatch {
           }
         }
         // Process Field.
-        else if ($current_raw_row[0] == 'FIELD') {
+        elseif ($current_raw_row[0] == 'FIELD') {
           if ($pass == 'field') {
             $this->processContentFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
@@ -368,6 +400,9 @@ class ImportBatch {
     $context['message'] = "Processing Content Data: " . $pass;
   }
 
+  /**
+   *
+   */
   public function cleanUp(&$context) {
     ksm("Start removeFile");
     ksm($context);
@@ -377,9 +412,9 @@ class ImportBatch {
     $context['message'] = "Cleaning up.";
   }
 
-
-
-
+  /**
+   *
+   */
   public function importFinished($success, $results, $operations) {
     ksm("Start importFinished");
     ksm($success, $results, $operations);
@@ -398,8 +433,7 @@ class ImportBatch {
       //   '1 Field in Data.',
       //   '@count Total fields in Data.'
       // );
-      // $msgs[] = 'Import Method: ' . $results['import_method'];
-
+      // $msgs[] = 'Import Method: ' . $results['import_method'];.
       // Validation Step Messages.
       if (isset($results['build']['msg']) && !empty($results['build']['msg'])) {
         foreach ($results['build']['msg'] as $m) {
@@ -440,12 +474,9 @@ class ImportBatch {
     }
   }
 
-
-
-
-
-
-
+  /**
+   *
+   */
   protected function processVocabularyType($row, $import_method, &$messages) {
 
     $v = Vocabulary::load($row['vid']);
@@ -465,9 +496,11 @@ class ImportBatch {
         case 'nothing':
           $messages[] = t("Vocabulary: %name already exists. Doing nothing.", ['%name' => $row['name']]);
           break;
+
         case 'update':
           $messages[] = t("Vocabulary: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $row['name']]);
           break;
+
         case 'wipe':
           $messages[] = t("Vocabulary: %name already exists.", ['%name' => $row['name']]);
           break;
@@ -475,13 +508,16 @@ class ImportBatch {
     }
   }
 
+  /**
+   *
+   */
   protected function processNodeBundle($row, $import_method, &$messages) {
     // Check if Content Type exists.
     $node_type = NodeType::load($row['bundle']);
 
     // If not, add it.
     if (empty($node_type)) {
-      $content_type = NodeType::create( [
+      $content_type = NodeType::create([
         'type' => $row['bundle'],
         'name' => $row['name'],
         'description' => $row['description'],
@@ -492,7 +528,7 @@ class ImportBatch {
         'display_submitted' => $row['display_submitted'],
       ]);
 
-      // Menu
+      // Menu.
       $menus = explode(",", $row['available_menus']);
       $content_type->setThirdPartySetting('menu_ui', 'available_menus', $menus);
       $content_type->setThirdPartySetting('menu_ui', 'parent', $row['parent']);
@@ -520,9 +556,11 @@ class ImportBatch {
         case 'nothing':
           $messages[] = t("Content Type: %name already exists. Doing nothing.", ['%name' => $row['name']]);
           break;
+
         case 'update':
           $messages[] = t("Content Type: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $row['name']]);
           break;
+
         case 'wipe':
           $messages[] = t("Content Type: %name already exists.", ['%name' => $row['name']]);
           break;
@@ -530,13 +568,16 @@ class ImportBatch {
     }
   }
 
+  /**
+   *
+   */
   protected function processParagraphBundle($row, $import_method, &$messages) {
     // Check if Content Type exists.
     $para_type = ParagraphsType::load($row['id']);
 
     // If not, add it.
     if (empty($para_type)) {
-      $para_type = ParagraphsType::create( [
+      $para_type = ParagraphsType::create([
         'label' => $row['label'],
         'id' => $row['id'],
         'description' => $row['description'],
@@ -552,9 +593,11 @@ class ImportBatch {
         case 'nothing':
           $messages[] = t("Paragraph Bundle: %label already exists. Doing nothing.", ['%label' => $row['label']]);
           break;
+
         case 'update':
           $messages[] = t("Paragraph Bundle: %label already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%label' => $row['label']]);
           break;
+
         case 'wipe':
           $messages[] = t("Paragraph Bundle: %label already exists.", ['%label' => $row['label']]);
           break;
@@ -562,18 +605,30 @@ class ImportBatch {
     }
   }
 
+  /**
+   *
+   */
   protected function processTaxonomyFields($row, $bundle, $weight, $import_method, &$messages) {
     $this->processFields($row, $bundle, $weight, $import_method, $messages, 'taxonomy_term');
   }
 
+  /**
+   *
+   */
   protected function processParagraphFields($row, $bundle, $weight, $import_method, &$messages) {
     $this->processFields($row, $bundle, $weight, $import_method, $messages, 'paragraph');
   }
 
+  /**
+   *
+   */
   protected function processContentFields($row, $bundle, $weight, $import_method, &$messages) {
     $this->processFields($row, $bundle, $weight, $import_method, $messages, 'node');
   }
 
+  /**
+   *
+   */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
     drupal_set_message("Start processFields");
     ksm($row);
@@ -601,9 +656,11 @@ class ImportBatch {
         case 'nothing':
           $messages[] = t("Field storage: %name already exists. Doing nothing.", ['%name' => $row['name']]);
           break;
+
         case 'update':
           $messages[] = t("Field storage: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $row['name']]);
           break;
+
         case 'wipe':
           $messages[] = t("Field storage: %name already exists.", ['%name' => $row['name']]);
           break;
@@ -641,9 +698,11 @@ class ImportBatch {
         case 'nothing':
           $messages[] = t("Field instance: %name already exists. Doing nothing.", ['%name' => $row['name']]);
           break;
+
         case 'update':
           $messages[] = t("Field instance: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $row['name']]);
           break;
+
         case 'wipe':
           $messages[] = t("Field instance: %name already exists.", ['%name' => $row['name']]);
           break;
@@ -651,22 +710,30 @@ class ImportBatch {
     }
   }
 
-
-
-
-
+  /**
+   *
+   */
   public function buildTaxonomyDataFromFile($file) {
     return $this->buildDataFromFile($file, 'setTaxonomyKeysAndProcess');
   }
 
+  /**
+   *
+   */
   public function buildParagraphsDataFromFile($file) {
     return $this->buildDataFromFile($file, 'setParagraphKeysAndProcess');
   }
 
+  /**
+   *
+   */
   public function buildContentDataFromFile($file) {
     return $this->buildDataFromFile($file, 'setContentKeysAndProcess');
   }
 
+  /**
+   *
+   */
   public function buildDataFromFile($file, $process_func) {
     $real_path = \Drupal::service('file_system')->realpath($file->getFileUri());
 
@@ -676,13 +743,14 @@ class ImportBatch {
     $bundles = 0;
     $fields = 0;
 
-    while (($import_row = fgetcsv($fp, 0, ",")) !== false) {
+    while (($import_row = fgetcsv($fp, 0, ",")) !== FALSE) {
       if ($row > 2) {
         $raw_data[] = $import_row;
 
         if (empty($import_row[0])) {
           $fields++;
-        } else {
+        }
+        else {
           $bundles++;
         }
       }
@@ -703,9 +771,9 @@ class ImportBatch {
     ];
   }
 
-
-
-
+  /**
+   *
+   */
   protected function setTaxonomyKeysAndProcess($data) {
     $new_data = [];
 
@@ -713,7 +781,7 @@ class ImportBatch {
       if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $row = $this->mapper->setKeysAndProcessTaxonomyType($row);
       }
-      else if ($row[0] == 'FIELD') {
+      elseif ($row[0] == 'FIELD') {
         $row = $this->mapper->setKeysAndProcessTaxonomyField($row);
       }
       $new_data[] = $row;
@@ -722,6 +790,9 @@ class ImportBatch {
     return $new_data;
   }
 
+  /**
+   *
+   */
   protected function setParagraphKeysAndProcess($data) {
     $new_data = [];
 
@@ -729,13 +800,13 @@ class ImportBatch {
       if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $new_row = $this->mapper->setKeysAndProcessParagraphBundle($row);
       }
-      else if ($row[0] == 'FIELD') {
+      elseif ($row[0] == 'FIELD') {
         $new_row = $this->mapper->setKeysAndProcessParagraphField($row);
       }
-      else if ($row[0] == 'FGW_START') {
+      elseif ($row[0] == 'FGW_START') {
         $new_row = $this->mapper->setKeysAndProcessParagraphFieldGroupWrapper($row);
       }
-      else if ($row[0] == 'FG_START') {
+      elseif ($row[0] == 'FG_START') {
         $new_row = $this->mapper->setKeysAndProcessParagraphFieldGroup($row);
       }
       $new_data[] = $new_row;
@@ -754,10 +825,11 @@ class ImportBatch {
     return $new_data;
   }
 
-
+  /**
+   *
+   */
   protected function fieldGroupStructure($row_key, $raw_data, $new_data, &$fg_structure, $keys = []) {
-    drupal_set_message("[" . $row_key  . "] " . $raw_data[$row_key][0]);
-
+    // drupal_set_message("[" . $row_key  . "] " . $raw_data[$row_key][0]);.
     static $current_bundle = '';
 
     if ($raw_data[$row_key][0] == 'FGW_START') {
@@ -772,9 +844,9 @@ class ImportBatch {
 
       $keys[] = 'children';
 
-      $this->fieldGroupStructure(($row_key+1), $raw_data, $new_data, $fg_structure, $keys);
+      $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if ($raw_data[$row_key][0] == 'FG_START') {
+    elseif ($raw_data[$row_key][0] == 'FG_START') {
       $keys[] = $new_data[$row_key]['group_name'];
 
       $this->helper->setDepthValue($fg_structure, $keys, [
@@ -788,32 +860,21 @@ class ImportBatch {
 
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if ($raw_data[$row_key][0] == 'FGW_END') {
-      // ksm($keys);
-
-      // if ($this->helper->getDepthValue($fg_structure, $keys) == null) {
-      //   $this->helper->addDepthValue($fg_structure, $keys, []);
-      // }
-
+    elseif ($raw_data[$row_key][0] == 'FGW_END') {
       array_pop($keys);
       array_pop($keys);
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if ($raw_data[$row_key][0] == 'FG_END') {
-      // ksm($keys);
-      // if ($this->helper->getDepthValue($fg_structure, $keys) == null) {
-      //   $this->helper->addDepthValue($fg_structure, $keys, []);
-      // }
-
+    elseif ($raw_data[$row_key][0] == 'FG_END') {
       array_pop($keys);
       array_pop($keys);
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if ($raw_data[$row_key][0] == 'BUNDLE') {
+    elseif ($raw_data[$row_key][0] == 'BUNDLE') {
       $current_bundle = $new_data[$row_key]['id'];
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if ($raw_data[$row_key][0] == 'FIELD') {
+    elseif ($raw_data[$row_key][0] == 'FIELD') {
 
       if (!empty($keys)) {
         $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
@@ -821,14 +882,14 @@ class ImportBatch {
 
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-    else if (isset($raw_data[($row_key + 1)])) {
+    elseif (isset($raw_data[($row_key + 1)])) {
       $this->fieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
     }
-
   }
 
-
-
+  /**
+   *
+   */
   protected function setContentKeysAndProcess($data) {
     $new_data = [];
 
@@ -836,7 +897,7 @@ class ImportBatch {
       if ($row[0] == 'BUNDLE' || !empty($row[1])) {
         $row = $this->mapper->setKeysAndProcessNodeBundle($row);
       }
-      else if ($row[0] == 'FIELD') {
+      elseif ($row[0] == 'FIELD') {
         $row = $this->mapper->setKeysAndProcessNodeField($row);
       }
       $new_data[] = $row;

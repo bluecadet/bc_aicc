@@ -4,6 +4,9 @@ namespace Drupal\bc_aicc;
 
 use Drupal\paragraphs\Entity\ParagraphsType;
 
+/**
+ *
+ */
 class BCDefaults {
 
   public $fieldStorageSettingsBase = [
@@ -118,7 +121,7 @@ class BCDefaults {
   public $fieldInstanceSettingsBase = [
     'label' => '',
     'description' => '',
-    'required' => false,
+    'required' => FALSE,
   ];
 
   public $defaultFldInstSetts = [
@@ -145,7 +148,7 @@ class BCDefaults {
               'field' => 'name',
               'direction' => 'ASC',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -156,7 +159,7 @@ class BCDefaults {
             'sort' => [
               'field' => '_none',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -193,7 +196,7 @@ class BCDefaults {
               'field' => 'name',
               'direction' => 'ASC',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -204,7 +207,7 @@ class BCDefaults {
             'sort' => [
               'field' => '_none',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -229,7 +232,7 @@ class BCDefaults {
               'field' => 'title',
               'direction' => 'ASC',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -241,7 +244,7 @@ class BCDefaults {
               'field' => 'name',
               'direction' => 'ASC',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -252,7 +255,7 @@ class BCDefaults {
             'sort' => [
               'field' => '_none',
             ],
-            'auto_create' => false,
+            'auto_create' => FALSE,
             'auto_create_bundle' => '',
           ],
         ],
@@ -449,7 +452,7 @@ class BCDefaults {
         'label' => 'hidden',
         'type' => 'string',
         'settings' => [
-          'link_to_entity' => false,
+          'link_to_entity' => FALSE,
         ],
       ],
       'entity_reference' => [
@@ -476,7 +479,7 @@ class BCDefaults {
         'label' => 'hidden',
         'type' => 'string',
         'settings' => [
-          'link_to_entity' => false,
+          'link_to_entity' => FALSE,
         ],
       ],
       'entity_reference' => [
@@ -485,7 +488,7 @@ class BCDefaults {
         'type' => 'entity_reference_entity_view',
         'settings' => [
           'view_mode' => 'default',
-          'link' => false,
+          'link' => FALSE,
         ],
       ],
       'entity_reference_revisions' => [
@@ -503,7 +506,7 @@ class BCDefaults {
         'label' => 'hidden',
         'type' => 'string',
         'settings' => [
-          'link_to_entity' => false,
+          'link_to_entity' => FALSE,
         ],
       ],
       'entity_reference' => [
@@ -512,7 +515,7 @@ class BCDefaults {
         'type' => 'entity_reference_entity_view',
         'settings' => [
           'view_mode' => 'default',
-          'link' => false,
+          'link' => FALSE,
         ],
       ],
       'entity_reference_revisions' => [
@@ -527,10 +530,8 @@ class BCDefaults {
   ];
 
   public $defaultFieldGroupWrapperSettings = [
-    'node' => [
-    ],
-    'taxonomy_term' => [
-    ],
+    'node' => [],
+    'taxonomy_term' => [],
     'paragraph' => [
       'label' => '',
       'children' => [],
@@ -541,15 +542,13 @@ class BCDefaults {
         'id' => '',
         'classes' => '',
         'direction' => 'horizontal',
-      ]
+      ],
     ],
   ];
 
   public $defaultFieldGroupSettings = [
-    'node' => [
-    ],
-    'taxonomy_term' => [
-    ],
+    'node' => [],
+    'taxonomy_term' => [],
     'paragraph' => [
       'label' => '',
       'children' => [],
@@ -560,13 +559,12 @@ class BCDefaults {
         'id' => '',
         'classes' => '',
         'direction' => 'horizontal',
-      ]
+      ],
     ],
   ];
 
-
   /**
-   * Getter methods
+   * Getter methods.
    */
   public function getFieldStorageSettings($row, $entity_type) {
 
@@ -586,6 +584,9 @@ class BCDefaults {
     return $storage_settings;
   }
 
+  /**
+   *
+   */
   public function getFieldInstanceSettings($row, $entity_type) {
 
     if ($row['field_type'] == 'entity_reference') {
@@ -615,7 +616,7 @@ class BCDefaults {
               'enabled' => TRUE,
               'weight' => $weight,
             ];
-            if (($key = array_search($para_type, $paragraph_types)) !== false) {
+            if (($key = array_search($para_type, $paragraph_types)) !== FALSE) {
               unset($paragraph_types[$key]);
             }
             $weight++;
@@ -631,12 +632,15 @@ class BCDefaults {
         }
 
         ksm($instance_settings);
-      break;
+        break;
     }
 
     return $instance_settings;
   }
 
+  /**
+   *
+   */
   public function getFieldFormSettings($row, $weight, $entity_type) {
 
     if ($row['field_type'] == 'entity_reference') {
@@ -651,6 +655,9 @@ class BCDefaults {
     return $settings;
   }
 
+  /**
+   *
+   */
   public function getFieldDisplaySettings($row, $weight, $entity_type) {
     $settings = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']];
 
@@ -676,6 +683,9 @@ class BCDefaults {
     return $storage_settings;
   }
 
+  /**
+   *
+   */
   protected function getEntityReferenceFieldInstanceSettings($row, $entity_type) {
     $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
 
@@ -685,7 +695,7 @@ class BCDefaults {
 
     $instance_settings = array_merge($instance_settings, $row['field_settings']);
 
-    // set target_bundles
+    // Set target_bundles.
     $weight = 0;
 
     if (!empty($row['entity_reference'])) {
@@ -698,6 +708,9 @@ class BCDefaults {
     return $instance_settings;
   }
 
+  /**
+   *
+   */
   protected function getEntityReferenceFieldFormSettings($row, $weight, $entity_type) {
 
     $settings = $this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']];

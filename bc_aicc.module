@@ -41,6 +41,9 @@ function bc_aicc_transliterate_filenames_transliteration($filename) {
   return $filename;
 }
 
+/**
+ *
+ */
 function bc_aicc_form_bc_process_content_alter(&$form, FormStateInterface $form_state, $form_id) {
   // ksm($form);
 }
