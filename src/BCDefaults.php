@@ -84,10 +84,19 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
+      'list_string' => [
+        'settings' => [
+          'allowed_values' => [],
+          'allowed_values_function' => '',
+        ],
+      ],
       'string' => [
         'settings' => [
           'max_length' => 255,
         ],
+      ],
+      'text_long' => [
+        'settings' => []
       ],
       'entity_reference' => [
         'node' => [
@@ -222,7 +231,12 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
+      'list_text' => [],
       'string' => [],
+      'text_long' => [
+        'settings' => [],
+        'third_part_settings' => [],
+      ],
       'entity_reference' => [
         'node' => [
           'handler' => 'default:node',
@@ -387,12 +401,32 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
+      'list_text' => [
+        'type' => 'options_select',
+        'weight' => 0,
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'string' => [
         'type' => 'string_textfield',
         'weight' => 0,
         'settings' => [
           'size' => 25,
           'placeholder' => '',
+        ],
+      ],
+      'text_long' => [
+        'type' => 'text_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
         ],
       ],
       'entity_reference' => [
@@ -501,6 +535,12 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
+      'list_text' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'settings' => [],
+      ],
       'string' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -508,6 +548,12 @@ class BCDefaults {
         'settings' => [
           'link_to_entity' => FALSE,
         ],
+      ],
+      'text_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
       ],
       'entity_reference' => [
         'weight' => 0,
