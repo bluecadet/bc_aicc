@@ -18,10 +18,24 @@ class BCDefaults {
 
   public $defaultFieldStorageSettings = [
     'node' => [
+      'list_string' => [
+        'settings' => [
+          'allowed_values' => [],
+          'allowed_values_function' => '',
+        ],
+      ],
       'string' => [
         'settings' => [
           'max_length' => 255,
         ],
+      ],
+      'text' => [
+        'settings' => [
+          'max_length' => 255,
+        ]
+      ],
+      'text_long' => [
+        'settings' => []
       ],
       'entity_reference' => [
         'node' => [
@@ -51,10 +65,24 @@ class BCDefaults {
       ],
     ],
     'taxonomy_term' => [
+      'list_string' => [
+        'settings' => [
+          'allowed_values' => [],
+          'allowed_values_function' => '',
+        ],
+      ],
       'string' => [
         'settings' => [
           'max_length' => 255,
         ],
+      ],
+      'text' => [
+        'settings' => [
+          'max_length' => 255,
+        ]
+      ],
+      'text_long' => [
+        'settings' => []
       ],
       'entity_reference' => [
         'node' => [
@@ -140,7 +168,16 @@ class BCDefaults {
 
   public $defaultFldInstSetts = [
     'node' => [
+      'list_string' => [],
       'string' => [],
+      'text' => [
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
+      'text_long' => [
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'entity_reference' => [
         'node' => [
           'handler' => 'default:node',
@@ -188,7 +225,16 @@ class BCDefaults {
       ],
     ],
     'taxonomy_term' => [
+      'list_string' => [],
       'string' => [],
+      'text' => [
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
+      'text_long' => [
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'entity_reference' => [
         'node' => [
           'handler' => 'default:node',
@@ -296,12 +342,46 @@ class BCDefaults {
 
   public $defaultFieldFormSettings = [
     'node' => [
+      'list_string' => [
+        'type' => 'options_select',
+        'weight' => 0,
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'string' => [
         'type' => 'string_textfield',
         'weight' => 0,
         'settings' => [
           'size' => 25,
           'placeholder' => '',
+        ],
+      ],
+      'text' => [
+        'type' => 'text_textfield',
+        'weight' => 0,
+        'settings' => [
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
+        ],
+      ],
+      'text_long' => [
+        'type' => 'text_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
         ],
       ],
       'entity_reference' => [
@@ -353,12 +433,46 @@ class BCDefaults {
       ],
     ],
     'taxonomy_term' => [
+      'list_string' => [
+        'type' => 'options_select',
+        'weight' => 0,
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'string' => [
         'type' => 'string_textfield',
         'weight' => 0,
         'settings' => [
           'size' => 25,
           'placeholder' => '',
+        ],
+      ],
+      'text' => [
+        'type' => 'text_textfield',
+        'weight' => 0,
+        'settings' => [
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
+        ],
+      ],
+      'text_long' => [
+        'type' => 'text_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
         ],
       ],
       'entity_reference' => [
@@ -504,6 +618,12 @@ class BCDefaults {
 
   public $defaultFieldDisplaySettings = [
     'node' => [
+      'list_string' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'settings' => [],
+      ],
       'string' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -511,6 +631,18 @@ class BCDefaults {
         'settings' => [
           'link_to_entity' => FALSE,
         ],
+      ],
+      'text' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
+      ],
+      'text_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
       ],
       'entity_reference' => [
         'weight' => 0,
@@ -531,6 +663,12 @@ class BCDefaults {
       ],
     ],
     'taxonomy_term' => [
+      'list_string' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'settings' => [],
+      ],
       'string' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -538,6 +676,18 @@ class BCDefaults {
         'settings' => [
           'link_to_entity' => FALSE,
         ],
+      ],
+      'text' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
+      ],
+      'text_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
       ],
       'entity_reference' => [
         'weight' => 0,
