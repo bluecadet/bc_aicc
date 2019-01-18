@@ -104,6 +104,9 @@ class ImportMapper {
     return $this->setKeysAndProcessField($row, 4, 17);
   }
 
+  /**
+   *
+   */
   protected function setKeysAndProcessField($row, $offset, $count) {
     $keys = [
       'name',

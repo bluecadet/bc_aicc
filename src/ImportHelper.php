@@ -32,6 +32,9 @@ class ImportHelper {
     return $this->processExplosions($altered_val, $placeholders);
   }
 
+  /**
+   *
+   */
   protected function processPlaceholders(&$placeholders, $string) {
     preg_match_all('/(\[[^\[\]]*\])/', $string, $matches);
 
@@ -46,6 +49,9 @@ class ImportHelper {
     return $string;
   }
 
+  /**
+   *
+   */
   protected function processExplosions($val, $placeholders) {
     $data = [];
     $d1 = explode(";", $val);
@@ -58,7 +64,7 @@ class ImportHelper {
           if (count($d2) == 1) {
             $data[] = is_numeric($d2[0]) ? ($d2[0] + 0) : $d2[0];
           }
-          else if (isset($placeholders[$d2[1]])) {
+          elseif (isset($placeholders[$d2[1]])) {
             $data[$d2[0]] = $this->processExplosions(substr($placeholders[$d2[1]], 1, -1), $placeholders);
           }
           else {
@@ -85,6 +91,9 @@ class ImportHelper {
     return $this->explodePipe($val);
   }
 
+  /**
+   *
+   */
   public function splitAllowedValues($val) {
     $data = [];
     $d1 = explode(",", $val);

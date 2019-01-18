@@ -338,13 +338,13 @@ class ImportBatch {
             $this->processParagraphFields($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
         }
-        // Process Field Group Wrappers
+        // Process Field Group Wrappers.
         elseif ($current_raw_row[0] == 'FGW_START') {
           if ($pass == 'field_groups') {
             $this->processParagraphFieldGroupWrappers($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
           }
         }
-        // Process Field Groups
+        // Process Field Groups.
         elseif ($current_raw_row[0] == 'FG_START') {
           if ($pass == 'field_groups') {
             $this->processParagraphFieldGroups($current_row, $context['sandbox']['current_bundle'], $i, $context['results']['import_method'], $context['results']['process']['msg']);
@@ -711,7 +711,7 @@ class ImportBatch {
       $entity_form_display = entity_get_form_display($entity, $bundle, 'default');
       $entity_form_display->setComponent($field_machine_name, $form_settings);
       if (isset($form_settings['third_party_settings'])) {
-        foreach($form_settings['third_party_settings'] as $tps_module => $tps_settings) {
+        foreach ($form_settings['third_party_settings'] as $tps_module => $tps_settings) {
           foreach ($tps_settings as $tps_key => $tps_value) {
             $entity_form_display->setThirdPartySetting($tps_module, $tps_key, $tps_value);
           }
@@ -747,6 +747,9 @@ class ImportBatch {
     }
   }
 
+  /**
+   *
+   */
   protected function processParagraphFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroupWrappers");
     $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, 'paragraph');
@@ -755,6 +758,9 @@ class ImportBatch {
     $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
   }
 
+  /**
+   *
+   */
   protected function processParagraphFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroups");
     $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, 'paragraph');
@@ -763,6 +769,9 @@ class ImportBatch {
     $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
   }
 
+  /**
+   *
+   */
   protected function processFieldGroup($fg_settings, $entity, $weight, &$messages) {
 
     // Check if field_group exists.
@@ -771,7 +780,7 @@ class ImportBatch {
 
     if (empty($field_group)) {
       // Create new group.
-      $new_group = (object)array(
+      $new_group = (object) [
         'group_name' => $fg_settings['group_name'],
         'entity_type' => $entity,
         'bundle' => $fg_settings['bundle'],
@@ -783,7 +792,7 @@ class ImportBatch {
         'format_type' => $fg_settings['format_type'],
         'label' => $fg_settings['label'],
         'format_settings' => $fg_settings['format_settings'],
-      );
+      ];
       ksm('new_group', $new_group);
       field_group_group_save($new_group);
 
@@ -1001,7 +1010,7 @@ class ImportBatch {
         $keys[] = $new_data[$row_key]['machine_name'];
         $this->helper->setDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
         array_pop($keys);
-        // $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);
+        // $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);.
       }
 
       $this->buildFieldGroupStructure(($row_key + 1), $raw_data, $new_data, $fg_structure, $keys);
@@ -1011,6 +1020,9 @@ class ImportBatch {
     }
   }
 
+  /**
+   *
+   */
   protected function setFieldGroupData($fg_structure, &$new_data) {
 
     foreach ($fg_structure as $paragraph_id => $p_data) {
