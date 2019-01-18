@@ -87,74 +87,24 @@ class ImportMapper {
    * Map Node Field data.
    */
   public function setKeysAndProcessNodeField($row) {
-    $keys = [
-      'name',
-      'machine_name',
-      'field_type',
-      'field_storage_settings',
-      'cardinality',
-      'entity_reference',
-      'description',
-      'required',
-      'field_settings',
-      'form_type',
-      'form_type_settings',
-      'display_label',
-      'display_type',
-      'display_type_settings',
-    ];
-
-    $new_row = array_combine($keys, array_slice($row, 15, 14));
-
-    $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
-
-    $new_row['field_storage_settings'] = $this->helper->explodeSettingsField($new_row['field_storage_settings']);
-    $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
-    $new_row['field_settings'] = $this->helper->explodeSettingsField($new_row['field_settings']);
-    $new_row['form_type_settings'] = $this->helper->explodeSettingsField($new_row['form_type_settings']);
-    $new_row['display_type_settings'] = $this->helper->explodeSettingsField($new_row['display_type_settings']);
-
-    return $new_row;
+    return $this->setKeysAndProcessField($row, 14, 17);
   }
 
   /**
    * Map Node Field data.
    */
   public function setKeysAndProcessTaxonomyField($row) {
-    $keys = [
-      'name',
-      'machine_name',
-      'field_type',
-      'field_storage_settings',
-      'cardinality',
-      'entity_reference',
-      'description',
-      'required',
-      'field_settings',
-      'form_type',
-      'form_type_settings',
-      'display_label',
-      'display_type',
-      'display_type_settings',
-    ];
-
-    $new_row = array_combine($keys, array_slice($row, 5, 14));
-
-    $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
-
-    $new_row['field_storage_settings'] = $this->helper->explodeSettingsField($new_row['field_storage_settings']);
-    $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
-    $new_row['field_settings'] = $this->helper->explodeSettingsField($new_row['field_settings']);
-    $new_row['form_type_settings'] = $this->helper->explodeSettingsField($new_row['form_type_settings']);
-    $new_row['display_type_settings'] = $this->helper->explodeSettingsField($new_row['display_type_settings']);
-
-    return $new_row;
+    return $this->setKeysAndProcessField($row, 5, 17);
   }
 
   /**
    * Map Node Field data.
    */
   public function setKeysAndProcessParagraphField($row) {
+    return $this->setKeysAndProcessField($row, 4, 17);
+  }
+
+  protected function setKeysAndProcessField($row, $offset, $count) {
     $keys = [
       'name',
       'machine_name',
@@ -165,22 +115,40 @@ class ImportMapper {
       'description',
       'required',
       'field_settings',
+      'field_third_party_settings',
       'form_type',
       'form_type_settings',
+      'form_third_party_settings',
       'display_label',
       'display_type',
       'display_type_settings',
+      'display_type_third_party_settings',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 4, 14));
+    $new_row = array_combine($keys, array_slice($row, $offset, $count));
 
     $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
 
     $new_row['field_storage_settings'] = $this->helper->explodeSettingsField($new_row['field_storage_settings']);
-    $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
+    $new_row['field_third_party_settings'] = $this->helper->explodeSettingsField($new_row['field_third_party_settings']);
     $new_row['field_settings'] = $this->helper->explodeSettingsField($new_row['field_settings']);
     $new_row['form_type_settings'] = $this->helper->explodeSettingsField($new_row['form_type_settings']);
+    $new_row['form_third_party_settings'] = $this->helper->explodeSettingsField($new_row['form_third_party_settings']);
     $new_row['display_type_settings'] = $this->helper->explodeSettingsField($new_row['display_type_settings']);
+    $new_row['display_type_third_party_settings'] = $this->helper->explodeSettingsField($new_row['display_type_third_party_settings']);
+
+    if (in_array($new_row['field_type'], ['list_string'])) {
+      $new_row['allowed_values'] = $this->helper->splitAllowedValues($new_row['entity_reference']);
+      unset($new_row['entity_reference']);
+    }
+    else {
+      $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
+    }
+
+    if (in_array($new_row['field_type'], ['list_string', 'text_long'])) {
+      drupal_set_message("HERE", 'status', true);
+      ksm($new_row);
+    }
 
     return $new_row;
   }
