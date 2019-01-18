@@ -42,6 +42,9 @@ class BCDefaults {
       'text_long' => [
         'settings' => []
       ],
+      'link' => [
+        'settings' => [],
+      ],
       'entity_reference' => [
         'node' => [
           'cardinality' => -1,
@@ -94,6 +97,9 @@ class BCDefaults {
       'text_long' => [
         'settings' => []
       ],
+      'link' => [
+        'settings' => [],
+      ],
       'entity_reference' => [
         'node' => [
           'cardinality' => -1,
@@ -144,7 +150,10 @@ class BCDefaults {
         ]
       ],
       'text_long' => [
-        'settings' => []
+        'settings' => [],
+      ],
+      'link' => [
+        'settings' => [],
       ],
       'entity_reference' => [
         'node' => [
@@ -194,6 +203,12 @@ class BCDefaults {
         'settings' => [],
         'third_party_settings' => [],
       ],
+      'link' => [
+        'settings' => [
+          'link_type' => 17, // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external
+          'title' => 2, // 0 = Disabled | 1 = Optional | 2 = Required
+        ]
+      ],
       'entity_reference' => [
         'node' => [
           'handler' => 'default:node',
@@ -252,6 +267,12 @@ class BCDefaults {
         'settings' => [],
         'third_party_settings' => [],
       ],
+      'link' => [
+        'settings' => [
+          'link_type' => 17, // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external
+          'title' => 2, // 0 = Disabled | 1 = Optional | 2 = Required
+        ]
+      ],
       'entity_reference' => [
         'node' => [
           'handler' => 'default:node',
@@ -309,6 +330,12 @@ class BCDefaults {
       'text_long' => [
         'settings' => [],
         'third_party_settings' => [],
+      ],
+      'link' => [
+        'settings' => [
+          'link_type' => 17, // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external
+          'title' => 2, // 0 = Disabled | 1 = Optional | 2 = Required
+        ]
       ],
       'entity_reference' => [
         'node' => [
@@ -410,6 +437,14 @@ class BCDefaults {
           ]
         ],
       ],
+      'link' => [
+        'type' => 'link_default',
+        'weight' => 0,
+        'settings' => [
+          'placeholder_url' => '',
+          'placeholder_title' => '',
+        ],
+      ],
       'entity_reference' => [
         'node' => [
           'type' => 'entity_reference_autocomplete',
@@ -509,6 +544,14 @@ class BCDefaults {
           ]
         ],
       ],
+      'link' => [
+        'type' => 'link_default',
+        'weight' => 0,
+        'settings' => [
+          'placeholder_url' => '',
+          'placeholder_title' => '',
+        ],
+      ],
       'entity_reference' => [
         'node' => [
           'type' => 'entity_reference_autocomplete',
@@ -606,6 +649,14 @@ class BCDefaults {
             'hide_help' => 1,
             'hide_guidlines' => 1,
           ]
+        ],
+      ],
+      'link' => [
+        'type' => 'link_default',
+        'weight' => 0,
+        'settings' => [
+          'placeholder_url' => '',
+          'placeholder_title' => '',
         ],
       ],
       'entity_reference' => [
@@ -692,6 +743,18 @@ class BCDefaults {
         'type' => 'text_default',
         'settings' => [],
       ],
+      'link' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'link',
+        'settings' => [
+          'trim_length' => 80,
+          'target' => '_blank',
+          'url_only' => FALSE,
+          'url_plain' => FALSE,
+          'rel' =>  0,
+        ],
+      ],
       'entity_reference' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -743,6 +806,18 @@ class BCDefaults {
         'type' => 'text_default',
         'settings' => [],
       ],
+      'link' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'link',
+        'settings' => [
+          'trim_length' => 80,
+          'target' => '_blank',
+          'url_only' => FALSE,
+          'url_plain' => FALSE,
+          'rel' =>  0,
+        ],
+      ],
       'entity_reference' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -793,6 +868,18 @@ class BCDefaults {
         'label' => 'hidden',
         'type' => 'text_default',
         'settings' => [],
+      ],
+      'link' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'link',
+        'settings' => [
+          'trim_length' => 80,
+          'target' => '_blank',
+          'url_only' => FALSE,
+          'url_plain' => FALSE,
+          'rel' =>  0,
+        ],
       ],
       'entity_reference' => [
         'weight' => 0,
@@ -965,6 +1052,8 @@ class BCDefaults {
     $settings = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']];
 
     $settings['weight'] = $weight;
+    $settings['label'] = $row['display_label'];
+    $settings['type'] = $row['display_type'];
     $settings['settings'] = array_merge($settings['settings'], $row['display_type_settings']);
 
     if (!empty($settings['third_party_settings']) || !empty($row['display_type_third_party_settings'])) {

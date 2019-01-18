@@ -649,7 +649,7 @@ class ImportBatch {
    *
    */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
-    drupal_set_message("Start processFields");
+    drupal_set_message("Start processFields", "status", TRUE);
     ksm($row);
     $field_machine_name = $row['machine_name'];
 
@@ -720,10 +720,15 @@ class ImportBatch {
       $entity_form_display->save();
 
       // Assign display settings for the 'default' and 'teaser' view modes.
-      entity_get_display($entity, $bundle, 'default')
-        ->setComponent($field_machine_name, $display_settings)
-        ->save();
-
+      if ($display_settings['type'] == '-none-') {
+        entity_get_display($entity, $bundle, 'default')
+          ->removeComponent($field_machine_name)->save();
+      }
+      else {
+        entity_get_display($entity, $bundle, 'default')
+          ->setComponent($field_machine_name, $display_settings)
+          ->save();
+      }
     }
     else {
       switch ($import_method) {
