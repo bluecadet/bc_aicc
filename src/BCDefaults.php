@@ -29,6 +29,11 @@ class BCDefaults {
           'max_length' => 255,
         ],
       ],
+      'string_long' => [
+        'settings' => [
+          'case_sensitive' => FALSE,
+        ],
+      ],
       'text' => [
         'settings' => [
           'max_length' => 255,
@@ -76,6 +81,11 @@ class BCDefaults {
           'max_length' => 255,
         ],
       ],
+      'string_long' => [
+        'settings' => [
+          'case_sensitive' => FALSE,
+        ],
+      ],
       'text' => [
         'settings' => [
           'max_length' => 255,
@@ -121,6 +131,11 @@ class BCDefaults {
       'string' => [
         'settings' => [
           'max_length' => 255,
+        ],
+      ],
+      'string_long' => [
+        'settings' => [
+          'case_sensitive' => FALSE,
         ],
       ],
       'text' => [
@@ -170,6 +185,7 @@ class BCDefaults {
     'node' => [
       'list_string' => [],
       'string' => [],
+      'string_long' => [],
       'text' => [
         'settings' => [],
         'third_party_settings' => [],
@@ -227,6 +243,7 @@ class BCDefaults {
     'taxonomy_term' => [
       'list_string' => [],
       'string' => [],
+      'string_long' => [],
       'text' => [
         'settings' => [],
         'third_party_settings' => [],
@@ -284,6 +301,7 @@ class BCDefaults {
     'paragraph' => [
       'list_string' => [],
       'string' => [],
+      'string_long' => [],
       'text' => [
         'settings' => [],
         'third_party_settings' => [],
@@ -356,6 +374,14 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'string_long' => [
+        'type' => 'string_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
+          'placeholder' => '',
+        ],
+      ],
       'text' => [
         'type' => 'text_textfield',
         'weight' => 0,
@@ -447,6 +473,14 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'string_long' => [
+        'type' => 'string_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
+          'placeholder' => '',
+        ],
+      ],
       'text' => [
         'type' => 'text_textfield',
         'weight' => 0,
@@ -535,6 +569,14 @@ class BCDefaults {
         'weight' => 0,
         'settings' => [
           'size' => 25,
+          'placeholder' => '',
+        ],
+      ],
+      'string_long' => [
+        'type' => 'string_textarea',
+        'weight' => 0,
+        'settings' => [
+          'rows' => 5,
           'placeholder' => '',
         ],
       ],
@@ -632,6 +674,12 @@ class BCDefaults {
           'link_to_entity' => FALSE,
         ],
       ],
+      'string_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'basic_string',
+        'settings' => [],
+      ],
       'text' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -677,6 +725,12 @@ class BCDefaults {
           'link_to_entity' => FALSE,
         ],
       ],
+      'string_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'basic_string',
+        'settings' => [],
+      ],
       'text' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -721,6 +775,12 @@ class BCDefaults {
         'settings' => [
           'link_to_entity' => FALSE,
         ],
+      ],
+      'string_long' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'basic_string',
+        'settings' => [],
       ],
       'text' => [
         'weight' => 0,
