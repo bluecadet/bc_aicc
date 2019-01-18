@@ -688,23 +688,36 @@ class ImportBatch {
 
     $field = FieldConfig::loadByName($entity, $bundle, $field_machine_name);
     if (empty($field)) {
-      $field = entity_create('field_config', [
+      $field_opts = [
         'field_storage' => $field_storage,
         'bundle' => $bundle,
         'label' => $instance_settings['label'],
         'description' => $instance_settings['description'],
         'required' => $instance_settings['required'],
         'settings' => $instance_settings,
-      ]);
+      ];
+
+      if (isset($instance_settings['third_party_settings'])) {
+        $field_opts['third_party_settings'] = $instance_settings['third_party_settings'];
+      }
+
+      $field = entity_create('field_config', $field_opts);
       $field->save();
       ksm($field);
 
       $messages[] = t("Field instance: %name created.", ['%name' => $row['name']]);
 
       // Assign widget settings for the 'default' form mode.
-      entity_get_form_display($entity, $bundle, 'default')
-        ->setComponent($field_machine_name, $form_settings)
-        ->save();
+      $entity_form_display = entity_get_form_display($entity, $bundle, 'default');
+      $entity_form_display->setComponent($field_machine_name, $form_settings);
+      if (isset($form_settings['third_party_settings'])) {
+        foreach($form_settings['third_party_settings'] as $tps_module => $tps_settings) {
+          foreach ($tps_settings as $tps_key => $tps_value) {
+            $entity_form_display->setThirdPartySetting($tps_module, $tps_key, $tps_value);
+          }
+        }
+      }
+      $entity_form_display->save();
 
       // Assign display settings for the 'default' and 'teaser' view modes.
       entity_get_display($entity, $bundle, 'default')

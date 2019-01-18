@@ -235,7 +235,7 @@ class BCDefaults {
       'string' => [],
       'text_long' => [
         'settings' => [],
-        'third_part_settings' => [],
+        'third_party_settings' => [],
       ],
       'entity_reference' => [
         'node' => [
@@ -650,7 +650,12 @@ class BCDefaults {
     $instance_settings['description'] = $row['description'];
     $instance_settings['required'] = $row['required'];
 
+
     $instance_settings = array_merge($instance_settings, $row['field_settings']);
+    $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
+
+    drupal_set_message("here", "status", TRUE);
+    ksm($instance_settings, $row);
 
     switch ($row['field_type']) {
       case 'entity_reference_revisions':
@@ -706,7 +711,8 @@ class BCDefaults {
     if (!empty($settings['third_party_settings']) || !empty($row['form_third_party_settings'])) {
       $settings['third_party_settings'] = array_merge($settings['third_party_settings'], $row['form_third_party_settings']);
     }
-    else if (isset($settings['third_party_settings']) && empty($settings['third_party_settings'])) {
+
+    if (isset($settings['third_party_settings']) && empty($settings['third_party_settings'])) {
       unset($settings['third_party_settings']);
     }
 
@@ -724,6 +730,10 @@ class BCDefaults {
 
     if (!empty($settings['third_party_settings']) || !empty($row['display_type_third_party_settings'])) {
       $settings['third_party_settings'] = array_merge($settings['third_party_settings'], $row['display_type_third_party_settings']);
+    }
+
+    if (isset($settings['third_party_settings']) && empty($settings['third_party_settings'])) {
+      unset($settings['third_party_settings']);
     }
 
     return $settings;

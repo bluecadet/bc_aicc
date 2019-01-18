@@ -141,10 +141,10 @@ class ImportMapper {
       $new_row['allowed_values'] = $this->helper->splitAllowedValues($new_row['entity_reference']);
       // @TODO: should we delete this?
       // unset($new_row['entity_reference']);
+      return $new_row;
     }
-    else {
-      $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
-    }
+
+    $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
 
     return $new_row;
   }
