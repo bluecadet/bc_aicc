@@ -19,27 +19,100 @@ use Drupal\paragraphs\Entity\ParagraphsType;
 /**
  *
  */
+function setPlaceHolders(&$placeholders, $string) {
+  preg_match_all('/(\[[^\[\]]*\])/', $string, $matches);
+  // ksm($matches);
+
+  if (!empty($matches[0])) {
+    $p_key = "#PLACEHOLDER" . (count($placeholders) + 1);
+    $placeholders[$p_key] = $matches[0][0];
+    // ksm($string);
+
+    $string = str_replace($matches[0][0], $p_key, $string);
+    // ksm($string);
+    $string = setPlaceHolders($placeholders, $string);
+  }
+
+  return $string;
+}
+
+function ps($val) {
+
+  $altered_val = $val;
+
+  $placeholders = [];
+  $altered_val = setPlaceHolders($placeholders, $altered_val);
+
+  // ksm($placeholders);
+  // drupal_set_message($altered_val);
+
+  return ps2($altered_val, $placeholders);
+}
+
+function ps2($val, $placeholders) {
+
+  $data = [];
+
+  $d1 = explode(";", $val);
+  foreach ($d1 as $d) {
+    if (!empty($d)) {
+      $d2 = explode(":", $d);
+      if (!empty($d2)) {
+        // ksm($d2, substr($d2[1], 0, 1), substr($d2[1], -1));
+
+        if (count($d2) == 1) {
+          $data[] = is_numeric($d2[0]) ? ($d2[0] + 0) : $d2[0];
+        }
+        else if (isset($placeholders[$d2[1]])) {
+          // drupal_set_message("H", 'status', TRUE);
+
+          $data[$d2[0]] = ps2(substr($placeholders[$d2[1]], 1, -1), $placeholders);
+        }
+        else {
+          $data[$d2[0]] = is_numeric($d2[1]) ? ($d2[1] + 0) : $d2[1];
+        }
+      }
+    }
+  }
+
+  return $data;
+}
+
 class Test extends ControllerBase {
 
   public function viewTest() {
 
-    $array = [
-      'test1' => [
-        'test2' => 'BOB',
-      ],
-    ];
-    $array2 = [];
 
-    $keys = ['test1', 'test2'];
+    $str1 = 'id:id-1;classes:something something2;direction:vertical';
+    $str2 = 'id:id-1;classes:something something2;vertical';
+    $str6 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]]';
+    $str7 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]];another_array:[1;2:2;3;4]';
+
+    ksm(ps($str1));
+    ksm(ps($str2));
+    ksm(ps($str6));
+    ksm(ps($str7));
+
+    // $array = [
+    //   'test1' => [
+    //     'test2' => 'BOB',
+    //     'test3' => 'BOB',
+    //   ],
+    // ];
+
+    // print json_encode($array);
+    // $array2 = [];
+
+    // $keys = ['test1', 'test2'];
 
 
-    $current = &$array;
-    foreach ($keys as $key) {
-      $current = &$current[$key];
-    }
-    // $current = $value;
-    ksm($current);
-    ksm($array);
+    // $current = &$array;
+    // foreach ($keys as $key) {
+    //   $current = &$current[$key];
+    // }
+    // // $current = $value;
+    // ksm($current);
+    // ksm($array);
 
 
     // $vocab_settings = [
