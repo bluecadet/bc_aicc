@@ -231,7 +231,7 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
-      'list_text' => [],
+      'list_string' => [],
       'string' => [],
       'text_long' => [
         'settings' => [],
@@ -401,7 +401,7 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
-      'list_text' => [
+      'list_string' => [
         'type' => 'options_select',
         'weight' => 0,
         'settings' => [],
@@ -535,7 +535,7 @@ class BCDefaults {
       ],
     ],
     'paragraph' => [
-      'list_text' => [
+      'list_string' => [
         'weight' => 0,
         'label' => 'hidden',
         'type' => 'list_default',
@@ -627,6 +627,11 @@ class BCDefaults {
 
     $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
 
+    switch($row['field_type']) {
+      case 'list_string':
+        $storage_settings['settings']['allowed_values'] = $row['allowed_values'];
+        break;
+    }
     return $storage_settings;
   }
 
@@ -698,6 +703,13 @@ class BCDefaults {
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
 
+    if (!empty($settings['third_party_settings']) || !empty($row['form_third_party_settings'])) {
+      $settings['third_party_settings'] = array_merge($settings['third_party_settings'], $row['form_third_party_settings']);
+    }
+    else if (isset($settings['third_party_settings']) && empty($settings['third_party_settings'])) {
+      unset($settings['third_party_settings']);
+    }
+
     return $settings;
   }
 
@@ -709,6 +721,10 @@ class BCDefaults {
 
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['display_type_settings']);
+
+    if (!empty($settings['third_party_settings']) || !empty($row['display_type_third_party_settings'])) {
+      $settings['third_party_settings'] = array_merge($settings['third_party_settings'], $row['display_type_third_party_settings']);
+    }
 
     return $settings;
   }

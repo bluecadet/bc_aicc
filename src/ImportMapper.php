@@ -139,15 +139,11 @@ class ImportMapper {
 
     if (in_array($new_row['field_type'], ['list_string'])) {
       $new_row['allowed_values'] = $this->helper->splitAllowedValues($new_row['entity_reference']);
-      unset($new_row['entity_reference']);
+      // @TODO: should we delete this?
+      // unset($new_row['entity_reference']);
     }
     else {
       $new_row['entity_reference'] = $this->helper->splitEntityReferenceValue($new_row['entity_reference']);
-    }
-
-    if (in_array($new_row['field_type'], ['list_string', 'text_long'])) {
-      drupal_set_message("HERE", 'status', true);
-      ksm($new_row);
     }
 
     return $new_row;
