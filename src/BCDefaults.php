@@ -95,6 +95,11 @@ class BCDefaults {
           'max_length' => 255,
         ],
       ],
+      'text' => [
+        'settings' => [
+          'max_length' => 255,
+        ]
+      ],
       'text_long' => [
         'settings' => []
       ],
@@ -233,6 +238,10 @@ class BCDefaults {
     'paragraph' => [
       'list_string' => [],
       'string' => [],
+      'text' => [
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
       'text_long' => [
         'settings' => [],
         'third_party_settings' => [],
@@ -415,6 +424,20 @@ class BCDefaults {
           'placeholder' => '',
         ],
       ],
+      'text' => [
+        'type' => 'text_textfield',
+        'weight' => 0,
+        'settings' => [
+          'size' => 60,
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [
+          'allowed_formats' => [
+            'hide_help' => 1,
+            'hide_guidlines' => 1,
+          ]
+        ],
+      ],
       'text_long' => [
         'type' => 'text_textarea',
         'weight' => 0,
@@ -548,6 +571,12 @@ class BCDefaults {
         'settings' => [
           'link_to_entity' => FALSE,
         ],
+      ],
+      'text' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'text_default',
+        'settings' => [],
       ],
       'text_long' => [
         'weight' => 0,
