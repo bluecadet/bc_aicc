@@ -14,6 +14,7 @@ class BCDefaults {
     'type' => '',
     'field_name' => '',
     'cardinality' => 1,
+    'settings' => [],
   ];
 
   public $defaultFieldStorageSettings = [
@@ -188,7 +189,9 @@ class BCDefaults {
           'datetime_type' => 'datetime',
         ],
       ],
-      'boolean' => [],
+      'boolean' => [
+        'settings' => [],
+      ],
       'list_float' => [
         'settings' => [
           'allowed_values' => [],
@@ -207,7 +210,9 @@ class BCDefaults {
           'scale' => 2,
         ],
       ],
-      'float' => [],
+      'float' => [
+        'settings' => [],
+      ],
       'integer' => [
         'settings' => [
           'unsigned' => FALSE,
@@ -427,11 +432,11 @@ class BCDefaults {
           'on_label' => 'On',
           'off_label' => 'Off',
         ],
-        'default_value' => [
-          [
-            'value' => 0,
-          ],
-        ],
+        // 'default_value' => [
+        //   [
+        //     'value' => 0,
+        //   ],
+        // ],
       ],
       'list_float' => [],
       'list_integer' => [],
@@ -786,8 +791,8 @@ class BCDefaults {
       'datetime' => [
         'type' => 'datetime_default',
         'weight' => 0,
+        'settings' => [],
       ],
-
       'boolean' => [
         'type' => 'boolean_checkbox',
         'weight' => 0,
@@ -1143,6 +1148,8 @@ class BCDefaults {
 
     switch ($row['field_type']) {
       case 'list_string':
+      case 'list_float':
+      case 'list_integer':
         $storage_settings['settings']['allowed_values'] = $row['allowed_values'];
         break;
     }
@@ -1167,8 +1174,8 @@ class BCDefaults {
     $instance_settings = array_merge($instance_settings, $row['field_settings']);
     $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
 
-    drupal_set_message("here", "status", TRUE);
-    ksm($instance_settings, $row);
+    // drupal_set_message("here", "status", TRUE);
+    // ksm($instance_settings, $row);
 
     switch ($row['field_type']) {
       case 'entity_reference_revisions':
@@ -1239,8 +1246,8 @@ class BCDefaults {
     $settings = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']];
 
     $settings['weight'] = $weight;
-    $settings['label'] = $row['display_label'];
-    $settings['type'] = $row['display_type'];
+    $settings['label'] = !empty($row['display_label']) ? $row['display_label'] : $settings['label'];
+    $settings['type'] = !empty($row['display_type'])? $row['display_type'] : $settings['type'];
     $settings['settings'] = array_merge($settings['settings'], $row['display_type_settings']);
 
     if (!empty($settings['third_party_settings']) || !empty($row['display_type_third_party_settings'])) {

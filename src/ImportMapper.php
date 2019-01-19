@@ -140,7 +140,7 @@ class ImportMapper {
     $new_row['display_type_settings'] = $this->helper->explodeSettingsField($new_row['display_type_settings']);
     $new_row['display_type_third_party_settings'] = $this->helper->explodeSettingsField($new_row['display_type_third_party_settings']);
 
-    if (in_array($new_row['field_type'], ['list_string'])) {
+    if (in_array($new_row['field_type'], ['list_string', 'list_float', 'list_integer'])) {
       $new_row['allowed_values'] = $this->helper->splitAllowedValues($new_row['entity_reference']);
       // @TODO: should we delete this?
       // unset($new_row['entity_reference']);
