@@ -87,7 +87,7 @@ class ImportMapper {
    * Map Node Field data.
    */
   public function setKeysAndProcessNodeField($row) {
-    return $this->setKeysAndProcessField($row, 14, 17);
+    return $this->setKeysAndProcessField($row, 15, 17);
   }
 
   /**
