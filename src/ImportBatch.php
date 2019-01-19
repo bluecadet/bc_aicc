@@ -183,6 +183,13 @@ class ImportBatch {
         $current_raw_row = $context['results']['taxonomy_data']['raw_data'][$i];
         $current_row = $context['results']['taxonomy_data']['processed_data'][$i];
 
+        // If we reached Marked END, we are finished. Won't process anything after this.
+        if ($current_raw_row[0] == 'END') {
+          $context['finished'] = 1;
+          $context['message'] = "Processed Taxonomy Data";
+          return;
+        }
+
         // Process Bundle.
         if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
           $context['sandbox']['current_bundle'] = $current_row['vid'];
@@ -324,6 +331,13 @@ class ImportBatch {
         $current_raw_row = $context['results']['paragraphs_data']['raw_data'][$i];
         $current_row = $context['results']['paragraphs_data']['processed_data'][$i];
 
+        // If we reached Marked END, we are finished. Won't process anything after this.
+        if ($current_raw_row[0] == 'END') {
+          $context['finished'] = 1;
+          $context['message'] = "Processed Paragraph Data";
+          return;
+        }
+
         // Process Bundle.
         if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
           $context['sandbox']['current_bundle'] = $current_row['id'];
@@ -387,6 +401,13 @@ class ImportBatch {
       if (isset($context['results']['content_data']['raw_data'][$i])) {
         $current_raw_row = $context['results']['content_data']['raw_data'][$i];
         $current_row = $context['results']['content_data']['processed_data'][$i];
+
+        // If we reached Marked END, we are finished. Won't process anything after this.
+        if ($current_raw_row[0] == 'END') {
+          $context['finished'] = 1;
+          $context['message'] = "Processed Content Data";
+          return;
+        }
 
         // Process Bundle.
         if ($current_raw_row[0] == 'BUNDLE' || !empty($current_raw_row[1])) {
