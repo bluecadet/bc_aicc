@@ -181,6 +181,39 @@ class BCDefaults {
           'target_type' => 'paragraph',
         ],
       ],
+      'datetime' => [
+        'cardinality' => 1,
+        'settings' => [
+          // datetime: Date and time | date: Date only
+          'datetime_type' => 'datetime',
+        ],
+      ],
+      'boolean' => [],
+      'list_float' => [
+        'settings' => [
+          'allowed_values' => [],
+          'allowed_values_function' => '',
+        ],
+      ],
+      'list_integer' => [
+        'settings' => [
+          'allowed_values' => [],
+          'allowed_values_function' => '',
+        ],
+      ],
+      'decimal' => [
+        'settings' => [
+          'precision' => 10,
+          'scale' => 2,
+        ],
+      ],
+      'float' => [],
+      'integer' => [
+        'settings' => [
+          'unsigned' => FALSE,
+          'size' => 'normal',
+        ],
+      ],
     ],
   ];
 
@@ -205,9 +238,9 @@ class BCDefaults {
       ],
       'link' => [
         'settings' => [
-      // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
+          // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
           'link_type' => 17,
-      // 0 = Disabled | 1 = Optional | 2 = Required.
+          // 0 = Disabled | 1 = Optional | 2 = Required.
           'title' => 2,
         ],
       ],
@@ -271,9 +304,9 @@ class BCDefaults {
       ],
       'link' => [
         'settings' => [
-      // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
+          // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
           'link_type' => 17,
-      // 0 = Disabled | 1 = Optional | 2 = Required.
+          // 0 = Disabled | 1 = Optional | 2 = Required.
           'title' => 2,
         ],
       ],
@@ -337,11 +370,10 @@ class BCDefaults {
       ],
       'link' => [
         'settings' => [
-      // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
+          // 1 = Internal Links Only | 16 = External Links only | 17 = Both internal & external.
           'link_type' => 17,
-          'title' => 2, /**
- * 0 = Disabled | 1 = Optional | 2 = Required.
- */
+          // 0 = Disabled | 1 = Optional | 2 = Required.
+          'title' => 2,
         ],
       ],
       'entity_reference' => [
@@ -387,6 +419,44 @@ class BCDefaults {
           'negate' => 0,
           'target_bundles' => [],
           'target_bundles_drag_drop' => [],
+        ],
+      ],
+      'datetime' => [],
+      'boolean' => [
+        'settings' => [
+          'on_label' => 'On',
+          'off_label' => 'Off',
+        ],
+        'default_value' => [
+          [
+            'value' => 0,
+          ],
+        ],
+      ],
+      'list_float' => [],
+      'list_integer' => [],
+      'decimal' => [
+        'settings' => [
+          'min' => null,
+          'max' => null,
+          'prefix' => '',
+          'suffix' => '',
+        ],
+      ],
+      'float' => [
+        'settings' => [
+          'min' => null,
+          'max' => null,
+          'prefix' => '',
+          'suffix' => '',
+        ],
+      ],
+      'integer' => [
+        'settings' => [
+          'min' => null,
+          'max' => null,
+          'prefix' => '',
+          'suffix' => '',
         ],
       ],
     ],
@@ -713,6 +783,55 @@ class BCDefaults {
           'default_paragraph_type' => '_none',
         ],
       ],
+      'datetime' => [
+        'type' => 'datetime_default',
+        'weight' => 0,
+      ],
+
+      'boolean' => [
+        'type' => 'boolean_checkbox',
+        'weight' => 0,
+        'settings' => [
+          'display_label' => TRUE,
+        ],
+        'third_party_settings' => [],
+      ],
+      'list_float' => [
+        'type' => 'options_select',
+        'weight' => 0,
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
+      'list_integer' => [
+        'type' => 'options_select',
+        'weight' => 0,
+        'settings' => [],
+        'third_party_settings' => [],
+      ],
+      'decimal' => [
+        'type' => 'number',
+        'weight' => 0,
+        'settings' => [
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+      ],
+      'float' => [
+        'type' => 'number',
+        'weight' => 0,
+        'settings' => [
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+      ],
+      'integer' => [
+        'type' => 'number',
+        'weight' => 0,
+        'settings' => [
+          'placeholder' => '',
+        ],
+        'third_party_settings' => [],
+      ],
     ],
   ];
 
@@ -903,6 +1022,68 @@ class BCDefaults {
         'type' => 'entity_reference_revisions_entity_view',
         'settings' => [
           'view_mode' => 'default',
+        ],
+      ],
+      'datetime' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'datetime_default',
+        'settings' => [
+          'timezone_override' => '',
+          'format_type' => 'medium',
+        ],
+      ],
+      'boolean' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'boolean',
+        'settings' => [
+          'format' => 'true-false',
+          'format_custom_true' => '',
+          'format_custom_false' => '',
+        ],
+      ],
+      'list_float' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'settings' => [],
+      ],
+      'list_integer' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'list_default',
+        'settings' => [],
+      ],
+      'decimal' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'number_decimal',
+        'settings' => [
+          'thousand_separator' => ',',
+          'decimal_separator' => '.',
+          'scale' => 2,
+          'prefix_suffix' => TRUE,
+        ],
+      ],
+      'float' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'number_decimal',
+        'settings' => [
+          'thousand_separator' => ',',
+          'decimal_separator' => '.',
+          'scale' => 2,
+          'prefix_suffix' => TRUE,
+        ],
+      ],
+      'integer' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'number_integer',
+        'settings' => [
+          'thousand_separator' => ',',
+          'prefix_suffix' => TRUE,
         ],
       ],
     ],
