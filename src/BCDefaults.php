@@ -1493,6 +1493,28 @@ class BCDefaults {
   /**
    * Getter methods.
    */
+
+  public function getEntityNodeSettings($row) {
+    $defaults = [
+      'bundle' => $row['bundle'],
+      'name' => $row['name'],
+      'description' => $row['description'],
+      'title_label' => !empty($row['title_label'])? $row['title_label'] : 'Title',
+      'preview_mode' => !empty($row['preview_mode'])? $row['preview_mode'] : FALSE,
+      'help' => !empty($row['help'])? $row['help'] : '',
+      'new_revision' => !empty($row['new_revision'])? $row['new_revision'] : TRUE,
+      'display_submitted' => !empty($row['display_submitted'])? $row['display_submitted'] : FALSE,
+      'status' => !empty($row['status'])? $row['status'] : FALSE,
+      'promote' => !empty($row['promote'])? $row['promote'] : FALSE,
+      'sticky' => !empty($row['sticky'])? $row['sticky'] : FALSE,
+      'available_menus' => !empty($row['available_menus'])? $row['available_menus'] : 'main',
+      'parent' => !empty($row['parent'])? $row['parent'] : "mani:",
+      'pathauto' => !empty($row['pathauto'])? $row['pathauto'] : '[node:title]',
+    ];
+
+    return $defaults;
+  }
+
   public function getFieldStorageSettings($row, $entity_type) {
 
     if ($row['field_type'] == 'entity_reference') {

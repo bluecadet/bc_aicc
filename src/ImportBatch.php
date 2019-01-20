@@ -555,41 +555,45 @@ class ImportBatch {
     // Check if Content Type exists.
     $node_type = NodeType::load($row['bundle']);
 
+    $entity_defaults = $this->defaults->getEntityNodeSettings($row);
+    ksm($entity_defaults);
+
     // If not, add it.
     if (empty($node_type)) {
       $content_type = NodeType::create([
-        'type' => $row['bundle'],
-        'name' => $row['name'],
-        'description' => $row['description'],
-        'title_label' => $row['title_label'],
-        'preview_mode' => $row['preview_mode'],
-        'help' => $row['help'],
-        'new_revision' => $row['new_revision'],
-        'display_submitted' => $row['display_submitted'],
+        'type' => $entity_defaults['bundle'],
+        'name' => $entity_defaults['name'],
+        'description' => $entity_defaults['description'],
+        'title_label' => $entity_defaults['title_label'],
+        'preview_mode' => $entity_defaults['preview_mode'],
+        'help' => $entity_defaults['help'],
+        'new_revision' => $entity_defaults['new_revision'],
+        'display_submitted' => $entity_defaults['display_submitted'],
       ]);
+      // $content_type = NodeType::create($entity_defaults);
 
       // Menu.
-      $menus = explode(",", $row['available_menus']);
+      $menus = explode(",", $entity_defaults['available_menus']);
       $content_type->setThirdPartySetting('menu_ui', 'available_menus', $menus);
-      $content_type->setThirdPartySetting('menu_ui', 'parent', $row['parent']);
+      $content_type->setThirdPartySetting('menu_ui', 'parent', $entity_defaults['parent']);
 
       $content_type->isNew();
       $content_type->save();
 
-      $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $row['bundle']);
-      $fields['status']->getConfig($row['bundle'])
-        ->setDefaultValue($row['status'])
+      $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $entity_defaults['bundle']);
+      $fields['status']->getConfig($entity_defaults['bundle'])
+        ->setDefaultValue($entity_defaults['status'])
         ->save();
 
-      $fields['promote']->getConfig($row['bundle'])
-        ->setDefaultValue($row['promote'])
+      $fields['promote']->getConfig($entity_defaults['bundle'])
+        ->setDefaultValue($entity_defaults['promote'])
         ->save();
 
-      $fields['sticky']->getConfig($row['bundle'])
-        ->setDefaultValue($row['sticky'])
+      $fields['sticky']->getConfig($entity_defaults['bundle'])
+        ->setDefaultValue($entity_defaults['sticky'])
         ->save();
 
-      $messages[] = "Content Type: " . $row['name'] . ' created.';
+      $messages[] = "Content Type: " . $entity_defaults['name'] . ' created.';
     }
     else {
       switch ($import_method) {
