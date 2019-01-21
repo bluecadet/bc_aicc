@@ -1556,15 +1556,14 @@ class BCDefaults {
     $instance_settings['required'] = $row['required'];
 
     $instance_settings = array_merge($instance_settings, $row['field_settings']);
-    $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
-
-    // drupal_set_message("here", "status", TRUE);
-    // ksm($instance_settings, $row);
+    if (isset($row['field_third_party_settings'])) {
+      $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
+    }
 
     switch ($row['field_type']) {
       case 'entity_reference_revisions':
         // Process 'target_bundles' & 'target_bundles_drag_drop'.
-        ksm($row);
+        // ksm($row);
         $weight = 0;
         $paragraph_types = array_keys(ParagraphsType::loadMultiple());
 
@@ -1591,7 +1590,7 @@ class BCDefaults {
           $weight++;
         }
 
-        ksm($instance_settings);
+        // ksm($instance_settings);
         break;
     }
 

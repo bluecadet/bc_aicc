@@ -9,6 +9,8 @@ use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 
+define("ROW_COUNT", 5);
+
 /**
  *
  */
@@ -54,8 +56,8 @@ class ImportBatch {
    *
    */
   public function buildTaxonomyData($file, &$context) {
-    drupal_set_message("Start buildTaxonomyData");
-    ksm($context, $file);
+    // drupal_set_message("Start buildTaxonomyData");
+    // ksm($context, $file);
 
     $data = $this->buildTaxonomyDataFromFile($file);
 
@@ -71,8 +73,8 @@ class ImportBatch {
    *
    */
   public function buildParagraphsData($file, &$context) {
-    drupal_set_message("Start buildParagraphsData");
-    ksm($context, $file);
+    // drupal_set_message("Start buildParagraphsData");
+    // ksm($context, $file);
 
     $data = $this->buildParagraphsDataFromFile($file);
 
@@ -102,8 +104,8 @@ class ImportBatch {
    *
    */
   public function validateTaxonomyData(&$context) {
-    drupal_set_message("Start validateData");
-    ksm($context);
+    // drupal_set_message("Start validateData");
+    // ksm($context);
 
     // Validate csv file.
     //  - third row, first Col should start new Vocab.
@@ -121,8 +123,8 @@ class ImportBatch {
    *
    */
   public function validateParagraphsData(&$context) {
-    drupal_set_message("Start validateParagraphsData");
-    ksm($context);
+    // drupal_set_message("Start validateParagraphsData");
+    // ksm($context);
 
     // Validate csv file.
     //  - third row, first Col should start new Paragraph Bundle.
@@ -140,8 +142,8 @@ class ImportBatch {
    *
    */
   public function validateContentData(&$context) {
-    ksm("Start validateData");
-    ksm($context);
+    // ksm("Start validateData");
+    // ksm($context);
 
     // Validate csv file.
     //  - third row, first Col should start new Content type.
@@ -159,8 +161,8 @@ class ImportBatch {
    *
    */
   public function processTaxonomyData($pass, &$context) {
-    drupal_set_message("Start processTaxonomyData");
-    ksm($context);
+    // drupal_set_message("Start processTaxonomyData");
+    // ksm($context);
 
     if (empty($context['sandbox'])) {
       // If there is no valid file... just keep going.
@@ -177,7 +179,7 @@ class ImportBatch {
 
     $c = 0;
     $start_row = $context['sandbox']['current_row'];
-    while ($c < 5) {
+    while ($c < ROW_COUNT) {
       $i = ($start_row + $c);
       if (isset($context['results']['taxonomy_data']['raw_data'][$i])) {
         $current_raw_row = $context['results']['taxonomy_data']['raw_data'][$i];
@@ -219,8 +221,8 @@ class ImportBatch {
    *
    */
   public function processTaxonomyTerms(&$context) {
-    drupal_set_message("Start processTaxonomyTerms");
-    ksm($context);
+    // drupal_set_message("Start processTaxonomyTerms");
+    // ksm($context);
 
     if (empty($context['sandbox'])) {
       // If there is no valid file... just keep going.
@@ -273,7 +275,7 @@ class ImportBatch {
 
     $c = 0;
     $start_row = $context['sandbox']['current_row'];
-    while ($c < 5) {
+    while ($c < ROW_COUNT) {
       $i = ($start_row + $c);
 
       if (isset($context['sandbox']['terms_to_create'][$i])) {
@@ -307,8 +309,8 @@ class ImportBatch {
    *
    */
   public function processParagraphsData($pass, &$context) {
-    drupal_set_message("Start processParagraphsData");
-    ksm($context);
+    // drupal_set_message("Start processParagraphsData");
+    // ksm($context);
 
     if (empty($context['sandbox'])) {
       // $context['sandbox']['progress'] = 0;.
@@ -325,7 +327,7 @@ class ImportBatch {
 
     $c = 0;
     $start_row = $context['sandbox']['current_row'];
-    while ($c < 5) {
+    while ($c < ROW_COUNT) {
       $i = ($start_row + $c);
       if (isset($context['results']['paragraphs_data']['raw_data'][$i])) {
         $current_raw_row = $context['results']['paragraphs_data']['raw_data'][$i];
@@ -378,8 +380,8 @@ class ImportBatch {
    *
    */
   public function processContentData($pass, &$context) {
-    ksm("Start processContentData");
-    ksm($context);
+    // ksm("Start processContentData");
+    // ksm($context);
 
     if (empty($context['sandbox'])) {
       // $context['sandbox']['progress'] = 0;.
@@ -396,7 +398,7 @@ class ImportBatch {
 
     $c = 0;
     $start_row = $context['sandbox']['current_row'];
-    while ($c < 5) {
+    while ($c < ROW_COUNT) {
       $i = ($start_row + $c);
       if (isset($context['results']['content_data']['raw_data'][$i])) {
         $current_raw_row = $context['results']['content_data']['raw_data'][$i];
@@ -430,17 +432,20 @@ class ImportBatch {
     }
 
     $context['finished'] = $context['sandbox']['current_row'] / $context['sandbox']['max'];
-    $context['message'] = "Processing Content Data: " . $pass;
+    $context['message'] = "Processing Content Data: Pass => " . $pass . "; Current Row => " . $context['sandbox']['current_row'];
   }
 
   /**
    *
    */
   public function cleanUp(&$context) {
-    drupal_set_message("Start removeFile");
-    ksm($context);
+    // drupal_set_message("Start removeFile");
+    // ksm($context);
 
+    file_delete($context['results']['taxonomy_fid']);
+    file_delete($context['results']['paragraphs_fid']);
     file_delete($context['results']['content_fid']);
+
     $context['results']['cleanup']['msg'][] = 'Content CSV File marked for deletion.';
     $context['message'] = "Cleaning up.";
   }
@@ -449,8 +454,8 @@ class ImportBatch {
    *
    */
   public function importFinished($success, $results, $operations) {
-    drupal_set_message("Start importFinished");
-    ksm($success, $results, $operations);
+    // drupal_set_message("Start importFinished");
+    // ksm($success, $results, $operations);
 
     if ($success) {
       $msgs = [];
@@ -674,25 +679,25 @@ class ImportBatch {
    *
    */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
-    drupal_set_message("Start processFields", "status", TRUE);
-    ksm($row);
+    // drupal_set_message("Start processFields", "status", TRUE);
+    // ksm($row);
     $field_machine_name = $row['machine_name'];
 
     $storage_settings = $this->defaults->getFieldStorageSettings($row, $entity);
     $instance_settings = $this->defaults->getFieldInstanceSettings($row, $entity);
-    ksm($storage_settings, $instance_settings);
+    // ksm($storage_settings, $instance_settings);
 
     $form_settings = $this->defaults->getFieldFormSettings($row, ($weight + 50), $entity);
     $display_settings = $this->defaults->getFieldDisplaySettings($row, $weight, $entity);
-    ksm($form_settings, $display_settings);
+    // ksm($form_settings, $display_settings);
 
     $field_storage = FieldStorageConfig::loadByName($entity, $field_machine_name);
-    ksm($field_storage);
+    // ksm($field_storage);
 
     if (empty($field_storage)) {
       $field_storage = FieldStorageConfig::create($storage_settings);
       $field_storage->save();
-      ksm($field_storage);
+      // ksm($field_storage);
       $messages[] = t("Field storage: %name created.", ['%name' => $row['name']]);
     }
     else {
@@ -728,7 +733,7 @@ class ImportBatch {
 
       $field = entity_create('field_config', $field_opts);
       $field->save();
-      ksm($field);
+      // ksm($field);
 
       $messages[] = t("Field instance: %name created.", ['%name' => $row['name']]);
 
