@@ -699,7 +699,11 @@ class BCDefaults {
             'collapsed' => FALSE,
             'allow_duplicate' => FALSE,
           ],
-          'third_party_settings' => [],
+          'third_party_settings' => [
+            'entity_browser_entity_form' => [
+              'entity_browser_id' => 'image_browser',
+            ],
+          ],
         ],
       ],
       'entity_reference_revisions' => [
@@ -855,7 +859,11 @@ class BCDefaults {
             'collapsed' => FALSE,
             'allow_duplicate' => FALSE,
           ],
-          'third_party_settings' => [],
+          'third_party_settings' => [
+            'entity_browser_entity_form' => [
+              'entity_browser_id' => 'image_browser',
+            ],
+          ],
         ],
       ],
       'entity_reference_revisions' => [
@@ -1011,7 +1019,11 @@ class BCDefaults {
             'collapsed' => FALSE,
             'allow_duplicate' => FALSE,
           ],
-          'third_party_settings' => [],
+          'third_party_settings' => [
+            'entity_browser_entity_form' => [
+              'entity_browser_id' => 'image_browser',
+            ],
+          ],
         ],
       ],
       'entity_reference_revisions' => [
