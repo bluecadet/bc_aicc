@@ -1538,7 +1538,10 @@ class BCDefaults {
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
     $storage_settings['field_name'] = $row['machine_name'];
-    $storage_settings['cardinality'] = $row['cardinality'];
+
+    if (!empty($row['cardinality']) ) {
+      $storage_settings['cardinality'] = $row['cardinality'];
+    }
 
     $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
 
@@ -1665,7 +1668,10 @@ class BCDefaults {
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
     $storage_settings['field_name'] = $row['machine_name'];
-    $storage_settings['cardinality'] = $row['cardinality'];
+
+    if (!empty($row['cardinality']) ) {
+      $storage_settings['cardinality'] = $row['cardinality'];
+    }
 
     $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
 
