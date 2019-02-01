@@ -1713,6 +1713,14 @@ class BCDefaults {
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
 
+    if (!empty($settings['third_party_settings']) || !empty($row['form_third_party_settings'])) {
+      $settings['third_party_settings'] = array_merge($settings['third_party_settings'], $row['form_third_party_settings']);
+    }
+
+    if (isset($settings['third_party_settings']) && empty($settings['third_party_settings'])) {
+      unset($settings['third_party_settings']);
+    }
+
     return $settings;
   }
 
