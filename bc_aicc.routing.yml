@@ -6,7 +6,7 @@ bc_aicc.test:
   requirements:
     _permission: 'access administration pages'
 
-bc_aicc.import:
+bc_aicc.bc-aicc:
   path: '/admin/config/content/bc-aicc'
   defaults:
     _controller: '\Drupal\system\Controller\SystemController::systemAdminMenuBlockPage'

@@ -1,7 +1,7 @@
 
-bc_aicc.import:
+bc_aicc.bc-aicc:
   title: 'Auto Import'
-  route_name: bc_aicc.import
+  route_name: bc_aicc.bc-aicc
   parent: system.admin_config
   description: 'Import config settings from csv files.'
   weight: 1000
@@ -9,13 +9,13 @@ bc_aicc.import:
 bc_aicc.test:
   title: 'Test Page'
   route_name: bc_aicc.test
-  parent: bc_aicc.import
+  parent: bc_aicc.bc-aicc
   description: 'Test page for development purposes.'
   weight: -100
 
 bc_aicc.import_content:
   title: 'Import Content'
   route_name: bc_aicc.import_content
-  parent: bc_aicc.import
+  parent: bc_aicc.bc-aicc
   description: 'Import Content settings from CSV'
   weight: 100

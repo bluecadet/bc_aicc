@@ -5,7 +5,7 @@ package: Bluecadet
 version: '8.x-1.0.1'
 core: 8.x
 
-# configure:
+configure: bc_aicc.bc-aicc
 
 dependencies:
  - menu_ui

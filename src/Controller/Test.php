@@ -85,11 +85,13 @@ class Test extends ControllerBase {
 
     $str1 = 'id:id-1;classes:something something2;direction:vertical';
     $str2 = 'id:id-1;classes:something something2;vertical';
+    $str3 = 'id:id-1;classes:something something2;vertical:';
     $str6 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]]';
     $str7 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]];another_array:[1;2:2;3;4]';
 
     ksm(ps($str1));
     ksm(ps($str2));
+    ksm(ps($str3));
     ksm(ps($str6));
     ksm(ps($str7));
 
