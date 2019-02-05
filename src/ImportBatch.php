@@ -679,17 +679,17 @@ class ImportBatch {
    *
    */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
-    // drupal_set_message("Start processFields", "status", TRUE);
+    drupal_set_message("Start processFields", "status", TRUE);
     // ksm($row);
     $field_machine_name = $row['machine_name'];
 
     $storage_settings = $this->defaults->getFieldStorageSettings($row, $entity);
     $instance_settings = $this->defaults->getFieldInstanceSettings($row, $entity);
-    // ksm($storage_settings, $instance_settings);
+    ksm($storage_settings, $instance_settings);
 
     $form_settings = $this->defaults->getFieldFormSettings($row, ($weight + 50), $entity);
     $display_settings = $this->defaults->getFieldDisplaySettings($row, $weight, $entity);
-    // ksm($form_settings, $display_settings);
+    ksm($form_settings, $display_settings);
 
     $field_storage = FieldStorageConfig::loadByName($entity, $field_machine_name);
     // ksm($field_storage);

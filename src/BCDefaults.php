@@ -109,6 +109,12 @@ class BCDefaults {
           'size' => 'normal',
         ],
       ],
+      'viewsreference' => [
+        'cardinality' => 1,
+        'settings' => [
+          'taget_type' => 'view',
+        ],
+      ],
     ],
     'taxonomy_term' => [
       'list_string' => [
@@ -399,6 +405,30 @@ class BCDefaults {
           'max' => null,
           'prefix' => '',
           'suffix' => '',
+        ],
+      ],
+      'viewsreference' => [
+        'settings' => [
+          'handler' => 'default:view',
+          'handler_settings' => [
+            'target_bundles' => NULL,
+            'auto_create' => 0,
+          ],
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+          'preselect_views' => [],
+          'enabled_settings' => [
+            'pager' => 0,
+            'argument' => 0,
+            'limit' => 0,
+            'title' => 'title',
+            'offset' => 0,
+          ],
         ],
       ],
     ],
@@ -766,6 +796,19 @@ class BCDefaults {
           'placeholder' => '',
         ],
         'third_party_settings' => [],
+      ],
+      'viewsreference' => [
+        'type' => 'viewsreference_autocomplete',
+        'weight' => 0,
+        'settings' => [
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+        ],
       ],
     ],
     'taxonomy_term' => [
@@ -1213,6 +1256,15 @@ class BCDefaults {
         'settings' => [
           'thousand_separator' => ',',
           'prefix_suffix' => TRUE,
+        ],
+      ],
+      'viewsreference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'viewsreference_formatter',
+        'settings' => [
+          'thousand_separator' => ',',
+          'prefix_suffix' => true,
         ],
       ],
     ],
