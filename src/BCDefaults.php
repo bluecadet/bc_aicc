@@ -115,6 +115,12 @@ class BCDefaults {
           'taget_type' => 'view',
         ],
       ],
+      'name' => [
+        'cardinality' => 1,
+        'settings' => [
+
+        ],
+      ],
     ],
     'taxonomy_term' => [
       'list_string' => [
@@ -430,6 +436,9 @@ class BCDefaults {
             'offset' => 0,
           ],
         ],
+      ],
+      'name' => [
+        'settings' => [],
       ],
     ],
     'taxonomy_term' => [
@@ -809,6 +818,11 @@ class BCDefaults {
             'entity_browser' => 0,
           ],
         ],
+      ],
+      'name' => [
+        'type' => 'name_default',
+        'weight' => 0,
+        'settings' => [],
       ],
     ],
     'taxonomy_term' => [
@@ -1267,6 +1281,22 @@ class BCDefaults {
           'prefix_suffix' => true,
         ],
       ],
+      'name' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'name_default',
+        'settings' => [
+          'format' => 'default',
+          'output' => 'default',
+          'multiple' => 'default',
+          'multiple_delimiter' => ', ',
+          'multiple_and' => 'text',
+          'multiple_delimiter_precedes_last' => 'never',
+          'multiple_el_al_min' => '3',
+          'multiple_el_al_first' => '1',
+          'markup' => FALSE,
+        ],
+      ],
     ],
     'taxonomy_term' => [
       'list_string' => [
@@ -1585,6 +1615,10 @@ class BCDefaults {
       return $this->getEntityReferenceFieldStorageSettings($row, $entity_type);
     }
 
+    if ($row['field_type'] == 'name') {
+      return $this->getNameFieldStorageSettings($row, $entity_type);
+    }
+
     $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']]);
 
     $storage_settings['entity_type'] = $entity_type;
@@ -1614,6 +1648,10 @@ class BCDefaults {
 
     if ($row['field_type'] == 'entity_reference') {
       return $this->getEntityReferenceFieldInstanceSettings($row, $entity_type);
+    }
+
+    if ($row['field_type'] == 'name') {
+      return $this->getNameFieldInstanceSettings($row, $entity_type);
     }
 
     $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
@@ -1712,7 +1750,7 @@ class BCDefaults {
   }
 
   /**
-   * Entity Reference getter exceptions.
+   * Entity Reference storage getter exceptions.
    */
   protected function getEntityReferenceFieldStorageSettings($row, $entity_type) {
     $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
@@ -1731,7 +1769,7 @@ class BCDefaults {
   }
 
   /**
-   *
+   * Entity Reference instance getter exceptions.
    */
   protected function getEntityReferenceFieldInstanceSettings($row, $entity_type) {
     $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
@@ -1774,6 +1812,49 @@ class BCDefaults {
     }
 
     return $settings;
+  }
+
+
+  /**
+   * NAME storage getter exceptions.
+   */
+  protected function getNameFieldStorageSettings($row, $entity_type) {
+    $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']]);
+
+    $storage_settings['entity_type'] = $entity_type;
+    $storage_settings['type'] = $row['field_type'];
+    $storage_settings['field_name'] = $row['machine_name'];
+
+    if (!empty($row['cardinality'])) {
+      $storage_settings['cardinality'] = $row['cardinality'];
+    }
+
+    // Add in defaults from the field definititon.
+    $nameItem = new Drupal\name\Plugin\Field\FieldType\NameItem();
+    $storage_settings['settings'] = array_merge($storage_settings['settings'], $nameItem->defaultStorageSettings());
+
+    $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
+  }
+
+  /**
+   * NAME instance getter exceptions.
+   */
+  protected function getNameFieldInstanceSettings($row, $entity_type) {
+    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
+
+    $instance_settings['label'] = $row['name'];
+    $instance_settings['description'] = $row['description'];
+    $instance_settings['required'] = $row['required'];
+
+
+    // Add in defaults from the field definititon.
+    $nameItem = new Drupal\name\Plugin\Field\FieldType\NameItem();
+    $instance_settings['settings'] = array_merge($instance_settings['settings'], $nameItem->defaultFieldSettings());
+
+    $instance_settings = array_merge($instance_settings, $row['field_settings']);
+    if (isset($row['field_third_party_settings'])) {
+      $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
+    }
   }
 
   /**
