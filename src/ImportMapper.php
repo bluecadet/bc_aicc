@@ -130,7 +130,7 @@ class ImportMapper {
 
     $new_row = array_combine($keys, array_slice($row, $offset, $count));
 
-    $new_row['required'] = $this->helper->getBoolValue($new_row['required']);
+    $new_row['required'] = $this->helper->getBoolValue($new_row['required'], '');
 
     $new_row['field_storage_settings'] = $this->helper->explodeSettingsField($new_row['field_storage_settings']);
     $new_row['field_third_party_settings'] = $this->helper->explodeSettingsField($new_row['field_third_party_settings']);
