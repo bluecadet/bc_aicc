@@ -1602,7 +1602,7 @@ class BCDefaults {
       'promote' => !empty($row['promote'])? $row['promote'] : FALSE,
       'sticky' => !empty($row['sticky'])? $row['sticky'] : FALSE,
       'available_menus' => !empty($row['available_menus'])? $row['available_menus'] : 'main',
-      'parent' => !empty($row['parent'])? $row['parent'] : "mani:",
+      'parent' => !empty($row['parent'])? $row['parent'] : "main:",
       'pathauto' => !empty($row['pathauto'])? $row['pathauto'] : '[node:title]',
     ];
 
@@ -1830,10 +1830,12 @@ class BCDefaults {
     }
 
     // Add in defaults from the field definititon.
-    $nameItem = new Drupal\name\Plugin\Field\FieldType\NameItem();
-    $storage_settings['settings'] = array_merge($storage_settings['settings'], $nameItem->defaultStorageSettings());
+    // $nameItem = new \Drupal\name\Plugin\Field\FieldType\NameItem();
+    $storage_settings['settings'] = array_merge($storage_settings['settings'], \Drupal\name\Plugin\Field\FieldType\NameItem::defaultStorageSettings());
 
     $storage_settings['settings'] = array_merge($storage_settings['settings'], $row['field_storage_settings']);
+
+    return $storage_settings;
   }
 
   /**
@@ -1848,13 +1850,15 @@ class BCDefaults {
 
 
     // Add in defaults from the field definititon.
-    $nameItem = new Drupal\name\Plugin\Field\FieldType\NameItem();
-    $instance_settings['settings'] = array_merge($instance_settings['settings'], $nameItem->defaultFieldSettings());
+    // $nameItem = new \Drupal\name\Plugin\Field\FieldType\NameItem();
+    $instance_settings['settings'] = array_merge($instance_settings['settings'], \Drupal\name\Plugin\Field\FieldType\NameItem::defaultFieldSettings());
 
     $instance_settings = array_merge($instance_settings, $row['field_settings']);
     if (isset($row['field_third_party_settings'])) {
       $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
     }
+
+    return $instance_settings;
   }
 
   /**
