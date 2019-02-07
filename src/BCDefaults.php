@@ -213,6 +213,18 @@ class BCDefaults {
           'size' => 'normal',
         ],
       ],
+      'viewsreference' => [
+        'cardinality' => 1,
+        'settings' => [
+          'taget_type' => 'view',
+        ],
+      ],
+      'name' => [
+        'cardinality' => 1,
+        'settings' => [
+
+        ],
+      ],
     ],
     'paragraph' => [
       'list_string' => [
@@ -303,6 +315,18 @@ class BCDefaults {
         'settings' => [
           'unsigned' => FALSE,
           'size' => 'normal',
+        ],
+      ],
+      'viewsreference' => [
+        'cardinality' => 1,
+        'settings' => [
+          'taget_type' => 'view',
+        ],
+      ],
+      'name' => [
+        'cardinality' => 1,
+        'settings' => [
+
         ],
       ],
     ],
@@ -430,7 +454,7 @@ class BCDefaults {
           'preselect_views' => [],
           'enabled_settings' => [
             'pager' => 0,
-            'argument' => 0,
+            'argument' => 'argument',
             'limit' => 0,
             'title' => 'title',
             'offset' => 0,
@@ -539,6 +563,33 @@ class BCDefaults {
           'suffix' => '',
         ],
       ],
+      'viewsreference' => [
+        'settings' => [
+          'handler' => 'default:view',
+          'handler_settings' => [
+            'target_bundles' => NULL,
+            'auto_create' => 0,
+          ],
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+          'preselect_views' => [],
+          'enabled_settings' => [
+            'pager' => 0,
+            'argument' => 'argument',
+            'limit' => 0,
+            'title' => 'title',
+            'offset' => 0,
+          ],
+        ],
+      ],
+      'name' => [
+        'settings' => [],
+      ],
     ],
     'paragraph' => [
       'list_string' => [],
@@ -644,6 +695,33 @@ class BCDefaults {
         ],
       ],
     ],
+      'viewsreference' => [
+        'settings' => [
+          'handler' => 'default:view',
+          'handler_settings' => [
+            'target_bundles' => NULL,
+            'auto_create' => 0,
+          ],
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+          'preselect_views' => [],
+          'enabled_settings' => [
+            'pager' => 0,
+            'argument' => 'argument',
+            'limit' => 0,
+            'title' => 'title',
+            'offset' => 0,
+          ],
+        ],
+      ],
+      'name' => [
+        'settings' => [],
+      ],
   ];
 
   public $defaultFieldFormSettings = [
@@ -1422,6 +1500,31 @@ class BCDefaults {
           'prefix_suffix' => TRUE,
         ],
       ],
+      'viewsreference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'viewsreference_formatter',
+        'settings' => [
+          'thousand_separator' => ',',
+          'prefix_suffix' => true,
+        ],
+      ],
+      'name' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'name_default',
+        'settings' => [
+          'format' => 'default',
+          'output' => 'default',
+          'multiple' => 'default',
+          'multiple_delimiter' => ', ',
+          'multiple_and' => 'text',
+          'multiple_delimiter_precedes_last' => 'never',
+          'multiple_el_al_min' => '3',
+          'multiple_el_al_first' => '1',
+          'markup' => FALSE,
+        ],
+      ],
     ],
     'paragraph' => [
       'list_string' => [
@@ -1545,6 +1648,31 @@ class BCDefaults {
         'settings' => [
           'thousand_separator' => ',',
           'prefix_suffix' => TRUE,
+        ],
+      ],
+      'viewsreference' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'viewsreference_formatter',
+        'settings' => [
+          'thousand_separator' => ',',
+          'prefix_suffix' => true,
+        ],
+      ],
+      'name' => [
+        'weight' => 0,
+        'label' => 'hidden',
+        'type' => 'name_default',
+        'settings' => [
+          'format' => 'default',
+          'output' => 'default',
+          'multiple' => 'default',
+          'multiple_delimiter' => ', ',
+          'multiple_and' => 'text',
+          'multiple_delimiter_precedes_last' => 'never',
+          'multiple_el_al_min' => '3',
+          'multiple_el_al_first' => '1',
+          'markup' => FALSE,
         ],
       ],
     ],
