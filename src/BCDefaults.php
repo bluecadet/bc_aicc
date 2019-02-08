@@ -1715,8 +1715,30 @@ class BCDefaults {
   ];
 
   public $defaultFieldGroupWrapperSettings = [
-    'node' => [],
-    'taxonomy_term' => [],
+    'node' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tabs',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ],
+    ],
+    'taxonomy_term' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tabs',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ],
+    ],
     'paragraph' => [
       'label' => '',
       'children' => [],
@@ -1732,8 +1754,30 @@ class BCDefaults {
   ];
 
   public $defaultFieldGroupSettings = [
-    'node' => [],
-    'taxonomy_term' => [],
+    'node' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tab',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ],
+    ],
+    'taxonomy_term' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tab',
+      'format_settings' => [
+        'id' => '',
+        'classes' => '',
+        'direction' => 'horizontal',
+      ],
+    ],
     'paragraph' => [
       'label' => '',
       'children' => [],
