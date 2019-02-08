@@ -1062,6 +1062,24 @@ class BCDefaults {
         ],
         'third_party_settings' => [],
       ],
+      'viewsreference' => [
+        'type' => 'viewsreference_autocomplete',
+        'weight' => 0,
+        'settings' => [
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+        ],
+      ],
+      'name' => [
+        'type' => 'name_default',
+        'weight' => 0,
+        'settings' => [],
+      ],
     ],
     'paragraph' => [
       'list_string' => [
@@ -1221,6 +1239,24 @@ class BCDefaults {
           'placeholder' => '',
         ],
         'third_party_settings' => [],
+      ],
+      'viewsreference' => [
+        'type' => 'viewsreference_autocomplete',
+        'weight' => 0,
+        'settings' => [
+          'plugin_types' => [
+            'block' => 'block',
+            'default' => 0,
+            'page' => 0,
+            'feed' => 0,
+            'entity_browser' => 0,
+          ],
+        ],
+      ],
+      'name' => [
+        'type' => 'name_default',
+        'weight' => 0,
+        'settings' => [],
       ],
     ],
   ];
