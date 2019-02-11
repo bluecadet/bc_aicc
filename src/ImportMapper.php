@@ -155,25 +155,46 @@ class ImportMapper {
   /**
    *
    */
+  public function setKeysAndProcessTaxonomyFieldGroupWrapper($row) {
+    return $this->setKeysAndProcessFG($row, 5, 4);
+  }
+
+  /**
+   *
+   */
+  public function setKeysAndProcessTaxonomyFieldGroup($row) {
+    return $this->setKeysAndProcessFG($row, 5, 4);
+  }
+
+  /**
+   *
+   */
   public function setKeysAndProcessParagraphFieldGroupWrapper($row) {
-    $keys = [
-      'label',
-      'group_name',
-      'format_type',
-      'format_settings',
-    ];
-
-    $new_row = array_combine($keys, array_slice($row, 4, 4));
-
-    $new_row['format_settings'] = $this->helper->explodeSettingsField($new_row['format_settings']);
-
-    return $new_row;
+    return $this->setKeysAndProcessFG($row, 4, 4);
   }
 
   /**
    *
    */
   public function setKeysAndProcessParagraphFieldGroup($row) {
+    return $this->setKeysAndProcessFG($row, 4, 4);
+  }
+
+  /**
+   *
+   */
+  public function setKeysAndProcessNodeFieldGroupWrapper($row) {
+    return $this->setKeysAndProcessFG($row, 15, 4);
+  }
+
+  /**
+   *
+   */
+  public function setKeysAndProcessNodeFieldGroup($row) {
+    return $this->setKeysAndProcessFG($row, 15, 4);
+  }
+
+  protected function setKeysAndProcessFG($row, $offset, $count) {
 
     $keys = [
       'label',
@@ -182,7 +203,7 @@ class ImportMapper {
       'format_settings',
     ];
 
-    $new_row = array_combine($keys, array_slice($row, 4, 4));
+    $new_row = array_combine($keys, array_slice($row, $offset, $count));
 
     $new_row['format_settings'] = $this->helper->explodeSettingsField($new_row['format_settings']);
 
