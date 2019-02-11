@@ -927,6 +927,17 @@ class ImportBatch {
       $new_data[] = $row;
     }
 
+    // Process Field Group Structure.
+    drupal_set_message("Process Field Group Structure.");
+    ksm($new_data);
+
+    $fg_structure = [];
+    $this->buildFieldGroupStructure(0, $data, $new_data, $fg_structure);
+    ksm($fg_structure);
+
+    $this->setFieldGroupData($fg_structure, $new_data);
+    ksm($new_data);
+
     return $new_data;
   }
 
@@ -957,7 +968,6 @@ class ImportBatch {
     ksm($new_data);
 
     $fg_structure = [];
-
     $this->buildFieldGroupStructure(0, $data, $new_data, $fg_structure);
     ksm($fg_structure);
 
@@ -982,6 +992,17 @@ class ImportBatch {
       }
       $new_data[] = $row;
     }
+
+    // Process Field Group Structure.
+    drupal_set_message("Process Field Group Structure.");
+    ksm($new_data);
+
+    $fg_structure = [];
+    $this->buildFieldGroupStructure(0, $data, $new_data, $fg_structure);
+    ksm($fg_structure);
+
+    $this->setFieldGroupData($fg_structure, $new_data);
+    ksm($new_data);
 
     return $new_data;
   }
