@@ -82,18 +82,43 @@ class Test extends ControllerBase {
 
   public function viewTest() {
 
+    // $b1 = [
+    //   'entity_type' => '',
+    //   'type' => '',
+    //   'field_name' => '',
+    //   'cardinality' => 1,
+    //   'settings' => [],
+    // ];
 
-    $str1 = 'id:id-1;classes:something something2;direction:vertical';
-    $str2 = 'id:id-1;classes:something something2;vertical';
-    $str3 = 'id:id-1;classes:something something2;vertical:';
-    $str6 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]]';
-    $str7 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]];another_array:[1;2:2;3;4]';
+    // $b2 = [
+    //   'cardinality' => -1,
+    //   'settings' => [
+    //     'bob' => 1,
+    //   ],
+    // ];
 
-    ksm(ps($str1));
-    ksm(ps($str2));
-    ksm(ps($str3));
-    ksm(ps($str6));
-    ksm(ps($str7));
+    // $b3 = [
+    //   'settings' => [
+    //     'fred' => 1,
+    //   ],
+    // ];
+
+    // $b4 = array_replace_recursive($b1, $b2, $b3);
+
+    // ksm($b4);
+
+
+    // $str1 = 'id:id-1;classes:something something2;direction:vertical';
+    // $str2 = 'id:id-1;classes:something something2;vertical';
+    // $str3 = 'id:id-1;classes:something something2;vertical:';
+    // $str6 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]]';
+    // $str7 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]];another_array:[1;2:2;3;4]';
+
+    // ksm(ps($str1));
+    // ksm(ps($str2));
+    // ksm(ps($str3));
+    // ksm(ps($str6));
+    // ksm(ps($str7));
 
     // $array = [
     //   'test1' => [

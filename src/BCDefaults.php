@@ -17,6 +17,47 @@ class BCDefaults {
     'settings' => [],
   ];
 
+  public $defaultFieldStorageSettingsSimple = [
+    'file' => [
+      'settings' => [
+        'display_field' => FALSE,
+        'display_default' => FALSE,
+        'uri_scheme' => 'public',
+        'target_type' => 'file',
+      ],
+    ],
+    'image' => [
+      'settings' => [
+        'display_field' => FALSE,
+        'display_default' => FALSE,
+        'uri_scheme' => 'public',
+        'target_type' => 'file',
+        'default_image' => [
+          'uuid' => '',
+          'alt' => '',
+          'title' => '',
+          'width' => NULL,
+          'height' => NULL,
+        ],
+      ],
+    ],
+    'email' => [
+      'settings' => [],
+    ],
+    'phone' => [
+      'settings' => [],
+    ],
+    'address' => [
+      'settings' => [],
+    ],
+    'address_country' => [
+      'settings' => [],
+    ],
+    'address_zone' => [
+      'settings' => [],
+    ],
+  ];
+
   public $defaultFieldStorageSettings = [
     'node' => [
       'list_string' => [
@@ -336,6 +377,88 @@ class BCDefaults {
     'label' => '',
     'description' => '',
     'required' => FALSE,
+  ];
+
+  public $defaultFldInstSettsSimple = [
+    'file' => [
+      'settings' => [
+        'file_directory' => '[date:custom:Y]-[date:custom:m]',
+        'file_extensions' => 'txt pdf',
+        'max_filesize' => '',
+        'description_field' => FALSE,
+        'handler' => 'default:file',
+        'handler_settings' => [],
+      ],
+    ],
+    'image' => [
+      'settings' => [
+        'file_directory' => '[date:custom:Y]-[date:custom:m]',
+        'file_extensions' => 'txt pdf',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'alt_field' => TRUE,
+        'alt_field_required' => true,
+        'title_field' => FALSE,
+        'title_field_required' => FALSE,
+        'default_image' => [
+          'uuid' => '',
+          'alt' => '',
+          'title' => '',
+          'width' => null,
+          'height' => null,
+        ],
+        'handler' => 'default:file',
+        'handler_settings' => [],
+      ],
+    ],
+    'email' => [
+      'settings' => [],
+    ],
+    'phone' => [
+      'settings' => [],
+    ],
+    'address' => [
+      'settings' => [
+        'available_countries' => [
+          'US' => 'US',
+        ],
+        'langcode_override' => '',
+        'field_overrides' => [
+          'givenName' => [
+            'override' => 'hidden',
+          ],
+          'additionalName' => [
+            'override' => 'hidden',
+          ],
+          'familyName' => [
+            'override' => 'hidden',
+          ],
+          'organization' => [
+            'override' => 'hidden',
+          ],
+        ],
+        'fields' => [],
+      ],
+    ],
+    'address_country' => [
+      'settings' => [
+        'available_countries' => [
+          'CA' => 'CA',
+          'MX' => 'MX',
+          'US' => 'US',
+        ],
+      ],
+    ],
+    'address_zone' => [
+      'settings' => [
+        'available_countries' => [
+          'CA' => 'CA',
+          'MX' => 'MX',
+          'US' => 'US',
+        ],
+      ],
+    ]
   ];
 
   public $defaultFldInstSetts = [
@@ -722,6 +845,60 @@ class BCDefaults {
       'name' => [
         'settings' => [],
       ],
+  ];
+
+  public $defaultFieldFormSettingsBase = [
+    'type' => '',
+    'weight' => 0,
+    'settings' => [],
+    'third_party_settings' => [],
+  ];
+
+  public $defaultFieldFormSettingsSimple = [
+    'file' => [
+      'type' => 'file_generic',
+      'settings' => [
+        'progress_indicator' => 'throbber',
+      ],
+    ],
+    'image' => [
+      'type' => 'image_focal_point',
+      'settings' => [
+        'preview_image_style' => 'thumbnail',
+        'preview_link' => TRUE,
+        'offsets' => '50,50',
+        'progress_indicator' => 'throbber',
+      ],
+    ],
+    'email' => [
+      'type' => 'email_default',
+      'settings' => [
+        'size' => 60,
+        'placeholder' => '',
+      ],
+      'third_party_settings' => [],
+    ],
+    'phone' => [
+      'type' => 'telephone_default',
+      'settings' => [
+        'placeholder' => '',
+      ],
+    ],
+    'address' => [
+      'type' => 'address_default',
+      'settings' => [
+        'default_country' => 'US',
+      ],
+    ],
+    'address_country' => [
+      'type' => 'address_country_default',
+    ],
+    'address_zone' => [
+      'type' => 'address_zone_default',
+      'settings' => [
+        'show_label_field' => FALSE,
+      ],
+    ]
   ];
 
   public $defaultFieldFormSettings = [
@@ -1259,6 +1436,47 @@ class BCDefaults {
         'settings' => [],
       ],
     ],
+  ];
+
+  public $defaultFieldDisplaySettingsBase = [
+    'weight' => 0,
+    'label' => 'hidden',
+    'type' => '',
+    'settings' => [],
+  ];
+
+  public $defaultFieldDisplaySettingsSimple =[
+    'file' => [
+      'type' => 'file_default',
+      'settings' => [
+        'use_description_as_link_text' => TRUE,
+      ],
+    ],
+    'image' => [
+      'type' => 'image',
+      'settings' => [
+        'image_style' => '',
+        'image_link' => '',
+      ],
+    ],
+    'email' => [
+      'type' => 'basic_string',
+    ],
+    'phone' => [
+      'type' => 'telephone_link',
+      'settings' => [
+        'title' => '',
+      ],
+    ],
+    'address' => [
+      'type' => 'address_default',
+    ],
+    'address_country' => [
+      'type' => 'address_country_default',
+    ],
+    'address_zone' => [
+      'type' => '-none-',
+    ]
   ];
 
   public $defaultFieldDisplaySettings = [
@@ -1827,7 +2045,11 @@ class BCDefaults {
       return $this->getNameFieldStorageSettings($row, $entity_type);
     }
 
-    $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']]);
+    $baseSettings = $this->fieldStorageSettingsBase;
+    $simple = $this->defaultFieldStorageSettingsSimple[$row['field_type']] ?: [];
+    $byEntity = $this->defaultFieldStorageSettings[$entity_type][$row['field_type']] ?: [];
+
+    $storage_settings = array_merge($baseSettings, $simple, $byEntity);
 
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
@@ -1862,7 +2084,11 @@ class BCDefaults {
       return $this->getNameFieldInstanceSettings($row, $entity_type);
     }
 
-    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
+    $baseSettings = $this->fieldInstanceSettingsBase;
+    $simple = $this->defaultFldInstSettsSimple[$row['field_type']] ? : [];
+    $byEntity = $this->defaultFldInstSetts[$entity_type][$row['field_type']] ? : [];
+
+    $instance_settings = array_merge($baseSettings, $simple, $byEntity);
 
     $instance_settings['label'] = $row['name'];
     $instance_settings['description'] = $row['description'];
@@ -1919,7 +2145,11 @@ class BCDefaults {
       return $this->getEntityReferenceFieldFormSettings($row, $weight, $entity_type);
     }
 
-    $settings = $this->defaultFieldFormSettings[$entity_type][$row['field_type']];
+    $baseSettings = $this->defaultFieldFormSettingsBase;
+    $simple = $this->defaultFieldFormSettingsSimple[$row['field_type']]?: [];
+    $byEntity = $this->defaultFieldFormSettings[$entity_type][$row['field_type']]?: [];
+
+    $settings = array_merge($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
@@ -1939,7 +2169,11 @@ class BCDefaults {
    *
    */
   public function getFieldDisplaySettings($row, $weight, $entity_type) {
-    $settings = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']];
+    $baseSettings = $this->defaultFieldDisplaySettingsBase;
+    $simple = $this->defaultFieldDisplaySettingsSimple[$row['field_type']]?: [];
+    $byEntity = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']]?: [];
+
+    $settings = array_merge($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
     $settings['label'] = !empty($row['display_label']) ? $row['display_label'] : $settings['label'];
