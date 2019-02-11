@@ -377,6 +377,7 @@ class BCDefaults {
     'label' => '',
     'description' => '',
     'required' => FALSE,
+    'settings' => [],
   ];
 
   public $defaultFldInstSettsSimple = [
@@ -398,15 +399,15 @@ class BCDefaults {
         'max_resolution' => '',
         'min_resolution' => '',
         'alt_field' => TRUE,
-        'alt_field_required' => true,
+        'alt_field_required' => TRUE,
         'title_field' => FALSE,
         'title_field_required' => FALSE,
         'default_image' => [
           'uuid' => '',
           'alt' => '',
           'title' => '',
-          'width' => null,
-          'height' => null,
+          'width' => NULL,
+          'height' => NULL,
         ],
         'handler' => 'default:file',
         'handler_settings' => [],
@@ -817,7 +818,6 @@ class BCDefaults {
           'suffix' => '',
         ],
       ],
-    ],
       'viewsreference' => [
         'settings' => [
           'handler' => 'default:view',
@@ -845,6 +845,7 @@ class BCDefaults {
       'name' => [
         'settings' => [],
       ],
+    ],
   ];
 
   public $defaultFieldFormSettingsBase = [
@@ -2049,7 +2050,7 @@ class BCDefaults {
     $simple = $this->defaultFieldStorageSettingsSimple[$row['field_type']] ?: [];
     $byEntity = $this->defaultFieldStorageSettings[$entity_type][$row['field_type']] ?: [];
 
-    $storage_settings = array_merge($baseSettings, $simple, $byEntity);
+    $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
@@ -2088,13 +2089,16 @@ class BCDefaults {
     $simple = $this->defaultFldInstSettsSimple[$row['field_type']] ? : [];
     $byEntity = $this->defaultFldInstSetts[$entity_type][$row['field_type']] ? : [];
 
-    $instance_settings = array_merge($baseSettings, $simple, $byEntity);
+    $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
+
+    // ksm($baseSettings, $simple, $byEntity, $instance_settings);
 
     $instance_settings['label'] = $row['name'];
     $instance_settings['description'] = $row['description'];
     $instance_settings['required'] = $row['required'];
 
-    $instance_settings = array_merge($instance_settings, $row['field_settings']);
+    $instance_settings['settings'] = array_merge($instance_settings['settings'], $row['field_settings']);
+
     if (isset($row['field_third_party_settings'])) {
       $instance_settings['third_party_settings'] = array_merge($instance_settings['third_party_settings'], $row['field_third_party_settings']);
     }
@@ -2149,7 +2153,7 @@ class BCDefaults {
     $simple = $this->defaultFieldFormSettingsSimple[$row['field_type']]?: [];
     $byEntity = $this->defaultFieldFormSettings[$entity_type][$row['field_type']]?: [];
 
-    $settings = array_merge($baseSettings, $simple, $byEntity);
+    $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
@@ -2173,7 +2177,7 @@ class BCDefaults {
     $simple = $this->defaultFieldDisplaySettingsSimple[$row['field_type']]?: [];
     $byEntity = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']]?: [];
 
-    $settings = array_merge($baseSettings, $simple, $byEntity);
+    $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
     $settings['label'] = !empty($row['display_label']) ? $row['display_label'] : $settings['label'];

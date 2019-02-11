@@ -679,7 +679,7 @@ class ImportBatch {
    *
    */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
-    drupal_set_message("Start processFields", "status", TRUE);
+    drupal_set_message("Start processFields " . $row['machine_name'], "status", TRUE);
     // ksm($row);
     $field_machine_name = $row['machine_name'];
 
@@ -697,7 +697,7 @@ class ImportBatch {
     if (empty($field_storage)) {
       $field_storage = FieldStorageConfig::create($storage_settings);
       $field_storage->save();
-      // ksm($field_storage);
+      ksm($field_storage);
       $messages[] = t("Field storage: %name created.", ['%name' => $row['name']]);
     }
     else {
@@ -724,7 +724,7 @@ class ImportBatch {
         'label' => $instance_settings['label'],
         'description' => $instance_settings['description'],
         'required' => $instance_settings['required'],
-        'settings' => $instance_settings,
+        'settings' => $instance_settings['settings'],
       ];
 
       if (isset($instance_settings['third_party_settings'])) {
