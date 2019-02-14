@@ -463,12 +463,18 @@ class ImportBatch {
    *
    */
   public function cleanUp(&$context) {
-    // drupal_set_message("Start removeFile");
-    // ksm($context);
+    drupal_set_message("Start removeFile");
+    ksm($context);
 
-    file_delete($context['results']['taxonomy_fid']);
-    file_delete($context['results']['paragraphs_fid']);
-    file_delete($context['results']['content_fid']);
+    if ($context['results']['taxonomy_fid']) {
+      file_delete($context['results']['taxonomy_fid']);
+    }
+    if ($context['results']['paragraphs_fid']) {
+      file_delete($context['results']['paragraphs_fid']);
+    }
+    if ($context['results']['content_fid']) {
+      file_delete($context['results']['content_fid']);
+    }
 
     $context['results']['cleanup']['msg'][] = 'Content CSV File marked for deletion.';
     $context['message'] = "Cleaning up.";
@@ -1181,14 +1187,19 @@ class ImportBatch {
    *
    */
   protected function setFieldGroupData($fg_structure, &$new_data) {
+    static $depth_counter = 1;
+    ksm($depth_counter, $fg_structure, $new_data);
 
+    $depth_counter++;
     foreach ($fg_structure as $paragraph_id => $p_data) {
-      $new_data[$p_data['row']]['parent_name'] = $p_data['parent_name'];
-      $new_data[$p_data['row']]['bundle'] = $p_data['bundle'];
-      $new_data[$p_data['row']]['children'] = array_column($p_data['children'], 'group_name');
+      if (isset($p_data['row'])) {
+        $new_data[$p_data['row']]['parent_name'] = $p_data['parent_name'];
+        $new_data[$p_data['row']]['bundle'] = $p_data['bundle'];
+        $new_data[$p_data['row']]['children'] = array_column($p_data['children'], 'group_name');
 
-      if (isset($p_data['children']) && !empty($p_data['children'])) {
-        $this->setFieldGroupData($p_data['children'], $new_data);
+        if (isset($p_data['children']) && !empty($p_data['children'])) {
+          $this->setFieldGroupData($p_data['children'], $new_data);
+        }
       }
     }
   }

@@ -378,6 +378,7 @@ class BCDefaults {
     'description' => '',
     'required' => FALSE,
     'settings' => [],
+    'third_party_settings' => [],
   ];
 
   public $defaultFldInstSettsSimple = [
@@ -2047,8 +2048,8 @@ class BCDefaults {
     }
 
     $baseSettings = $this->fieldStorageSettingsBase;
-    $simple = $this->defaultFieldStorageSettingsSimple[$row['field_type']] ?: [];
-    $byEntity = $this->defaultFieldStorageSettings[$entity_type][$row['field_type']] ?: [];
+    $simple = isset($this->defaultFieldStorageSettingsSimple[$row['field_type']])? $this->defaultFieldStorageSettingsSimple[$row['field_type']] : [];
+    $byEntity = isset($this->defaultFieldStorageSettings[$entity_type][$row['field_type']])? $this->defaultFieldStorageSettings[$entity_type][$row['field_type']] : [];
 
     $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2086,8 +2087,8 @@ class BCDefaults {
     }
 
     $baseSettings = $this->fieldInstanceSettingsBase;
-    $simple = $this->defaultFldInstSettsSimple[$row['field_type']] ? : [];
-    $byEntity = $this->defaultFldInstSetts[$entity_type][$row['field_type']] ? : [];
+    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']]) ? $this->defaultFldInstSettsSimple[$row['field_type']] : [];
+    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']]) ? $this->defaultFldInstSetts[$entity_type][$row['field_type']] : [];
 
     $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2150,8 +2151,8 @@ class BCDefaults {
     }
 
     $baseSettings = $this->defaultFieldFormSettingsBase;
-    $simple = $this->defaultFieldFormSettingsSimple[$row['field_type']]?: [];
-    $byEntity = $this->defaultFieldFormSettings[$entity_type][$row['field_type']]?: [];
+    $simple = isset($this->defaultFieldFormSettingsSimple[$row['field_type']])? $this->defaultFieldFormSettingsSimple[$row['field_type']] : [];
+    $byEntity = isset($this->defaultFieldFormSettings[$entity_type][$row['field_type']])? $this->defaultFieldFormSettings[$entity_type][$row['field_type']] : [];
 
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2174,8 +2175,8 @@ class BCDefaults {
    */
   public function getFieldDisplaySettings($row, $weight, $entity_type) {
     $baseSettings = $this->defaultFieldDisplaySettingsBase;
-    $simple = $this->defaultFieldDisplaySettingsSimple[$row['field_type']]?: [];
-    $byEntity = $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']]?: [];
+    $simple = isset($this->defaultFieldDisplaySettingsSimple[$row['field_type']])? $this->defaultFieldDisplaySettingsSimple[$row['field_type']] : [];
+    $byEntity = isset($this->defaultFieldDisplaySettings[$entity_type][$row['field_type']])? $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']] : [];
 
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
