@@ -253,7 +253,7 @@ class ImportBatch {
         $current_row = $context['results']['taxonomy_data']['processed_data'][$j];
 
         // Find Terms.
-        if (!empty($current_raw_row[0])) {
+        if ($current_raw_row[0] == 'BUNDLE') {
           $vid = $current_row['vid'];
 
           ksm($current_row['terms']);
@@ -807,10 +807,10 @@ class ImportBatch {
   protected function processTaxonomyFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processTaxonomyFieldGroupWrappers");
     // ksm($row);
-    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, 'taxonomy_term');
+    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'taxonomy_term');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'taxonomy_term', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'taxonomy_term', $messages);
   }
 
   /**
@@ -819,10 +819,10 @@ class ImportBatch {
   protected function processTaxonomyFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processTaxonomyFieldGroups");
     // ksm($row);
-    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, 'taxonomy_term');
+    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'taxonomy_term');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'taxonomy_term', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'taxonomy_term', $messages);
   }
 
   /**
@@ -831,10 +831,10 @@ class ImportBatch {
   protected function processParagraphFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroupWrappers");
     ksm($row);
-    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, 'paragraph');
+    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'paragraph');
     ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'paragraph', $messages);
   }
 
   /**
@@ -843,10 +843,10 @@ class ImportBatch {
   protected function processParagraphFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroups");
     ksm($row);
-    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, 'paragraph');
+    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'paragraph');
     ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'paragraph', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'paragraph', $messages);
   }
 
   /**
@@ -855,10 +855,10 @@ class ImportBatch {
   protected function processContentFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processContentFieldGroupWrappers");
     // ksm($row);
-    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, 'node');
+    $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'node');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'node', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'node', $messages);
   }
 
   /**
@@ -866,16 +866,17 @@ class ImportBatch {
    */
   protected function processContentFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processContentFieldGroups");
-    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, 'node');
+    $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'node');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'node', $weight, $messages);
+    $this->processFieldGroup($fg_settings, 'node', $messages);
   }
 
   /**
    *
    */
-  protected function processFieldGroup($fg_settings, $entity, $weight, &$messages) {
+  protected function processFieldGroup($fg_settings, $entity, &$messages) {
+    ksm($fg_settings);
 
     // Check if field_group exists.
     $field_group = field_group_load_field_group($fg_settings['group_name'], $entity, $fg_settings['bundle'], 'form', 'default');
@@ -891,13 +892,15 @@ class ImportBatch {
         'context' => 'form',
         'children' => $fg_settings['children'],
         'parent_name' => $fg_settings['parent_name'],
-        'weight' => $weight,
+        'weight' => $fg_settings['weight'],
         'format_type' => $fg_settings['format_type'],
         'label' => $fg_settings['label'],
         'format_settings' => $fg_settings['format_settings'],
       ];
-      ksm('new_group', $new_group);
+
       field_group_group_save($new_group);
+
+      ksm('new_group', $new_group);
 
       $messages[] = t("Field group: %name created.", ['%name' => $fg_settings['label']]);
     }
@@ -1100,6 +1103,15 @@ class ImportBatch {
 
     // ksm($row_key, $id_key);
 
+    $parent_name = '';
+    if (count($keys) > 1 ) {
+
+      $finder = array_slice($keys, 0, -1);
+      $finder[] = 'group_name';
+
+      $parent_name = $this->helper->getDepthValue($fg_structure, $finder);
+    }
+
     if ($raw_data[$row_key][0] == 'FGW_START') {
       $keys[] = $current_bundle . ":" . $new_data[$row_key]['group_name'];
 
@@ -1107,7 +1119,7 @@ class ImportBatch {
         'row' => $row_key,
         'bundle' => $current_bundle,
         'group_name' => $new_data[$row_key]['group_name'],
-        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'parent_name' =>  $parent_name,
         'children' => [],
       ]);
 
@@ -1122,7 +1134,7 @@ class ImportBatch {
         'row' => $row_key,
         'bundle' => $current_bundle,
         'group_name' => $new_data[$row_key]['group_name'],
-        'parent_name' => isset($keys[count($keys) - 3]) ? $keys[count($keys) - 3] : '',
+        'parent_name' => $parent_name,
         'children' => [],
       ]);
 
@@ -1153,7 +1165,6 @@ class ImportBatch {
           'group_name' => $new_data[$row_key]['machine_name']
         ]);
         array_pop($keys);
-        // $this->helper->addDepthValue($fg_structure, $keys, $new_data[$row_key]['machine_name']);.
       }
 
       $this->buildFieldGroupStructure(($row_key + 1), $id_key, $raw_data, $new_data, $fg_structure, $keys);

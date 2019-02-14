@@ -2310,16 +2310,16 @@ class BCDefaults {
   /**
    *
    */
-  public function getFieldGroupWrapperSettings($row, $bundle, $entity_type) {
+  public function getFieldGroupWrapperSettings($row, $bundle, $weight, $entity_type) {
     $settings = $this->defaultFieldGroupWrapperSettings[$entity_type];
 
     $settings['group_name'] = $row['group_name'];
-    $settings['entity_type'] = $row['entity_type'];
+    // $settings['entity_type'] = $row['entity_type'];
     $settings['bundle'] = $row['bundle'];
-    $settings['mode'] = $row['mode'];
-    $settings['context'] = $row['context'];
+    // $settings['mode'] = $row['mode'];
+    // $settings['context'] = $row['context'];
     $settings['parent_name'] = $row['parent_name'];
-    $settings['weight'] = $row['weight'];
+    $settings['weight'] = $weight;
     $settings['format_type'] = $row['format_type'];
     $settings['label'] = $row['label'];
 
@@ -2332,16 +2332,16 @@ class BCDefaults {
   /**
    *
    */
-  public function getFieldGroupSettings($row, $bundle, $entity_type) {
+  public function getFieldGroupSettings($row, $bundle, $weight, $entity_type) {
     $settings = $this->defaultFieldGroupSettings[$entity_type];
 
     $settings['group_name'] = $row['group_name'];
-    $settings['entity_type'] = $row['entity_type'];
+    // $settings['entity_type'] = $row['entity_type'];
     $settings['bundle'] = $row['bundle'];
-    $settings['mode'] = $row['mode'];
-    $settings['context'] = $row['context'];
+    // $settings['mode'] = $row['mode'];
+    // $settings['context'] = $row['context'];
     $settings['parent_name'] = $row['parent_name'];
-    $settings['weight'] = $row['weight'];
+    $settings['weight'] = $weight;
     $settings['format_type'] = $row['format_type'];
     $settings['label'] = $row['label'];
 
