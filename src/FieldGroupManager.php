@@ -24,7 +24,7 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'taxonomy_term');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'taxonomy_term', $messages);
+    $this->processFieldGroup($fg_settings, 'taxonomy_term', $import_method, $messages);
   }
 
   /**
@@ -36,7 +36,7 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'taxonomy_term');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'taxonomy_term', $messages);
+    $this->processFieldGroup($fg_settings, 'taxonomy_term', $import_method, $messages);
   }
 
   /**
@@ -48,7 +48,7 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'paragraph');
     ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'paragraph', $messages);
+    $this->processFieldGroup($fg_settings, 'paragraph', $import_method, $messages);
   }
 
   /**
@@ -60,7 +60,7 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'paragraph');
     ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'paragraph', $messages);
+    $this->processFieldGroup($fg_settings, 'paragraph', $import_method, $messages);
   }
 
   /**
@@ -72,7 +72,7 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'node');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'node', $messages);
+    $this->processFieldGroup($fg_settings, 'node', $import_method, $messages);
   }
 
   /**
@@ -83,13 +83,14 @@ class FieldGroupManager {
     $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'node');
     // ksm($fg_settings);
 
-    $this->processFieldGroup($fg_settings, 'node', $messages);
+    $this->processFieldGroup($fg_settings, 'node', $import_method, $messages);
   }
 
   /**
    *
    */
-  public function processFieldGroup($fg_settings, $entity, &$messages) {
+  public function processFieldGroup($fg_settings, $entity, $import_method, &$messages) {
+    drupal_set_message("processContentFieldGroups");
     ksm($fg_settings);
 
     // Check if field_group exists.
@@ -119,12 +120,22 @@ class FieldGroupManager {
       $messages[] = t("Field group: %name created.", ['%name' => $fg_settings['label']]);
     }
     else {
+      drupal_set_message("Import Method: " . $import_method);
       switch ($import_method) {
         case 'nothing':
-          $messages[] = t("Field group: %name already exists. Doing nothing.", ['%name' => $fg_settings['label']]);
+
+          // Update Parents, Children and weight.
+          $field_group->parent_name = $fg_settings['parent_name'];
+          $field_group->children = $fg_settings['children'];
+          $field_group->weight = $fg_settings['weight'];
+
+          field_group_group_save($field_group);
+
+          $messages[] = t("Field group: %name already exists. Updateing Parent, children and weight only.", ['%name' => $fg_settings['label']]);
           break;
 
         case 'update':
+
           $messages[] = t("Field group: %name already exists. Trying to update. (NOT YET IMPLEMENTED)", ['%name' => $fg_settings['label']]);
           break;
 

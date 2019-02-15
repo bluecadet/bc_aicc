@@ -82,6 +82,11 @@ class Test extends ControllerBase {
 
   public function viewTest() {
 
+    // $field_group = field_group_load_field_group('fg_wrapper_tab', 'node', 'fg_tests', 'form', 'default');
+    // ksm($field_group);
+    // $field_group->children[] = 'field_link_2';
+    // field_group_group_save($field_group);
+
     // $b1 = [
     //   'entity_type' => '',
     //   'type' => '',
