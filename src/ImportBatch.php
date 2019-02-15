@@ -489,59 +489,62 @@ class ImportBatch {
     // drupal_set_message("Start importFinished");
     // ksm($success, $results, $operations);
 
-    if ($success) {
-      $msgs = [];
+    // if ($success) {
+    $msgs = [];
 
-      // Build Step Messages.
-      // $msgs[] = \Drupal::translation()->formatPlural(
-      //   count($results['data']['stats']['bundles']),
-      //   '1 Content Type in Data.',
-      //   '@count Content Types in Data.'
-      // );
-      // $msgs[] = \Drupal::translation()->formatPlural(
-      //   count($results['data']['stats']['fields']),
-      //   '1 Field in Data.',
-      //   '@count Total fields in Data.'
-      // );
-      // $msgs[] = 'Import Method: ' . $results['import_method'];.
-      // Validation Step Messages.
-      if (isset($results['build']['msg']) && !empty($results['build']['msg'])) {
-        foreach ($results['build']['msg'] as $m) {
-          $msgs[] = $m;
-        }
+    // Build Step Messages.
+    // $msgs[] = \Drupal::translation()->formatPlural(
+    //   count($results['data']['stats']['bundles']),
+    //   '1 Content Type in Data.',
+    //   '@count Content Types in Data.'
+    // );
+    // $msgs[] = \Drupal::translation()->formatPlural(
+    //   count($results['data']['stats']['fields']),
+    //   '1 Field in Data.',
+    //   '@count Total fields in Data.'
+    // );
+    // $msgs[] = 'Import Method: ' . $results['import_method'];.
+    // Validation Step Messages.
+    if (isset($results['build']['msg']) && !empty($results['build']['msg'])) {
+      foreach ($results['build']['msg'] as $m) {
+        $msgs[] = $m;
       }
-
-      // Validation Step Messages.
-      if (isset($results['validate']['msg']) && !empty($results['validate']['msg'])) {
-        foreach ($results['validate']['msg'] as $m) {
-          $msgs[] = $m;
-        }
-      }
-
-      // Process step Messages.
-      if (isset($results['process']['msg']) && !empty($results['process']['msg'])) {
-        foreach ($results['process']['msg'] as $m) {
-          $msgs[] = $m;
-        }
-      }
-
-      // Clean Up step Messages.
-      if (isset($results['cleanup']['msg']) && !empty($results['cleanup']['msg'])) {
-        foreach ($results['cleanup']['msg'] as $m) {
-          $msgs[] = $m;
-        }
-      }
-
-      $message_render = [
-        '#theme' => 'item_list',
-        '#items' => $msgs,
-      ];
-
-      drupal_set_message(render($message_render));
     }
-    else {
-      drupal_set_message(t('Finished with an error.'));
+
+    // Validation Step Messages.
+    if (isset($results['validate']['msg']) && !empty($results['validate']['msg'])) {
+      foreach ($results['validate']['msg'] as $m) {
+        $msgs[] = $m;
+      }
     }
+
+    // Process step Messages.
+    if (isset($results['process']['msg']) && !empty($results['process']['msg'])) {
+      foreach ($results['process']['msg'] as $m) {
+        $msgs[] = $m;
+      }
+    }
+
+    // Clean Up step Messages.
+    if (isset($results['cleanup']['msg']) && !empty($results['cleanup']['msg'])) {
+      foreach ($results['cleanup']['msg'] as $m) {
+        $msgs[] = $m;
+      }
+    }
+
+    $message_render = [
+      '#theme' => 'item_list',
+      '#items' => $msgs,
+    ];
+
+    drupal_set_message(render($message_render));
+
+
+    if (!$success) {
+      drupal_set_message(t('Finished with an error.'), 'error');
+    }
+
+    \Drupal::logger('bc_aicc')->notice('Finished Import');
   }
 
 

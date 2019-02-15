@@ -161,6 +161,8 @@ class ProcessContentConfig extends FormBase {
       'finished' => [$this->importer, 'importFinished'],
     ];
 
+    \Drupal::logger('bc_aicc')->notice('Starting Import');
+
     batch_set($batch);
   }
 
