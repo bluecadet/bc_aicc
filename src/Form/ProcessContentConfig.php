@@ -146,9 +146,9 @@ class ProcessContentConfig extends FormBase {
 
       $build_ops[] = [[$this->importer, 'buildContentData'], [$content_file]];
       $validate_ops[] = [[$this->importer, 'validateContentData'], []];
-      $process_entity_ops[] = [[$this->importer, 'processContentData'], ['entity']];
-      $process_fields_ops[] = [[$this->importer, 'processContentData'], ['field']];
-      $process_fg_ops[] = [[$this->importer, 'processContentData'], ['field_groups']];
+      // $process_entity_ops[] = [[$this->importer, 'processContentData'], ['entity']];
+      // $process_fields_ops[] = [[$this->importer, 'processContentData'], ['field']];
+      // $process_fg_ops[] = [[$this->importer, 'processContentData'], ['field_groups']];
     }
 
     $ops = array_merge($init_ops, $build_ops, $validate_ops, $process_entity_ops, $process_fields_ops, $process_fg_ops, $process_content_ops, $cleanup_ops);

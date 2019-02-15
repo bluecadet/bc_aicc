@@ -20,6 +20,7 @@ class ImportBatch {
   private $defaults;
   private $mapper;
   private $fieldGroupManager;
+  private $fieldValidator;
 
   /**
    *
@@ -29,6 +30,7 @@ class ImportBatch {
     $this->defaults = \Drupal::service('bc_aicc:defaults');
     $this->mapper = \Drupal::service('bc_aicc:import_mapper');
     $this->fieldGroupManager = \Drupal::service('bc_aicc:field_group_manager');
+    $this->fieldValidator = \Drupal::service('bc_aicc:field_validator');
   }
 
   /**
@@ -46,6 +48,9 @@ class ImportBatch {
     $context['results']['content_data'] = NULL;
     $context['results']['import_method'] = $import_method;
 
+    $context['results']['error'] = FALSE;
+
+    // Messages
     $context['results']['build']['msg'] = [];
     $context['results']['validate']['msg'] = [];
     $context['results']['process']['msg'] = [];
@@ -100,6 +105,8 @@ class ImportBatch {
     $context['results']['valid_content_file'] = TRUE;
     $context['results']['content_data'] = $data;
     $context['message'] = "Content Data has been built.";
+
+    ksm($context);
   }
 
   /**
@@ -117,8 +124,19 @@ class ImportBatch {
       return;
     }
 
-    $context['results']['validate']['msg'][] = 'CSV Taxonomy File Validated';
-    $context['message'] = "CSV Taxonomy File Validated";
+    try {
+      $this->fieldValidator->validateFields($context['results']['taxonomy_data']);
+    }
+    catch (\Exception $e) {
+      $context['results']['error'] = TRUE;
+      $context['results']['valid_taxonomy_file'] = FALSE;
+      $context['results']['validate']['msg'][] = 'Error validating Taxonomy Fields: ' . $e->getMessage();
+    }
+
+    if ($context['results']['valid_taxonomy_file']) {
+      $context['results']['validate']['msg'][] = 'CSV Taxonomy File Validated';
+      $context['message'] = "CSV Taxonomy File Validated";
+    }
   }
 
   /**
@@ -136,8 +154,19 @@ class ImportBatch {
       return;
     }
 
-    $context['results']['validate']['msg'][] = 'CSV Paragraphs File Validated';
-    $context['message'] = "CSV Paragraphs File Validated";
+    try {
+      $this->fieldValidator->validateFields($context['results']['paragraphs_data']);
+    }
+    catch (\Exception $e) {
+      $context['results']['error'] = TRUE;
+      $context['results']['valid_paragraphs_file'] = FALSE;
+      $context['results']['validate']['msg'][] = 'Error validating Paragraphs Fields: ' . $e->getMessage();
+    }
+
+    if ($context['results']['valid_paragraphs_file']) {
+      $context['results']['validate']['msg'][] = 'CSV Paragraphs File Validated';
+      $context['message'] = "CSV Paragraphs File Validated";
+    }
   }
 
   /**
@@ -155,8 +184,19 @@ class ImportBatch {
       return;
     }
 
-    $context['results']['validate']['msg'][] = 'CSV File Validated';
-    $context['message'] = "CSV File Validated";
+    try {
+      $this->fieldValidator->validateFields($context['results']['content_data']);
+    }
+    catch (\Exception $e) {
+      $context['results']['error'] = TRUE;
+      $context['results']['valid_content_file'] = FALSE;
+      $context['results']['validate']['msg'][] = 'Error validating Content Fields: ' . $e->getMessage();
+    }
+
+    if ($context['results']['valid_content_file']) {
+      $context['results']['validate']['msg'][] = 'CSV Content File Validated';
+      $context['message'] = "CSV Content File Validated";
+    }
   }
 
   /**
@@ -168,7 +208,7 @@ class ImportBatch {
 
     if (empty($context['sandbox'])) {
       // If there is no valid file... just keep going.
-      if (!$context['results']['valid_taxonomy_file']) {
+      if (!$context['results']['valid_taxonomy_file'] || $context['results']['error']) {
         $context['results']['process']['msg'][] = 'Skipping Process.';
         return;
       }
@@ -240,7 +280,7 @@ class ImportBatch {
 
     if (empty($context['sandbox'])) {
       // If there is no valid file... just keep going.
-      if (!$context['results']['valid_taxonomy_file']) {
+      if (!$context['results']['valid_taxonomy_file'] || $context['results']['error']) {
         $context['results']['process']['msg'] = 'Skipping Process. Invalid Taxonomy CSV File.';
         $context['message'] = "Skipping Process. Invalid Taxonomy CSV File.";
         return;
@@ -333,7 +373,7 @@ class ImportBatch {
       $context['sandbox']['max'] = $context['results']['paragraphs_data']['stats']['total_rows'];
 
       // If there is no valid file... just keep going.
-      if (!$context['results']['valid_paragraphs_file']) {
+      if (!$context['results']['valid_paragraphs_file'] || $context['results']['error']) {
         $context['results']['process']['msg'][] = 'Skipping Paragraph Process.';
         return;
       }
@@ -404,7 +444,7 @@ class ImportBatch {
       $context['sandbox']['max'] = $context['results']['content_data']['stats']['total_rows'];
 
       // If there is no valid file... just keep going.
-      if (!$context['results']['valid_content_file']) {
+      if (!$context['results']['valid_content_file'] || $context['results']['error']) {
         $context['results']['process']['msg'][] = 'Skipping Process.';
         return;
       }
@@ -466,19 +506,21 @@ class ImportBatch {
    */
   public function cleanUp(&$context) {
     drupal_set_message("Start removeFile");
-    ksm($context);
+    // ksm($context);
 
     if ($context['results']['taxonomy_fid']) {
       file_delete($context['results']['taxonomy_fid']);
+      $context['results']['cleanup']['msg'][] = 'Taxonomy CSV File marked for deletion.';
     }
     if ($context['results']['paragraphs_fid']) {
       file_delete($context['results']['paragraphs_fid']);
+      $context['results']['cleanup']['msg'][] = 'Paragraphs CSV File marked for deletion.';
     }
     if ($context['results']['content_fid']) {
       file_delete($context['results']['content_fid']);
+      $context['results']['cleanup']['msg'][] = 'Content CSV File marked for deletion.';
     }
 
-    $context['results']['cleanup']['msg'][] = 'Content CSV File marked for deletion.';
     $context['message'] = "Cleaning up.";
   }
 
@@ -844,15 +886,21 @@ class ImportBatch {
     $row = 0;
     $bundles = 0;
     $fields = 0;
+    $field_types = [];
+    $field_group_types = [];
 
     while (($import_row = fgetcsv($fp, 0, ",")) !== FALSE) {
       if ($row > 2) {
+        if ($import_row[0] == 'END') {
+          break 1;
+        }
+
         $raw_data[] = $import_row;
 
-        if (empty($import_row[0])) {
+        if ($import_row[0] == 'FIELD') {
           $fields++;
         }
-        else {
+        else if ($import_row[0] == 'BUNDLE') {
           $bundles++;
         }
       }
@@ -862,6 +910,18 @@ class ImportBatch {
 
     $processed_data = $this->{$process_func}($raw_data);
 
+    foreach ($raw_data as $i => $raw_row) {
+      if ($raw_row[0] == 'FIELD') {
+        if (!in_array($processed_data[$i]['field_type'], $field_types)) {
+          $field_types[] = $processed_data[$i]['field_type'];
+        }
+      }
+      // else if ($raw_row[0] == 'BUNDLE') {
+      //   $bundles++;
+      // }
+    }
+
+
     return [
       'raw_data' => $raw_data,
       'processed_data' => $processed_data,
@@ -869,6 +929,7 @@ class ImportBatch {
         'total_rows' => $row - 2,
         'bundles' => $bundles,
         'fields' => $fields,
+        'field_types' => $field_types,
       ],
     ];
   }

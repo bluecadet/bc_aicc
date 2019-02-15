@@ -9,3 +9,5 @@ services:
       class: Drupal\bc_aicc\ImportMapper
     bc_aicc:field_group_manager:
       class: Drupal\bc_aicc\FieldGroupManager
+    bc_aicc:field_validator:
+      class: Drupal\bc_aicc\FieldValidator

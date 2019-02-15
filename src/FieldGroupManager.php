@@ -44,9 +44,9 @@ class FieldGroupManager {
    */
   public function processParagraphFieldGroupWrappers($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroupWrappers");
-    ksm($row);
+    // ksm($row);
     $fg_settings = $this->defaults->getFieldGroupWrapperSettings($row, $bundle, ($weight + 50), 'paragraph');
-    ksm($fg_settings);
+    // ksm($fg_settings);
 
     $this->processFieldGroup($fg_settings, 'paragraph', $import_method, $messages);
   }
@@ -56,9 +56,9 @@ class FieldGroupManager {
    */
   public function processParagraphFieldGroups($row, $bundle, $weight, $import_method, &$messages) {
     drupal_set_message("processParagraphFieldGroups");
-    ksm($row);
+    // ksm($row);
     $fg_settings = $this->defaults->getFieldGroupSettings($row, $bundle, ($weight + 50), 'paragraph');
-    ksm($fg_settings);
+    // ksm($fg_settings);
 
     $this->processFieldGroup($fg_settings, 'paragraph', $import_method, $messages);
   }
@@ -91,11 +91,11 @@ class FieldGroupManager {
    */
   public function processFieldGroup($fg_settings, $entity, $import_method, &$messages) {
     drupal_set_message("processContentFieldGroups");
-    ksm($fg_settings);
+    // ksm($fg_settings);
 
     // Check if field_group exists.
     $field_group = field_group_load_field_group($fg_settings['group_name'], $entity, $fg_settings['bundle'], 'form', 'default');
-    ksm($field_group);
+    // ksm($field_group);
 
     if (empty($field_group)) {
       // Create new group.
@@ -115,7 +115,7 @@ class FieldGroupManager {
 
       field_group_group_save($new_group);
 
-      ksm('new_group', $new_group);
+      // ksm('new_group', $new_group);
 
       $messages[] = t("Field group: %name created.", ['%name' => $fg_settings['label']]);
     }
@@ -233,7 +233,7 @@ class FieldGroupManager {
    */
   public function setFieldGroupData($fg_structure, &$new_data) {
     static $depth_counter = 1;
-    ksm($depth_counter, $fg_structure, $new_data);
+    // ksm($depth_counter, $fg_structure, $new_data);
 
     $depth_counter++;
     foreach ($fg_structure as $paragraph_id => $p_data) {
