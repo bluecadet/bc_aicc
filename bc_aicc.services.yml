@@ -7,3 +7,5 @@ services:
       class: Drupal\bc_aicc\ImportHelper
     bc_aicc:import_mapper:
       class: Drupal\bc_aicc\ImportMapper
+    bc_aicc:field_group_manager:
+      class: Drupal\bc_aicc\FieldGroupManager
