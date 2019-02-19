@@ -855,7 +855,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
@@ -869,7 +869,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
@@ -1033,7 +1033,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
@@ -1047,7 +1047,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
@@ -1211,7 +1211,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
@@ -1225,7 +1225,7 @@ class BCDefaults {
         'third_party_settings' => [
           'allowed_formats' => [
             'hide_help' => 1,
-            'hide_guidlines' => 1,
+            'hide_guidelines' => 1,
           ],
         ],
       ],
