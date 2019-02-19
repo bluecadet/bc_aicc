@@ -9,7 +9,7 @@ use Drupal\paragraphs\Entity\ParagraphsType;
  */
 class BCDefaults {
 
-  protected $fieldStorageSettingsBase = [
+  protected $storageSettBase = [
     'entity_type' => '',
     'type' => '',
     'field_name' => '',
@@ -17,7 +17,7 @@ class BCDefaults {
     'settings' => [],
   ];
 
-  protected $defaultFieldStorageSettingsSimple = [
+  protected $storageSett = [
     'file' => [
       'settings' => [
         'display_field' => FALSE,
@@ -58,7 +58,7 @@ class BCDefaults {
     ],
   ];
 
-  protected $defaultFieldStorageSettings = [
+  protected $storageSettByEnt = [
     'node' => [
       'list_string' => [
         'settings' => [
@@ -373,7 +373,7 @@ class BCDefaults {
     ],
   ];
 
-  protected $fieldInstanceSettingsBase = [
+  protected $instSettBase = [
     'label' => '',
     'description' => '',
     'required' => FALSE,
@@ -381,7 +381,7 @@ class BCDefaults {
     'third_party_settings' => [],
   ];
 
-  protected $defaultFldInstSettsSimple = [
+  protected $instSett = [
     'entity_reference' => [
       'node' => [
         'settings' => [
@@ -516,7 +516,7 @@ class BCDefaults {
     ]
   ];
 
-  protected $defaultFldInstSetts = [
+  protected $instSettByEnt = [
     'node' => [
       'list_string' => [],
       'string' => [],
@@ -767,14 +767,14 @@ class BCDefaults {
     ],
   ];
 
-  protected $defaultFieldFormSettingsBase = [
+  protected $formSettBase = [
     'type' => '',
     'weight' => 0,
     'settings' => [],
     'third_party_settings' => [],
   ];
 
-  protected $defaultFieldFormSettingsSimple = [
+  protected $formSett = [
     'file' => [
       'type' => 'file_generic',
       'settings' => [
@@ -821,7 +821,7 @@ class BCDefaults {
     ]
   ];
 
-  protected $defaultFieldFormSettings = [
+  protected $formSettByEnt = [
     'node' => [
       'list_string' => [
         'type' => 'options_select',
@@ -1358,14 +1358,14 @@ class BCDefaults {
     ],
   ];
 
-  protected $defaultFieldDisplaySettingsBase = [
+  protected $dispSettBase = [
     'weight' => 0,
     'label' => 'hidden',
     'type' => '',
     'settings' => [],
   ];
 
-  protected $defaultFieldDisplaySettingsSimple =[
+  protected $dispSett =[
     'file' => [
       'type' => 'file_default',
       'settings' => [
@@ -1399,7 +1399,7 @@ class BCDefaults {
     ]
   ];
 
-  protected $defaultFieldDisplaySettings = [
+  protected $disSettByEnt = [
     'node' => [
       'list_string' => [
         'weight' => 0,
@@ -1852,83 +1852,35 @@ class BCDefaults {
     ],
   ];
 
-  protected $defaultFieldGroupWrapperSettings = [
-    'node' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tabs',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
-    ],
-    'taxonomy_term' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tabs',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
-    ],
-    'paragraph' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tabs',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
+  protected $fgWrapSett = [
+    'label' => '',
+    'children' => [],
+    'parent_name' => '',
+    'weight' => 0,
+    'format_type' => 'tabs',
+    'format_settings' => [
+      'id' => '',
+      'classes' => '',
+      'direction' => 'horizontal',
     ],
   ];
 
-  protected $defaultFieldGroupSettings = [
-    'node' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tab',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
-    ],
-    'taxonomy_term' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tab',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
-    ],
-    'paragraph' => [
-      'label' => '',
-      'children' => [],
-      'parent_name' => '',
-      'weight' => 0,
-      'format_type' => 'tab',
-      'format_settings' => [
-        'id' => '',
-        'classes' => '',
-        'direction' => 'horizontal',
-      ],
+  protected $fgWrapSettByEnt = [];
+
+  protected $fgSett = [
+    'label' => '',
+    'children' => [],
+    'parent_name' => '',
+    'weight' => 0,
+    'format_type' => 'tab',
+    'format_settings' => [
+      'id' => '',
+      'classes' => '',
+      'direction' => 'horizontal',
     ],
   ];
+
+  protected $fgSettByEnt = [];
 
   /**
    * Getter methods.
@@ -1965,9 +1917,9 @@ class BCDefaults {
       return $this->getNameFieldStorageSettings($row, $entity_type);
     }
 
-    $baseSettings = $this->fieldStorageSettingsBase;
-    $simple = isset($this->defaultFieldStorageSettingsSimple[$row['field_type']])? $this->defaultFieldStorageSettingsSimple[$row['field_type']] : [];
-    $byEntity = isset($this->defaultFieldStorageSettings[$entity_type][$row['field_type']])? $this->defaultFieldStorageSettings[$entity_type][$row['field_type']] : [];
+    $baseSettings = $this->storageSettBase;
+    $simple = isset($this->storageSett[$row['field_type']])? $this->storageSett[$row['field_type']] : [];
+    $byEntity = isset($this->storageSettByEnt[$entity_type][$row['field_type']])? $this->storageSettByEnt[$entity_type][$row['field_type']] : [];
 
     $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2004,9 +1956,9 @@ class BCDefaults {
       return $this->getNameFieldInstanceSettings($row, $entity_type);
     }
 
-    $baseSettings = $this->fieldInstanceSettingsBase;
-    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']]) ? $this->defaultFldInstSettsSimple[$row['field_type']] : [];
-    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']]) ? $this->defaultFldInstSetts[$entity_type][$row['field_type']] : [];
+    $baseSettings = $this->instSettBase;
+    $simple = isset($this->instSett[$row['field_type']]) ? $this->instSett[$row['field_type']] : [];
+    $byEntity = isset($this->instSettByEnt[$entity_type][$row['field_type']]) ? $this->instSettByEnt[$entity_type][$row['field_type']] : [];
 
     $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2068,9 +2020,9 @@ class BCDefaults {
       return $this->getEntityReferenceFieldFormSettings($row, $weight, $entity_type);
     }
 
-    $baseSettings = $this->defaultFieldFormSettingsBase;
-    $simple = isset($this->defaultFieldFormSettingsSimple[$row['field_type']])? $this->defaultFieldFormSettingsSimple[$row['field_type']] : [];
-    $byEntity = isset($this->defaultFieldFormSettings[$entity_type][$row['field_type']])? $this->defaultFieldFormSettings[$entity_type][$row['field_type']] : [];
+    $baseSettings = $this->formSettBase;
+    $simple = isset($this->formSett[$row['field_type']])? $this->formSett[$row['field_type']] : [];
+    $byEntity = isset($this->formSettByEnt[$entity_type][$row['field_type']])? $this->formSettByEnt[$entity_type][$row['field_type']] : [];
 
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2092,9 +2044,9 @@ class BCDefaults {
    *
    */
   public function getFieldDisplaySettings($row, $weight, $entity_type) {
-    $baseSettings = $this->defaultFieldDisplaySettingsBase;
-    $simple = isset($this->defaultFieldDisplaySettingsSimple[$row['field_type']])? $this->defaultFieldDisplaySettingsSimple[$row['field_type']] : [];
-    $byEntity = isset($this->defaultFieldDisplaySettings[$entity_type][$row['field_type']])? $this->defaultFieldDisplaySettings[$entity_type][$row['field_type']] : [];
+    $baseSettings = $this->dispSettBase;
+    $simple = isset($this->dispSett[$row['field_type']])? $this->dispSett[$row['field_type']] : [];
+    $byEntity = isset($this->disSettByEnt[$entity_type][$row['field_type']])? $this->disSettByEnt[$entity_type][$row['field_type']] : [];
 
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2118,9 +2070,9 @@ class BCDefaults {
    * Entity Reference storage getter exceptions.
    */
   protected function getEntityReferenceFieldStorageSettings($row, $entity_type) {
-    $baseSettings = $this->fieldStorageSettingsBase;
-    $simple = isset($this->defaultFieldStorageSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldStorageSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
-    $byEntity = isset($this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $baseSettings = $this->storageSettBase;
+    $simple = isset($this->storageSett[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->storageSett[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->storageSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->storageSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
 
     $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2141,9 +2093,9 @@ class BCDefaults {
    * Entity Reference instance getter exceptions.
    */
   protected function getEntityReferenceFieldInstanceSettings($row, $entity_type) {
-    $baseSettings = $this->fieldInstanceSettingsBase;
-    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFldInstSettsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
-    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $baseSettings = $this->instSettBase;
+    $simple = isset($this->instSett[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->instSett[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->instSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->instSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
 
     $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2170,9 +2122,9 @@ class BCDefaults {
    *
    */
   protected function getEntityReferenceFieldFormSettings($row, $weight, $entity_type) {
-    $baseSettings = $this->defaultFieldFormSettingsBase;
-    $simple = isset($this->defaultFieldFormSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldFormSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
-    $byEntity = isset($this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $baseSettings = $this->formSettBase;
+    $simple = isset($this->formSett[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->formSett[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->formSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->formSettByEnt[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
 
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2195,7 +2147,12 @@ class BCDefaults {
    * NAME storage getter exceptions.
    */
   protected function getNameFieldStorageSettings($row, $entity_type) {
-    $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']]);
+
+    $baseSettings = $this->storageSettBase;
+    $simple = isset($this->storageSett[$row['field_type']]) ? $this->storageSett[$row['field_type']] : [];
+    $byEntity = isset($this->storageSettByEnt[$entity_type][$row['field_type']]) ? $this->storageSettByEnt[$entity_type][$row['field_type']] : [];
+
+    $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
@@ -2218,9 +2175,9 @@ class BCDefaults {
    * NAME instance getter exceptions.
    */
   protected function getNameFieldInstanceSettings($row, $entity_type) {
-    $baseSettings = $this->fieldInstanceSettingsBase;
-    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']]) ? $this->defaultFldInstSettsSimple[$row['field_type']] : [];
-    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']]) ? $this->defaultFldInstSetts[$entity_type][$row['field_type']] : [];
+    $baseSettings = $this->instSettBase;
+    $simple = isset($this->instSett[$row['field_type']]) ? $this->instSett[$row['field_type']] : [];
+    $byEntity = isset($this->instSettByEnt[$entity_type][$row['field_type']]) ? $this->instSettByEnt[$entity_type][$row['field_type']] : [];
 
     $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
@@ -2245,7 +2202,9 @@ class BCDefaults {
    *
    */
   public function getFieldGroupWrapperSettings($row, $bundle, $weight, $entity_type) {
-    $settings = $this->defaultFieldGroupWrapperSettings[$entity_type];
+
+    $byEntity = isset($this->fgWrapSettByEnt[$entity_type]) ? $this->fgWrapSettByEnt[$entity_type] : [];
+    $settings = array_replace_recursive($this->fgWrapSett, $byEntity);
 
     $settings['group_name'] = $row['group_name'];
     // $settings['entity_type'] = $row['entity_type'];
@@ -2267,7 +2226,9 @@ class BCDefaults {
    *
    */
   public function getFieldGroupSettings($row, $bundle, $weight, $entity_type) {
-    $settings = $this->defaultFieldGroupSettings[$entity_type];
+
+    $byEntity = isset($this->fgSettByEnt[$entity_type]) ? $this->fgSettByEnt[$entity_type] : [];
+    $settings = array_replace_recursive($this->fgSett, $byEntity);
 
     $settings['group_name'] = $row['group_name'];
     // $settings['entity_type'] = $row['entity_type'];
