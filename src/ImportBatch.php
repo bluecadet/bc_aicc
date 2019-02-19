@@ -757,16 +757,16 @@ class ImportBatch {
    */
   protected function processFields($row, $bundle, $weight, $import_method, &$messages, $entity) {
     drupal_set_message("Start processFields " . $row['machine_name'], "status", TRUE);
-    // ksm($row);
+    ksm($row);
     $field_machine_name = $row['machine_name'];
 
     $storage_settings = $this->defaults->getFieldStorageSettings($row, $entity);
     $instance_settings = $this->defaults->getFieldInstanceSettings($row, $entity);
-    // ksm($storage_settings, $instance_settings);
+    ksm($storage_settings, $instance_settings);
 
     $form_settings = $this->defaults->getFieldFormSettings($row, ($weight + 50), $entity);
     $display_settings = $this->defaults->getFieldDisplaySettings($row, $weight, $entity);
-    // ksm($form_settings, $display_settings);
+    ksm($form_settings, $display_settings);
 
     $field_storage = FieldStorageConfig::loadByName($entity, $field_machine_name);
     // ksm($field_storage);
@@ -817,13 +817,13 @@ class ImportBatch {
       // Assign widget settings for the 'default' form mode.
       $entity_form_display = entity_get_form_display($entity, $bundle, 'default');
       $entity_form_display->setComponent($field_machine_name, $form_settings);
-      if (isset($form_settings['third_party_settings'])) {
-        foreach ($form_settings['third_party_settings'] as $tps_module => $tps_settings) {
-          foreach ($tps_settings as $tps_key => $tps_value) {
-            $entity_form_display->setThirdPartySetting($tps_module, $tps_key, $tps_value);
-          }
-        }
-      }
+      // if (isset($form_settings['third_party_settings'])) {
+      //   foreach ($form_settings['third_party_settings'] as $tps_module => $tps_settings) {
+      //     foreach ($tps_settings as $tps_key => $tps_value) {
+      //       $entity_form_display->setThirdPartySetting($tps_module, $tps_key, $tps_value);
+      //     }
+      //   }
+      // }
       $entity_form_display->save();
 
       // Assign display settings for the 'default' and 'teaser' view modes.
