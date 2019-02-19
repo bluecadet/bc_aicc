@@ -9,7 +9,7 @@ use Drupal\paragraphs\Entity\ParagraphsType;
  */
 class BCDefaults {
 
-  public $fieldStorageSettingsBase = [
+  protected $fieldStorageSettingsBase = [
     'entity_type' => '',
     'type' => '',
     'field_name' => '',
@@ -17,7 +17,7 @@ class BCDefaults {
     'settings' => [],
   ];
 
-  public $defaultFieldStorageSettingsSimple = [
+  protected $defaultFieldStorageSettingsSimple = [
     'file' => [
       'settings' => [
         'display_field' => FALSE,
@@ -58,7 +58,7 @@ class BCDefaults {
     ],
   ];
 
-  public $defaultFieldStorageSettings = [
+  protected $defaultFieldStorageSettings = [
     'node' => [
       'list_string' => [
         'settings' => [
@@ -373,7 +373,7 @@ class BCDefaults {
     ],
   ];
 
-  public $fieldInstanceSettingsBase = [
+  protected $fieldInstanceSettingsBase = [
     'label' => '',
     'description' => '',
     'required' => FALSE,
@@ -381,7 +381,60 @@ class BCDefaults {
     'third_party_settings' => [],
   ];
 
-  public $defaultFldInstSettsSimple = [
+  protected $defaultFldInstSettsSimple = [
+    'entity_reference' => [
+      'node' => [
+        'settings' => [
+          'handler' => 'default:node',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'title',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
+      'taxonomy_term' => [
+        'settings' => [
+          'handler' => 'default:taxonomy_term',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => 'name',
+              'direction' => 'ASC',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
+      'media' => [
+        'settings' => [
+          'handler' => 'default:media',
+          'handler_settings' => [
+            'target_bundles' => [],
+            'sort' => [
+              'field' => '_none',
+            ],
+            'auto_create' => false,
+            'auto_create_bundle' => '',
+          ],
+        ],
+      ],
+    ],
+    'entity_reference_revisions' => [
+      'settings' => [
+        'handler' => 'default:paragraph',
+        'handler_settings' => [
+          'negate' => 0,
+          'target_bundles' => [],
+          'target_bundles_drag_drop' => [],
+        ],
+      ],
+    ],
     'file' => [
       'settings' => [
         'file_directory' => '[date:custom:Y]-[date:custom:m]',
@@ -463,7 +516,7 @@ class BCDefaults {
     ]
   ];
 
-  public $defaultFldInstSetts = [
+  protected $defaultFldInstSetts = [
     'node' => [
       'list_string' => [],
       'string' => [],
@@ -482,51 +535,6 @@ class BCDefaults {
           'link_type' => 17,
           // 0 = Disabled | 1 = Optional | 2 = Required.
           'title' => 2,
-        ],
-      ],
-      'entity_reference' => [
-        'node' => [
-          'handler' => 'default:node',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'title',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'taxonomy_term' => [
-          'handler' => 'default:taxonomy_term',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'name',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'media' => [
-          'handler' => 'default:media',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => '_none',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-      ],
-      'entity_reference_revisions' => [
-        'handler' => 'default:paragraph',
-        'handler_settings' => [
-          'negate' => 0,
-          'target_bundles' => [],
-          'target_bundles_drag_drop' => [],
         ],
       ],
       'datetime' => [],
@@ -610,51 +618,6 @@ class BCDefaults {
           'title' => 2,
         ],
       ],
-      'entity_reference' => [
-        'node' => [
-          'handler' => 'default:node',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'title',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'taxonomy_term' => [
-          'handler' => 'default:taxonomy_term',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'name',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'media' => [
-          'handler' => 'default:media',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => '_none',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-      ],
-      'entity_reference_revisions' => [
-        'handler' => 'default:paragraph',
-        'handler_settings' => [
-          'negate' => 0,
-          'target_bundles' => [],
-          'target_bundles_drag_drop' => [],
-        ],
-      ],
       'datetime' => [],
       'boolean' => [
         'settings' => [
@@ -734,51 +697,6 @@ class BCDefaults {
           'link_type' => 17,
           // 0 = Disabled | 1 = Optional | 2 = Required.
           'title' => 2,
-        ],
-      ],
-      'entity_reference' => [
-        'node' => [
-          'handler' => 'default:node',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'title',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'taxonomy_term' => [
-          'handler' => 'default:taxonomy_term',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => 'name',
-              'direction' => 'ASC',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-        'media' => [
-          'handler' => 'default:media',
-          'handler_settings' => [
-            'target_bundles' => [],
-            'sort' => [
-              'field' => '_none',
-            ],
-            'auto_create' => FALSE,
-            'auto_create_bundle' => '',
-          ],
-        ],
-      ],
-      'entity_reference_revisions' => [
-        'handler' => 'default:paragraph',
-        'handler_settings' => [
-          'negate' => 0,
-          'target_bundles' => [],
-          'target_bundles_drag_drop' => [],
         ],
       ],
       'datetime' => [],
@@ -849,14 +767,14 @@ class BCDefaults {
     ],
   ];
 
-  public $defaultFieldFormSettingsBase = [
+  protected $defaultFieldFormSettingsBase = [
     'type' => '',
     'weight' => 0,
     'settings' => [],
     'third_party_settings' => [],
   ];
 
-  public $defaultFieldFormSettingsSimple = [
+  protected $defaultFieldFormSettingsSimple = [
     'file' => [
       'type' => 'file_generic',
       'settings' => [
@@ -903,7 +821,7 @@ class BCDefaults {
     ]
   ];
 
-  public $defaultFieldFormSettings = [
+  protected $defaultFieldFormSettings = [
     'node' => [
       'list_string' => [
         'type' => 'options_select',
@@ -1440,14 +1358,14 @@ class BCDefaults {
     ],
   ];
 
-  public $defaultFieldDisplaySettingsBase = [
+  protected $defaultFieldDisplaySettingsBase = [
     'weight' => 0,
     'label' => 'hidden',
     'type' => '',
     'settings' => [],
   ];
 
-  public $defaultFieldDisplaySettingsSimple =[
+  protected $defaultFieldDisplaySettingsSimple =[
     'file' => [
       'type' => 'file_default',
       'settings' => [
@@ -1481,7 +1399,7 @@ class BCDefaults {
     ]
   ];
 
-  public $defaultFieldDisplaySettings = [
+  protected $defaultFieldDisplaySettings = [
     'node' => [
       'list_string' => [
         'weight' => 0,
@@ -1934,7 +1852,7 @@ class BCDefaults {
     ],
   ];
 
-  public $defaultFieldGroupWrapperSettings = [
+  protected $defaultFieldGroupWrapperSettings = [
     'node' => [
       'label' => '',
       'children' => [],
@@ -1973,7 +1891,7 @@ class BCDefaults {
     ],
   ];
 
-  public $defaultFieldGroupSettings = [
+  protected $defaultFieldGroupSettings = [
     'node' => [
       'label' => '',
       'children' => [],
@@ -2114,8 +2032,8 @@ class BCDefaults {
         if (!empty($row['entity_reference'])) {
 
           foreach ($row['entity_reference'] as $para_type) {
-            $instance_settings['handler_settings']['target_bundles'][$para_type] = $para_type;
-            $instance_settings['handler_settings']['target_bundles_drag_drop'][$para_type] = [
+            $instance_settings['settings']['handler_settings']['target_bundles'][$para_type] = $para_type;
+            $instance_settings['settings']['handler_settings']['target_bundles_drag_drop'][$para_type] = [
               'enabled' => TRUE,
               'weight' => $weight,
             ];
@@ -2127,7 +2045,7 @@ class BCDefaults {
         }
 
         foreach ($paragraph_types as $para_type) {
-          $instance_settings['handler_settings']['target_bundles_drag_drop'][$para_type] = [
+          $instance_settings['settings']['handler_settings']['target_bundles_drag_drop'][$para_type] = [
             'enabled' => FALSE,
             'weight' => $weight,
           ];
@@ -2200,7 +2118,11 @@ class BCDefaults {
    * Entity Reference storage getter exceptions.
    */
   protected function getEntityReferenceFieldStorageSettings($row, $entity_type) {
-    $storage_settings = array_merge($this->fieldStorageSettingsBase, $this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
+    $baseSettings = $this->fieldStorageSettingsBase;
+    $simple = isset($this->defaultFieldStorageSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldStorageSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldStorageSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+
+    $storage_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $storage_settings['entity_type'] = $entity_type;
     $storage_settings['type'] = $row['field_type'];
@@ -2219,7 +2141,11 @@ class BCDefaults {
    * Entity Reference instance getter exceptions.
    */
   protected function getEntityReferenceFieldInstanceSettings($row, $entity_type) {
-    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']]);
+    $baseSettings = $this->fieldInstanceSettingsBase;
+    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFldInstSettsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFldInstSetts[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+
+    $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $instance_settings['label'] = $row['name'];
     $instance_settings['description'] = $row['description'];
@@ -2232,7 +2158,7 @@ class BCDefaults {
 
     if (!empty($row['entity_reference'])) {
       foreach ($row['entity_reference'] as $bundle) {
-        $instance_settings['handler_settings']['target_bundles'][$bundle] = $bundle;
+        $instance_settings['settings']['handler_settings']['target_bundles'][$bundle] = $bundle;
         $weight++;
       }
     }
@@ -2244,8 +2170,11 @@ class BCDefaults {
    *
    */
   protected function getEntityReferenceFieldFormSettings($row, $weight, $entity_type) {
+    $baseSettings = $this->defaultFieldFormSettingsBase;
+    $simple = isset($this->defaultFieldFormSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldFormSettingsSimple[$row['field_type']][$row['field_storage_settings']['target_type']] : [];
+    $byEntity = isset($this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']])? $this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']] : [];
 
-    $settings = $this->defaultFieldFormSettings[$entity_type][$row['field_type']][$row['field_storage_settings']['target_type']];
+    $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
@@ -2289,7 +2218,11 @@ class BCDefaults {
    * NAME instance getter exceptions.
    */
   protected function getNameFieldInstanceSettings($row, $entity_type) {
-    $instance_settings = array_merge($this->fieldInstanceSettingsBase, $this->defaultFldInstSetts[$entity_type][$row['field_type']]);
+    $baseSettings = $this->fieldInstanceSettingsBase;
+    $simple = isset($this->defaultFldInstSettsSimple[$row['field_type']]) ? $this->defaultFldInstSettsSimple[$row['field_type']] : [];
+    $byEntity = isset($this->defaultFldInstSetts[$entity_type][$row['field_type']]) ? $this->defaultFldInstSetts[$entity_type][$row['field_type']] : [];
+
+    $instance_settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $instance_settings['label'] = $row['name'];
     $instance_settings['description'] = $row['description'];

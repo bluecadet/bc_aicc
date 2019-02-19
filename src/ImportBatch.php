@@ -638,7 +638,7 @@ class ImportBatch {
     $node_type = NodeType::load($row['bundle']);
 
     $entity_defaults = $this->defaults->getEntityNodeSettings($row);
-    ksm($entity_defaults);
+    // ksm($entity_defaults);
 
     // If not, add it.
     if (empty($node_type)) {
@@ -774,7 +774,7 @@ class ImportBatch {
     if (empty($field_storage)) {
       $field_storage = FieldStorageConfig::create($storage_settings);
       $field_storage->save();
-      ksm($field_storage);
+      // ksm($field_storage);
       $messages[] = t("Field storage: %name created.", ['%name' => $row['name']]);
     }
     else {
@@ -892,6 +892,7 @@ class ImportBatch {
     while (($import_row = fgetcsv($fp, 0, ",")) !== FALSE) {
       if ($row > 2) {
         if ($import_row[0] == 'END') {
+          $raw_data[] = $import_row;
           break 1;
         }
 
@@ -908,6 +909,14 @@ class ImportBatch {
       $row++;
     }
 
+    // ksm($raw_data);
+    // ksm(ini_get('xdebug.max_nesting_level'), count($raw_data));
+
+    if (count($raw_data) > ini_get('xdebug.max_nesting_level')) {
+      ini_set('xdebug.max_nesting_level', (count($raw_data) + 50));
+    }
+    // ksm(ini_get('xdebug.max_nesting_level'), count($raw_data));
+
     $processed_data = $this->{$process_func}($raw_data);
 
     foreach ($raw_data as $i => $raw_row) {
@@ -920,7 +929,6 @@ class ImportBatch {
       //   $bundles++;
       // }
     }
-
 
     return [
       'raw_data' => $raw_data,
@@ -958,14 +966,14 @@ class ImportBatch {
 
     // Process Field Group Structure.
     drupal_set_message("Process Field Group Structure: Taxonomy.");
-    ksm($data, $new_data);
+    // ksm($data, $new_data);
 
     $fg_structure = [];
     $this->fieldGroupManager->buildFieldGroupStructure(0, 'vid', $data, $new_data, $fg_structure);
-    ksm($fg_structure);
+    // ksm($fg_structure);
 
     $this->fieldGroupManager->setFieldGroupData($fg_structure, $new_data);
-    ksm($new_data);
+    // ksm($new_data);
 
     return $new_data;
   }
@@ -994,14 +1002,14 @@ class ImportBatch {
 
     // Process Field Group Structure.
     drupal_set_message("Process Field Group Structure: Paragraph.");
-    ksm($new_data);
+    // ksm($new_data);
 
     $fg_structure = [];
     $this->fieldGroupManager->buildFieldGroupStructure(0, 'id', $data, $new_data, $fg_structure);
-    ksm($fg_structure);
+    // ksm($fg_structure);
 
     $this->fieldGroupManager->setFieldGroupData($fg_structure, $new_data);
-    ksm($new_data);
+    // ksm($new_data);
 
     return $new_data;
   }
@@ -1030,14 +1038,14 @@ class ImportBatch {
 
     // Process Field Group Structure.
     drupal_set_message("Process Field Group Structure: Content.");
-    ksm($new_data);
+    // ksm($new_data);
 
     $fg_structure = [];
     $this->fieldGroupManager->buildFieldGroupStructure(0, 'bundle', $data, $new_data, $fg_structure);
-    ksm($fg_structure);
+    // ksm($fg_structure);
 
     $this->fieldGroupManager->setFieldGroupData($fg_structure, $new_data);
-    ksm($new_data);
+    // ksm($new_data);
 
     return $new_data;
   }
