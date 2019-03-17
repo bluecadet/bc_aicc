@@ -2103,7 +2103,7 @@ class BCDefaults {
     $instance_settings['description'] = $row['description'];
     $instance_settings['required'] = $row['required'];
 
-    $instance_settings = array_merge($instance_settings, $row['field_settings']);
+    $instance_settings['settings'] = array_merge($instance_settings['settings'], $row['field_settings']);
 
     // Set target_bundles.
     $weight = 0;
