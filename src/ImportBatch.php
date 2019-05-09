@@ -281,7 +281,7 @@ class ImportBatch {
     if (empty($context['sandbox'])) {
       // If there is no valid file... just keep going.
       if (!$context['results']['valid_taxonomy_file'] || $context['results']['error']) {
-        $context['results']['process']['msg'] = 'Skipping Process. Invalid Taxonomy CSV File.';
+        $context['results']['process']['msg'][] = 'Skipping Process. Invalid Taxonomy CSV File.';
         $context['message'] = "Skipping Process. Invalid Taxonomy CSV File.";
         return;
       }
