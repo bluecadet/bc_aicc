@@ -77,6 +77,9 @@ class FieldValidator {
     'address_zone' => [
       'module' => 'address',
     ],
+    'color_field_type' => [
+      'module' => 'color_field',
+    ],
   ];
 
   public function validateFields($data) {

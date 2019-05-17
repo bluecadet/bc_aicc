@@ -26,6 +26,7 @@
 | Number (float) | Y |
 | Number (int) | Y |
 | Date Recur | N |
+| Color Field | Y |
 
 ## Assumptions
 

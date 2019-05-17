@@ -56,6 +56,11 @@ class BCDefaults {
     'address_zone' => [
       'settings' => [],
     ],
+    'color_field_type' => [
+      'settings' => [
+        'format' => '#HEXHEX',
+      ]
+    ]
   ];
 
   protected $storageSettByEnt = [
@@ -513,7 +518,12 @@ class BCDefaults {
           'US' => 'US',
         ],
       ],
-    ]
+    ],
+    'color_field_type' => [
+      'settings' => [
+        'opacity' => 1,
+      ]
+    ],
   ];
 
   protected $instSettByEnt = [
@@ -818,7 +828,18 @@ class BCDefaults {
       'settings' => [
         'show_label_field' => FALSE,
       ],
-    ]
+    ],
+    'color_field_type' => [
+      'type' => 'color_field_widget_spectrum',
+      'settings' => [
+        'show_input' => '1',
+        'palette' => '',
+        'show_palette' => '0',
+        'show_palette_only' => '0',
+        'show_buttons' => '0',
+        'allow_empty' => '0',
+      ],
+    ],
   ];
 
   protected $formSettByEnt = [
@@ -1396,7 +1417,16 @@ class BCDefaults {
     ],
     'address_zone' => [
       'type' => '-none-',
-    ]
+    ],
+    'color_field_type' => [
+      'type' => 'color_field_formatter_swatch',
+      'settings' => [
+        'shape' => 'square',
+        'width' => '50',
+        'height' => '50',
+        'opacity' => '1',
+      ],
+    ],
   ];
 
   protected $disSettByEnt = [
@@ -2015,7 +2045,6 @@ class BCDefaults {
    *
    */
   public function getFieldFormSettings($row, $weight, $entity_type) {
-
     if ($row['field_type'] == 'entity_reference') {
       return $this->getEntityReferenceFieldFormSettings($row, $weight, $entity_type);
     }
@@ -2027,6 +2056,7 @@ class BCDefaults {
     $settings = array_replace_recursive($baseSettings, $simple, $byEntity);
 
     $settings['weight'] = $weight;
+    $settings['type'] = $row['form_type'];
     $settings['settings'] = array_merge($settings['settings'], $row['form_type_settings']);
 
     if (!empty($settings['third_party_settings']) || !empty($row['form_third_party_settings'])) {
