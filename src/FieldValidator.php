@@ -32,6 +32,9 @@ class FieldValidator {
     'datetime' => [
       'module' => 'datetime',
     ],
+    'daterange' => [
+      'module' => 'datetime_range',
+    ],
     'boolean' => [
       'module' => '',
     ],

@@ -60,7 +60,21 @@ class BCDefaults {
       'settings' => [
         'format' => '#HEXHEX',
       ]
-    ]
+    ],
+    'datetime' => [
+      'cardinality' => 1,
+      'settings' => [
+        // datetime: Date and time | date: Date only
+        'datetime_type' => 'datetime',
+      ],
+    ],
+    'daterange' => [
+      'cardinality' => 1,
+      'settings' => [
+        // datetime: Date and time | date: Date only | allday: All Day
+        'datetime_type' => 'datetime',
+      ],
+    ],
   ];
 
   protected $storageSettByEnt = [
@@ -116,13 +130,6 @@ class BCDefaults {
         'cardinality' => -1,
         'settings' => [
           'target_type' => 'paragraph',
-        ],
-      ],
-      'datetime' => [
-        'cardinality' => 1,
-        'settings' => [
-          // datetime: Date and time | date: Date only
-          'datetime_type' => 'datetime',
         ],
       ],
       'boolean' => [
@@ -222,13 +229,6 @@ class BCDefaults {
           'target_type' => 'paragraph',
         ],
       ],
-      'datetime' => [
-        'cardinality' => 1,
-        'settings' => [
-          // datetime: Date and time | date: Date only
-          'datetime_type' => 'datetime',
-        ],
-      ],
       'boolean' => [
         'settings' => [],
       ],
@@ -324,13 +324,6 @@ class BCDefaults {
         'cardinality' => -1,
         'settings' => [
           'target_type' => 'paragraph',
-        ],
-      ],
-      'datetime' => [
-        'cardinality' => 1,
-        'settings' => [
-          // datetime: Date and time | date: Date only
-          'datetime_type' => 'datetime',
         ],
       ],
       'boolean' => [
@@ -524,6 +517,8 @@ class BCDefaults {
         'opacity' => 1,
       ]
     ],
+    'datetime' => [],
+    'daterange' => [],
   ];
 
   protected $instSettByEnt = [
@@ -547,7 +542,6 @@ class BCDefaults {
           'title' => 2,
         ],
       ],
-      'datetime' => [],
       'boolean' => [
         'settings' => [
           'on_label' => 'On',
@@ -628,7 +622,6 @@ class BCDefaults {
           'title' => 2,
         ],
       ],
-      'datetime' => [],
       'boolean' => [
         'settings' => [
           'on_label' => 'On',
@@ -709,7 +702,6 @@ class BCDefaults {
           'title' => 2,
         ],
       ],
-      'datetime' => [],
       'boolean' => [
         'settings' => [
           'on_label' => 'On',
@@ -840,6 +832,16 @@ class BCDefaults {
         'allow_empty' => '0',
       ],
     ],
+    'datetime' => [
+      'type' => 'datetime_default',
+      'weight' => 0,
+      'settings' => [],
+    ],
+    'daterange' => [
+      'type' => 'daterange_default',
+      'weight' => 0,
+      'settings' => [],
+    ],
   ];
 
   protected $formSettByEnt = [
@@ -952,11 +954,6 @@ class BCDefaults {
           'form_display_mode' => 'default',
           'default_paragraph_type' => '_none',
         ],
-      ],
-      'datetime' => [
-        'type' => 'datetime_default',
-        'weight' => 0,
-        'settings' => [],
       ],
       'boolean' => [
         'type' => 'boolean_checkbox',
@@ -1131,11 +1128,6 @@ class BCDefaults {
           'default_paragraph_type' => '_none',
         ],
       ],
-      'datetime' => [
-        'type' => 'datetime_default',
-        'weight' => 0,
-        'settings' => [],
-      ],
       'boolean' => [
         'type' => 'boolean_checkbox',
         'weight' => 0,
@@ -1308,11 +1300,6 @@ class BCDefaults {
           'form_display_mode' => 'default',
           'default_paragraph_type' => '_none',
         ],
-      ],
-      'datetime' => [
-        'type' => 'datetime_default',
-        'weight' => 0,
-        'settings' => [],
       ],
       'boolean' => [
         'type' => 'boolean_checkbox',
@@ -1427,6 +1414,24 @@ class BCDefaults {
         'opacity' => '1',
       ],
     ],
+    'datetime' => [
+      'weight' => 0,
+      'label' => 'hidden',
+      'type' => 'datetime_default',
+      'settings' => [
+        'timezone_override' => '',
+        'format_type' => 'medium',
+      ],
+    ],
+    'daterange' => [
+      'weight' => 0,
+      'label' => 'hidden',
+      'type' => 'datetime_default',
+      'settings' => [
+        'timezone_override' => '',
+        'format_type' => 'medium',
+      ],
+    ],
   ];
 
   protected $disSettByEnt = [
@@ -1490,15 +1495,6 @@ class BCDefaults {
         'type' => 'entity_reference_revisions_entity_view',
         'settings' => [
           'view_mode' => 'default',
-        ],
-      ],
-      'datetime' => [
-        'weight' => 0,
-        'label' => 'hidden',
-        'type' => 'datetime_default',
-        'settings' => [
-          'timezone_override' => '',
-          'format_type' => 'medium',
         ],
       ],
       'boolean' => [
@@ -1642,15 +1638,6 @@ class BCDefaults {
           'view_mode' => 'default',
         ],
       ],
-      'datetime' => [
-        'weight' => 0,
-        'label' => 'hidden',
-        'type' => 'datetime_default',
-        'settings' => [
-          'timezone_override' => '',
-          'format_type' => 'medium',
-        ],
-      ],
       'boolean' => [
         'weight' => 0,
         'label' => 'hidden',
@@ -1790,15 +1777,6 @@ class BCDefaults {
         'type' => 'entity_reference_revisions_entity_view',
         'settings' => [
           'view_mode' => 'default',
-        ],
-      ],
-      'datetime' => [
-        'weight' => 0,
-        'label' => 'hidden',
-        'type' => 'datetime_default',
-        'settings' => [
-          'timezone_override' => '',
-          'format_type' => 'medium',
         ],
       ],
       'boolean' => [

@@ -56,6 +56,8 @@ class ImportHelper {
     $data = [];
     $d1 = explode(";", $val);
 
+    ksm($d1);
+
     foreach ($d1 as $d) {
       if (!empty($d)) {
         $d2 = explode(":", $d);
@@ -68,6 +70,11 @@ class ImportHelper {
             $data[$d2[0]] = $this->processExplosions(substr($placeholders[$d2[1]], 1, -1), $placeholders);
           }
           else {
+
+            if (count($d2) > 1) {
+              $d2[1] = implode(":", array_slice($d2, 1));
+            }
+
             $data[$d2[0]] = is_numeric($d2[1]) ? ($d2[1] + 0) : $d2[1];
           }
         }

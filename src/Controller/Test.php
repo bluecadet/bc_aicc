@@ -16,6 +16,8 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 
+use Drupal\bc_aicc\ImportHelper;
+
 /**
  *
  */
@@ -118,6 +120,16 @@ class Test extends ControllerBase {
     // $str3 = 'id:id-1;classes:something something2;vertical:';
     // $str6 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]]';
     // $str7 = 'allowed_formats:[hide_help:1;hide_guidelines:1;something:[1;2;bob:3]];another_array:[1;2:2;3;4]';
+    // $str8 = 'timezone_override:America/New_York;format_type:Y-m-d\TH:i:s;separator:-';
+
+    // $ih = new ImportHelper();
+
+    // ksm('result:', $ih->explodeSettingsField($str1));
+    // ksm('result:', $ih->explodeSettingsField($str2));
+    // ksm('result:', $ih->explodeSettingsField($str3));
+    // ksm('result:', $ih->explodeSettingsField($str6));
+    // ksm('result:', $ih->explodeSettingsField($str7));
+    // ksm('result:', $ih->explodeSettingsField($str8));
 
     // ksm(ps($str1));
     // ksm(ps($str2));
