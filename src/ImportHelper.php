@@ -56,7 +56,7 @@ class ImportHelper {
     $data = [];
     $d1 = explode(";", $val);
 
-    ksm($d1);
+    // ksm($d1);
 
     foreach ($d1 as $d) {
       if (!empty($d)) {

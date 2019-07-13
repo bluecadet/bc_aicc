@@ -1861,30 +1861,112 @@ class BCDefaults {
   ];
 
   protected $fgWrapSett = [
-    'label' => '',
-    'children' => [],
-    'parent_name' => '',
-    'weight' => 0,
-    'format_type' => 'tabs',
-    'format_settings' => [
-      'id' => '',
-      'classes' => '',
-      'direction' => 'horizontal',
+    'tabs' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tabs',
+      'format_settings' => [
+        'label' => '',
+        'direction' => 'horizontal',
+        'id' => '',
+        'classes' => '',
+      ],
+    ],
+    'accordion' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'accordion',
+      'format_settings' => [
+        'label' => '',
+        'effect' => 'bounceslide',
+        'id' => '',
+        'classes' => '',
+      ],
     ],
   ];
 
   protected $fgWrapSettByEnt = [];
 
   protected $fgSett = [
-    'label' => '',
-    'children' => [],
-    'parent_name' => '',
-    'weight' => 0,
-    'format_type' => 'tab',
-    'format_settings' => [
-      'id' => '',
-      'classes' => '',
-      'direction' => 'horizontal',
+    'tab' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'tab',
+      'format_settings' => [
+        'label' => '',
+        'formatter' => 'closed',
+        'description' => '',
+        'required_fields' => TRUE,
+        'id' => '',
+        'classes' => '',
+      ],
+    ],
+    'accordion_item' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'accordion_item',
+      'format_settings' => [
+        'label' => '',
+        'formatter' => 'closed',
+        'required_fields' => TRUE,
+        'id' => '',
+        'classes' => '',
+      ],
+    ],
+    'details' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'details',
+      'format_settings' => [
+        'label' => '',
+        'required_fields' => TRUE,
+        'id' => '',
+        'classes' => '',
+        'open' => FALSE,
+      ],
+    ],
+    'html_element' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'html_element',
+      'format_settings' => [
+        'label' => '',
+        'element' => 'div',
+        'show_label' => TRUE,
+        'label_element' => 'h3',
+        'required_fields' => TRUE,
+        'attributes' => '',
+        'effect' => 'collapsible',
+        'speed' => 'fast',
+        'id' => '',
+        'classes' => '',
+      ],
+    ],
+    'fieldset' => [
+      'label' => '',
+      'children' => [],
+      'parent_name' => '',
+      'weight' => 0,
+      'format_type' => 'fieldset',
+      'format_settings' => [
+        'label' => '',
+        'description' => '',
+        'required_fields' => TRUE,
+        'id' => '',
+        'classes' => '',
+      ],
     ],
   ];
 
@@ -2211,8 +2293,8 @@ class BCDefaults {
    */
   public function getFieldGroupWrapperSettings($row, $bundle, $weight, $entity_type) {
 
-    $byEntity = isset($this->fgWrapSettByEnt[$entity_type]) ? $this->fgWrapSettByEnt[$entity_type] : [];
-    $settings = array_replace_recursive($this->fgWrapSett, $byEntity);
+    $byEntity = isset($this->fgWrapSettByEnt[$entity_type][$row['format_type']]) ? $this->fgWrapSettByEnt[$entity_type][$row['format_type']] : [];
+    $settings = array_replace_recursive($this->fgWrapSett[$row['format_type']], $byEntity);
 
     $settings['group_name'] = $row['group_name'];
     // $settings['entity_type'] = $row['entity_type'];
@@ -2227,6 +2309,7 @@ class BCDefaults {
     $settings['format_settings'] = array_merge($settings['format_settings'], $row['format_settings']);
     $settings['children'] = array_merge($settings['children'], $row['children']);
 
+    // ksm($settings);
     return $settings;
   }
 
@@ -2235,8 +2318,8 @@ class BCDefaults {
    */
   public function getFieldGroupSettings($row, $bundle, $weight, $entity_type) {
 
-    $byEntity = isset($this->fgSettByEnt[$entity_type]) ? $this->fgSettByEnt[$entity_type] : [];
-    $settings = array_replace_recursive($this->fgSett, $byEntity);
+    $byEntity = isset($this->fgSettByEnt[$entity_type][$row['format_type']]) ? $this->fgSettByEnt[$entity_type][$row['format_type']] : [];
+    $settings = array_replace_recursive($this->fgSett[$row['format_type']], $byEntity);
 
     $settings['group_name'] = $row['group_name'];
     // $settings['entity_type'] = $row['entity_type'];
@@ -2251,6 +2334,7 @@ class BCDefaults {
     $settings['format_settings'] = array_merge($settings['format_settings'], $row['format_settings']);
     $settings['children'] = array_merge($settings['children'], $row['children']);
 
+    // ksm($settings);
     return $settings;
   }
 
