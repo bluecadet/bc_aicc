@@ -646,7 +646,7 @@ class ImportBatch {
         'type' => $entity_defaults['bundle'],
         'name' => $entity_defaults['name'],
         'description' => $entity_defaults['description'],
-        'title_label' => $entity_defaults['title_label'],
+        // 'title_label' => $entity_defaults['title_label'],
         'preview_mode' => $entity_defaults['preview_mode'],
         'help' => $entity_defaults['help'],
         'new_revision' => $entity_defaults['new_revision'],
@@ -663,6 +663,11 @@ class ImportBatch {
       $content_type->save();
 
       $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $entity_defaults['bundle']);
+
+      $fields['title']->getConfig($entity_defaults['bundle'])
+        ->setLabel($entity_defaults['title_label'])
+        ->save();
+
       $fields['status']->getConfig($entity_defaults['bundle'])
         ->setDefaultValue($entity_defaults['status'])
         ->save();
